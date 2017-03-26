@@ -1,0 +1,201 @@
+<html>
+ <head>
+  <title>Misuse of Magic Game Design Document</title>
+ </head>
+
+ <body>
+
+ <h2 style="width:1000px" align="center">
+  Misuse of Magic<br />
+ </h2>
+
+ <h4 style="width:1000px" align="center">
+  by GalPals:
+ </h4>
+  <h4 style="width:1000px" align="center">
+  Maedeh Safari, Anika Martin, Victoria Baeza
+ </h4>
+
+<div id="content">
+
+  <h3>INTRODUCTION</h3>
+
+  <p>This document describes a game called "Misuse of Magic", which is designed to be a simple, 2D side-scroller. The game will employ sprite-based animation, tiled backgrounds, collision detection, phyics specially gravity, AI, side scrolling &amp; and basic 2D game techniques.</p>
+<br />
+
+  <h3>TECHNOLOGY</h3>
+
+  <p>Misuse of Magic will be web game deployed to Firebase using JavaScript and Phaser framework. Artwork will be mostly simple flat designs, and so we'll be using Adobe Photoshop, Illustrator and Sketch for wire frames. Original music and sound effects will be made using Audacity and Ableton.</p>
+<br />
+
+  <h3>BACK STORY</h3>
+
+  <p> Wooohoo we have too many let's pick one :)</p>
+<br />
+
+  <h3>OBJECTIVE</h3>
+
+  <p>Clear things user supposed to do. Expand on this once back story is set.</p>
+<br />
+
+  <h3>GAMEPLAY</h3>
+
+  <p>The game will work like a side scroller, with the main character able to run left and right, and jump up or down onto so we may scroll up and down. The levels will be designed using a Tiled</p>
+
+  <p>Each spell will have a strange effect on the room as follows:</p>
+
+<table border="5" cellpadding="5">
+ <tr align="center">
+  <th>Spell in Use</th>
+  <th>Visual Effect</th>
+ </tr>
+ <tr align="center">
+  <td>Spell No. 1</td>
+  <td>No Gravity</td>
+ </tr>
+ <tr align="center">
+  <td>Spell No. 2</td>
+  <td>- Gravity (rises)</td>
+ </tr>
+ <tr align="center">
+  <td>Spell No. 3</td>
+  <td>Reverse Gravity</td>
+ </tr>
+</table>
+
+<br />
+
+  <h3>CONTROLS</h3>
+
+  <p>This game will be played using a keyboard and a mouse. Once started, use the following:</p>
+
+   <ul>
+    <li><strong>A</strong> - Move Left</li>
+    <li><strong>D</strong> - Move Right</li>
+    <li><strong>LEFT-ARROW</strong> - Move Left (same as A)</li>
+    <li><strong>RIGHT-ARROW</strong> - Move Right (same as D)</li>
+    <li><strong>SPACE</strong> - Jump</li>
+    <li><strong>ESC</strong> - This pauses the game and presents a pop-up window to the player asking them to continue when they are ready. If a game is not in progress, ESC does nothing.</li>
+    <li><strong>Z</strong> - Spell #1 ? NAME IT</li>
+    <li><strong>X</strong> - Spell #2 ? NAME IT</li>
+    <li><strong>C</strong> - Spell #3 ? NAME IT</li>
+   </ul>
+<br />
+
+  <h3>GRAPHICAL USER INTERFACE</h3>
+
+  <p>As far as the GUI is concerned, if we consider</p>
+
+  <ul>
+   <li><strong>Splash Screen</strong> - The splash screen GUI simply presents the game name and a progress bar while the game is being set up. Once it's fully loaded it will automatically redirect to the menu screen
+   <img src="/assets/Splash-Screen.png"></img>  
+   </li>
+<br /> 
+  <li> 
+    <strong> Main Menu</strong> - this screen will be displayed automatically after the game loads from Splash Screen. It will allow the user start the game as well as go to a levels selection screen, a controls screen, and a help screen.
+    <p><img src="/assets/main-menu.jpeg"></img></p>
+  </li>
+<br />
+
+   <li>
+    <strong>In-Game Menu</strong> - While the game is in progress, we'll always have a game menu that allows the player to select from the following options:
+    <ul>
+     <li>
+      <strong>Controls Screen</strong> - If pressed, the game will display an info screen that includes a description of all game controls.
+      <p><img src="/assets/Controls Screen 1st Draft.PNG"></img></p>
+     </li>
+     <li><strong>Level Selection Screen</strong> - The user will be directed to a screen presenting the playable levels such that the user may select one to play. Note that the first time the player starts the game only the first level will be available and levels will have to be unlocked. Meaning, the user will have to complete the first to play the second. Locked levels will have a lock icon on them. Player will be able to scroll horizontally by clicking the arrows and see additional levels
+     <p><img src="/assets/Level_Selection_Screen.png"></img></p>
+     </li>
+     <li>
+       <strong>Help Screen</strong> - It will give more insight about the back story of the game. This screen will also include information about the authors and game developers. 
+     </li>
+    </ul>
+  </li>
+<br />
+
+   <li><strong>In-Game GUI</strong> - While playing the following will be displayed at all times:
+    <ul>
+     <li>Health Bar</li>
+     <li>Mana Remaining - Firefloom is the amount of time left for visual effects after a spell is cast </li>
+     <li>Spell #1 Remaining</li>
+     <li>Spell #2 Remaining</li>
+     <li>Spell #3 Remaining</li>
+     <li>Exit - Will Exit game if pressed </li>
+     <li>Help - Will display Help Screen if pressed</li>
+     <li>Pause/Play - Same functionality as ESC key. If pressed, it will open a dialog box confirming this action.</li>
+     <li>Controls - If pressed, displays controls screen. </li>
+    </ul>
+  </li>
+  </ul>
+<br />
+
+  <h3>ARTWORK</h3>
+
+  <p>All artwork in the game will be original. The following needs to be created:</p>
+
+  <ul>
+   <li><strong>Main Character/Magician</strong> - These are the animations:
+    <ul>
+     <li>Walking Right</li>
+     <li>Walking Left</li>
+     <li>Jumping Right</li>
+     <li>Jumping Left</li>
+     <li>Jumping Up</li>
+     <li>Casting a Spell Right</li>
+     <li>Casting a Spell Left</li>
+     <li>Taking Damage</li>
+     <li>Dying</li>
+    </ul></li>
+<br />
+   <li><strong>Enemies</strong> - Simple sprites, each require animations for:
+    <ul>
+     <li>Floating for reverse gravity</li>
+     <li>Pushed and blown to the right</li>
+     <li>Pushed and blown to the left</li>
+     <li>Dying - blow up in flames and disappear to smoke</li>
+     <li>Damaged - Fall over and not move</li>
+    </ul></li>
+<br />
+
+   <li><strong>Changing Room Door</strong> - Spike will start the game exiting from the changing room in his Red suit. We will not see the inside of the changing room, just a sliding metal door that opens and closes when Spike walks up to it and presses either R, G, or B. For this, we'll need an animatino of the sliding door opening and closing.</li>
+<br />
+
+   <li><strong>Ceiling, Floor, &amp; Wall Tiles</strong> - Each room will have multiple floors and platforms to jump onto and off of. We'll use simple tiles for all walkable/collidable surfaces. These tiles will have to clearly define where the walkable surface is. Describe how they will look like. Or even make it?</li>
+<br />
+
+   <li><strong> Background Tiles</strong> - For non-collidable tiles that will go in the background of the game screen. The background will be different in each level to represent the storyline. Describe how it will look like.</li>
+  </ul>
+<br />
+
+
+
+  <h3>SOUND EFFECTS</h3>
+
+  <p>All sound effects will be original. Sounds must be made to coincide with each of the following events:</p>
+   <ul>
+    <li><strong>Walking</strong></li>
+    <li><strong>Landing on a Platform</strong></li>
+    <li><strong>Enemy Dying</strong></li>
+    <li><strong>Enemy Damaged</strong></li>
+    <li><strong>Casting Spell</strong></li>
+    <li><strong>Magician Dying</strong></li>
+    <li><strong>Time Running Out</strong></li>
+    <li><strong>Celebrating Win</strong></li>
+   </ul>
+<br />
+
+  <h3>MUSIC</h3>
+
+  <p>Game Music will be added when time permits.</p>
+<br />
+
+
+
+<hr />
+
+<p><br /></p>
+</div>
+
+ </body>
+</html>
