@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game'), startUp = function () {};
+var game = new Phaser.Game(1200, 750, Phaser.AUTO, 'game'), startUp = function () {};
 
 startUp.prototype = {
 
@@ -7,10 +7,7 @@ startUp.prototype = {
     game.load.image('coollogo', 'assets/images/logo.png');
     game.load.image('loadingbar', "assets/images/loadingbar2.png")
     game.load.script('splash',  'js/splash.js');
-    game.load.script('gameMenu', 'js/gameMenu.js');
-    game.load.script('momGame', 'js/momGame.js');
-    game.load.script('controls', 'js/controls.js');
-    game.load.script('help', 'js/help.js');
+    
   },
 
   create: function () {
