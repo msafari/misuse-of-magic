@@ -11,6 +11,10 @@ startUp.prototype = {
   },
 
   create: function () {
+    //have the game centered horizontally
+    this.scale.pageAlignHorizontally = true;
+    this.scale.pageAlignVertically = true;
+    //game is still too tall though. :(
     game.state.add('Splash', splash);
     game.state.start('Splash');
   }

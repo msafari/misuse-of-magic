@@ -37,14 +37,26 @@ splash.prototype = {
   },
 
   addImages: function() {
+    //load in images for the main menu
     game.load.image('headerBase', "assets/images/headerBase.png")
     game.load.image("buttonBase", "assets/images/buttonBase.png")
     game.load.image("helpBase", "assets/images/helpBase.png");
     game.load.image("infoBase", "assets/images/infoBase.png");
+    //load in images for the level selection
     game.load.image("level1Portal", "assets/images/portal1.png");
     game.load.image("level2Portal", "assets/images/portal2.png");
     game.load.image("level3Portal", "assets/images/portal3.png");
     game.load.image("level4Portal", "assets/images/portal4.png");
+    //load in images related to gameplay
+    game.load.image("gameUI", "assets/images/gameUI.png");
+    game.load.image("xButton", "assets/images/xButton.png");
+    game.load.image("pauseButton", "assets/images/pauseButton.png");
+    game.load.image("playButton", "assets/images/playButton.png");
+    game.load.image("controlsButton", "assets/images/controlsButton.png");
+    game.load.image("helpButton", "assets/images/helpButton.png");
+    game.load.image("treeButton", "assets/images/treeButton.png");
+    game.load.spritesheet("heartbreak", "assets/images/heartbreak.png", 25, 25);
+
     game.load.image("level1Background", "assets/images/level1Background.png")
     game.load.image("backButton", "assets/images/backButton.png");
   },
@@ -53,6 +65,6 @@ splash.prototype = {
     this.addGameStates();
       setTimeout(function () {
       game.state.start("GameMenu");
-    }, 3000);
+    }, 2500);
   }
 }
