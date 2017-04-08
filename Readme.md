@@ -1,6 +1,5 @@
 #CSE 380 Game 
 
-#Magicians are Cool
+#Misuse of Magic
 
-#We are Making Misuse of Magic
-
+## Game Design Document: https://misuse-of-magic.firebaseapp.com/benchmark1.html
