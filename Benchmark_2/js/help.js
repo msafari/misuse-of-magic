@@ -8,6 +8,7 @@ help.prototype = {
     game.add.sprite(0, 0, 'background');
     titleStyle = { font: 'bold 25pt', fill: '#673ab7', align: 'center'};
     menuStyle = { font: 'bold 20pt', fill: '#FF0000'};
+    helpBase = game.add.sprite(100,75,"helpBase");
     headerBase = game.add.sprite(game.world.centerX, 50, 'headerBase');
     headerBase.anchor.setTo(0.5);
     header = game.add.text(game.world.centerX, 50, '-- ABOUT --', titleStyle);

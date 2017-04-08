@@ -5,7 +5,7 @@ momGame.prototype = {
   },
 
   create: function () { 
-    game.add.sprite(0, 0, 'background');
+    game.add.sprite(0, 0, 'level1Background');
     titleStyle = { font: 'bold 25pt', fill: '#673ab7', align: 'center'};
     menuStyle = { font: 'bold 20pt', fill: '#FF0000'};
     header = game.add.text(game.world.centerX, 50, 'a cool game will go here', titleStyle);

@@ -20,7 +20,7 @@ splash.prototype = {
     myLogo.anchor.setTo(0.5);
     myLogo.scale.setTo(0.5);
 
-    status = game.add.text(game.world.centerX, 380, 'Loading...', {fill: 'white'});
+    status = game.add.text(game.world.centerX, 350, 'Loading...', {fill: 'white'});
     status.anchor.setTo(0.5);
 
     loadingBar = game.add.sprite(game.world.centerX, 400, "loadingbar");
@@ -39,7 +39,13 @@ splash.prototype = {
   addImages: function() {
     game.load.image('headerBase', "assets/images/headerBase.png")
     game.load.image("buttonBase", "assets/images/buttonBase.png")
-    game.load.image("levelOnePortal", "assets/images/portal placeholder.png");
+    game.load.image("helpBase", "assets/images/helpBase.png");
+    game.load.image("infoBase", "assets/images/infoBase.png");
+    game.load.image("level1Portal", "assets/images/portal1.png");
+    game.load.image("level2Portal", "assets/images/portal2.png");
+    game.load.image("level3Portal", "assets/images/portal3.png");
+    game.load.image("level4Portal", "assets/images/portal4.png");
+    game.load.image("level1Background", "assets/images/level1Background.png")
     game.load.image("backButton", "assets/images/backButton.png");
   },
 
