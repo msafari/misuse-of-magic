@@ -33,8 +33,8 @@ momGame.prototype = {
     this.game.physics.arcade.enable(this.player);
     this.player.body.collideWorldBounds = true;
     this.player.body.allowGravity = true;
-    this.player.body.bounce.y = 0.2;
-    this.player.body.gravity.y = 10000;
+    this.player.body.bounce.y = 0.4;
+    this.player.body.gravity.y = 15000;
 
     // set anchor point for player
     this.player.anchor.setTo(0.75, 0.25);
@@ -95,24 +95,24 @@ momGame.prototype = {
     this.player.body.velocity.y = 0;
 
     if(cursors.left.isDown && !cursors.up.isDown) {
-      this.player.body.velocity.x = -150;
+      this.player.body.velocity.x = -200;
       this.player.animations.play("WALK_L");
     }
 
     else if (cursors.right.isDown && !cursors.up.isDown) {
-      this.player.body.velocity.x = 150;
+      this.player.body.velocity.x = 200;
       this.player.animations.play("WALK_R");
     }
 
     else if (cursors.up.isDown && cursors.right.isDown) {
-      this.player.body.velocity.y = -350;
-      this.player.body.velocity.x = 150;
+      this.player.body.velocity.y = -550;
+      this.player.body.velocity.x = 200;
       this.player.animations.play("JUMP_R");
     }
 
     else if (cursors.up.isDown && cursors.left.isDown) {
-      this.player.body.velocity.y = -350;
-      this.player.body.velocity.x = -150;
+      this.player.body.velocity.y = -550;
+      this.player.body.velocity.x = -200;
       this.player.animations.play("JUMP_L");
     }
 
@@ -160,6 +160,9 @@ momGame.prototype = {
 
   },
 
+  load_wizards: function () {
+    game.wizards = [];
+  },
 
   findObjectsBySprite: function(sprite, layer) {
     var result = [];
