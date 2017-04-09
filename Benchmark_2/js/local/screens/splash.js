@@ -3,11 +3,11 @@ splash = function () {};
 splash.prototype = {
 
   loadScripts: function() { 
-    game.load.script('gameMenu', 'js/gameMenu.js');
-    game.load.script('momGame', 'js/momGame.js');
-    game.load.script('momLevelSelect', 'js/momLevelSelect.js');
-    game.load.script('controls', 'js/controls.js');
-    game.load.script('help', 'js/help.js');
+    game.load.script('gameMenu', 'js/local/screens/gameMenu.js');
+    game.load.script('momGame', 'js/local/momGame.js');
+    game.load.script('controls', 'js/local/screens/controls.js');
+    game.load.script('momLevelSelect', 'js/local/screens/momLevelSelect.js');
+    game.load.script('help', 'js/local/screens/help.js');
   },
 
   preload: function () {
@@ -41,12 +41,8 @@ splash.prototype = {
     game.load.image('headerBase', "assets/images/headerBase.png")
     game.load.image("buttonBase", "assets/images/buttonBase.png")
     game.load.image("helpBase", "assets/images/helpBase.png");
-    game.load.image("infoBase", "assets/images/infoBase.png");
-    //load in images for the level selection
-    game.load.image("level1Portal", "assets/images/portal1.png");
-    game.load.image("level2Portal", "assets/images/portal2.png");
-    game.load.image("level3Portal", "assets/images/portal3.png");
-    game.load.image("level4Portal", "assets/images/portal4.png");
+    game.load.image("infoBase", "assets/images/infobase.png");
+
     //load in images related to gameplay
     game.load.image("gameUI", "assets/images/gameUI.png");
     game.load.image("xButton", "assets/images/xButton.png");
@@ -57,8 +53,28 @@ splash.prototype = {
     game.load.image("treeButton", "assets/images/treeButton.png");
     game.load.spritesheet("heartbreak", "assets/images/heartbreak.png", 25, 25);
 
-    game.load.image("level1Background", "assets/images/level1Background.png")
     game.load.image("backButton", "assets/images/backButton.png");
+
+    //level icons
+    game.load.image("level1_portal_ul", "assets/Levels/level1/unlocked.png");
+    game.load.image("level2_portal_l", "assets/Levels/level2/locked.png");
+    game.load.image("level2_portal_ul", "assets/Levels/level2/unlocked.png");
+    game.load.image("level3_portal_l", "assets/Levels/level3/locked.png");
+    game.load.image("level3_portal_ul", "assets/Levels/level3/unlocked.png");
+    game.load.image("level4_portal_l", "assets/Levels/level4/locked.png");
+    game.load.image("level4_portal_ul", "assets/Levels/level4/unlocked.png");
+    game.load.image("level5_portal_l", "assets/Levels/level5/locked.png");
+    game.load.image("level5_portal_ul", "assets/Levels/level5/unlocked.png");
+    game.load.image("level6_portal_l", "assets/Levels/level6/locked.png");
+    game.load.image("level6_portal_ul", "assets/Levels/level6/unlocked.png");
+    game.load.image("level7_portal_l", "assets/Levels/level7/locked.png");
+    game.load.image("level7_portal_ul", "assets/Levels/level7/unlocked.png");
+
+    //load tilemap 
+    game.load.image("grassRock", "assets/Levels/Tiles/grass-rock platforms2.png");
+    game.load.image("spaceFlora", "assets/Levels/Tiles/space flora.png");
+    game.load.image("spaceFlora2", "assets/Levels/Tiles/space flora2.png");
+    game.load.image("Orange", "assets/images/orange.png");
   },
 
   create: function() {

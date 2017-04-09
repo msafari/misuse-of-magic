@@ -6,13 +6,23 @@ gameMenu.prototype = {
 
   create: function () {
       game.add.sprite(0, 0, 'background');
-      titleStyle = { font: 'bold 25pt', fill: '#673ab7', align: 'center'};
-      menuStyle = { font: 'bold 40pt', fill: '#FFFFFF'};
+      titleStyle = { 
+        font: 'bold 25pt', 
+        fill: '#673ab7', 
+        align: 'center'
+      };
+
+      menuStyle = { 
+        font: 'bold 40pt', 
+        fill: '#FFFFFF'
+      };
+
       headerBase = game.add.sprite(game.world.centerX, 50, 'headerBase');
       //buttonBase = game.add.sprite(game.world.centerX * 1.45, 280, 'buttonBase');
       headerBase.anchor.setTo(0.5);
       header = game.add.text(game.world.centerX, 50, '-- MISUSE OF MAGIC --', titleStyle);
       header.anchor.setTo(0.5);
+
       menuPlay = game.add.text(game.world.centerX * 1.3, 400, 'Play', menuStyle);
       menuPlay.inputEnabled = true;
       menuPlay.events.onInputUp.add(function() {game.state.start("MomLevelSelect");
@@ -31,6 +41,6 @@ gameMenu.prototype = {
   },
 
   changeState: function (state) {
-      game.state.start(state);
+    game.state.start(state);
   }
 };

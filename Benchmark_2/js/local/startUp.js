@@ -3,10 +3,10 @@ var game = new Phaser.Game(1200, 750, Phaser.AUTO, 'game'), startUp = function (
 startUp.prototype = {
 
   preload: function () {
-    game.load.image('background',    'assets/images/background1.png');
+    game.load.image('background', 'assets/images/background1.png');
     game.load.image('coollogo', 'assets/images/logo.png');
     game.load.image('loadingbar', "assets/images/loadingbar2.png")
-    game.load.script('splash',  'js/splash.js');
+    game.load.script('splash',  'js/local/screens/splash.js');
     
   },
 
