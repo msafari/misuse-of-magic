@@ -74,6 +74,7 @@ splash.prototype = {
     game.load.image("grassRock", "assets/Levels/Tiles/grass-rock platforms2.png");
     game.load.image("spaceFlora", "assets/Levels/Tiles/space flora.png");
     game.load.image("spaceFlora2", "assets/Levels/Tiles/space flora2.png");
+    game.load.image("Orange", "assets/images/orange.png");
   },
 
   create: function() {
