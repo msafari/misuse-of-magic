@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="87">
  <tileset firstgid="1" name="grass-rock platforms2" tilewidth="32" tileheight="32" tilecount="25" columns="5">
-  <image source="../../../../Tiles and Background/grass-rock platforms2.png" width="160" height="160"/>
+  <image source="../Tiles/grass-rock platforms2.png" width="160" height="160"/>
  </tileset>
  <tileset firstgid="26" name="space flora" tilewidth="32" tileheight="32" tilecount="100" columns="10">
-  <image source="../../../../Tiles and Background/space flora.png" width="320" height="320"/>
+  <image source="../Tiles/space flora.png" width="320" height="320"/>
  </tileset>
  <tileset firstgid="126" name="space flora2" tilewidth="32" tileheight="32" tilecount="100" columns="10">
-  <image source="../../../../Tiles and Background/space flora2.png" width="320" height="320"/>
+  <image source="../Tiles/space flora2.png" width="320" height="320"/>
  </tileset>
  <tileset firstgid="226" name="orange" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../../images/orange.png" width="32" height="32"/>

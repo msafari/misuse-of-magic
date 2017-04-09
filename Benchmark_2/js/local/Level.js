@@ -1,10 +1,9 @@
 function Level (number) {
   this.number = number;
   this.name = "level" + number;
-  this.tileMap = this.get_map();
   this.available = (this.number == 1) ? true : false;
   this.gen_path = "assets/Levels/level";
-  this.findMap();
+  this.tile_map = this.get_map();
   this.set_background();
 }
 
@@ -15,12 +14,8 @@ Level.prototype = {
     return "level" + this.number + extension;
   },
 
-  findMap: function () {
-    this.map_file = this.gen_path + this.number + "/level" + this.number + ".json";
-  },
-
   get_map: function () {
-    return this.map_file;
+    return this.gen_path + this.number + "/level" + this.number + ".json";
   },
 
   set_playable: function () {
@@ -46,12 +41,13 @@ Level.prototype = {
       this.icon_sprite.events.onInputUp.add(function() { 
         game.current_level = this;
         game.state.start("MomGame");
-      });
+      }, this);
     }
   },
 
   set_background: function () {
-    this.bg_image = this.gen_path + this.number + "/level" + this.number + ".png";
+    this.bg_image_path = this.gen_path + this.number + "/level" + this.number + ".png";
+    this.bg_image_name = this.name + "_bg";
   },
 
 };

@@ -28,6 +28,7 @@ momLevelSelect.prototype = {
   },
 
   loadLevels: function() {
+    game.levels = [];
     _.each(Array(7), function (a, index) {
         var level = new Level(index + 1);
 
@@ -36,6 +37,8 @@ momLevelSelect.prototype = {
 
         var level_sprite = game.add.sprite(x, y, level.portal_name());
         level.set_icon_sprite(level_sprite, game);
+
+        game.levels.push(level);
     });
   }
 }

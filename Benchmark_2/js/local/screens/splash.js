@@ -53,7 +53,6 @@ splash.prototype = {
     game.load.image("treeButton", "assets/images/treeButton.png");
     game.load.spritesheet("heartbreak", "assets/images/heartbreak.png", 25, 25);
 
-    game.load.image("level1Background", "assets/images/level1Background.png")
     game.load.image("backButton", "assets/images/backButton.png");
 
     //level icons
@@ -70,6 +69,11 @@ splash.prototype = {
     game.load.image("level6_portal_ul", "assets/Levels/level6/unlocked.png");
     game.load.image("level7_portal_l", "assets/Levels/level7/locked.png");
     game.load.image("level7_portal_ul", "assets/Levels/level7/unlocked.png");
+
+    //load tilemap 
+    game.load.image("grassRock", "assets/Levels/Tiles/grass-rock platforms2.png");
+    game.load.image("spaceFlora", "assets/Levels/Tiles/space flora.png");
+    game.load.image("spaceFlora2", "assets/Levels/Tiles/space flora2.png");
   },
 
   create: function() {
