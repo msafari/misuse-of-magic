@@ -43,19 +43,39 @@ momGame.prototype = {
     game.camera.follow(this.player);
 
     gameUI = game.add.sprite(50, 25, "gameUI");
+    gameUI.fixedToCamera = true;
+    gameUI.cameraOffset.setTo(50, 25);
+    healthText = game.add.text(55, 31, "Health:");
+    healthText.fixedToCamera = true;
+    healthText.cameraOffset.setTo(55, 31);
     hearts = game.add.group();
     
     for (var i = 0; i < 5; i++) {
         var heart = hearts.create(150 + (i * 35), 35, 'heartbreak');
         heart.frame = 0;
+        heart.fixedToCamera = true;
+        heart.cameraOffset.setTo(150 + (i * 35), 35);
     }
     xButton = game.add.sprite(850, 35, "xButton");
+    xButton.fixedToCamera = true;
+    xButton.cameraOffset.setTo(850, 35);
+
     pauseButton = game.add.sprite(900, 35, "pauseButton");
+    pauseButton.fixedToCamera = true;
+    pauseButton.cameraOffset.setTo(900, 35);
     //playButton = game.add.sprite(850, 35, "playButton");
     //playButton.visible = false;
     controlsButton = game.add.sprite(950, 35, "controlsButton");
+    controlsButton.fixedToCamera = true;
+    controlsButton.cameraOffset.setTo(950, 35);
+
     helpButton = game.add.sprite(1000, 35, "helpButton");
+    helpButton.fixedToCamera = true;
+    helpButton.cameraOffset.setTo(1000, 35);
+
     treeButton = game.add.sprite(1050, 35, "treeButton");
+    treeButton.fixedToCamera = true;
+    treeButton.cameraOffset.setTo(1050, 35);
 
     backButton = game.add.sprite(50, 675, "backButton");
     backButton.inputEnabled = true;
