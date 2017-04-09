@@ -62,6 +62,5 @@ momGame.prototype = {
 
   loadLevelMap: function () {
     this.current_level = game.current_level;
-
   },
 }

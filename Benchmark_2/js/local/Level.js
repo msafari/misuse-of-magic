@@ -1,35 +1,35 @@
 function Level (number) {
+  this.number = number;
   this.name = "level" + number;
-  this.portal_name = this.name + "_portal";
-  this.tileMap = this.getMap();
+  this.tileMap = this.get_map();
+  this.available = (this.number == 1) ? true : false;
   this.gen_path = "assets/Levels/level";
   this.findMap();
   this.set_background();
 }
 
 Level.prototype = {
+
+  portal_name: function () {
+    var extension = (this.available) ? "_portal_ul" : "_portal_l";
+    return "level" + this.number + extension;
+  },
+
   findMap: function () {
-    this.map_file = this.path + this.number + "/level" + this.number + ".json";
+    this.map_file = this.gen_path + this.number + "/level" + this.number + ".json";
   },
 
-  isPlayable: function () {
-    if (this.number == 1){
-      this.isPlayable = true;
-    }
-    return this.isPlayable;
-  },
-
-  tile_map: function () {
+  get_map: function () {
     return this.map_file;
   },
 
   set_playable: function () {
-    this.isPlayable = true;
+    this.available = true;
   },
 
   level_icon_path: function () {
     var icon_path;
-    if (this.isPlayable) {
+    if (this.available) {
       icon_path = this.gen_path + this.number + "/unlocked.png";
     } else {
       icon_path = this.gen_path + this.number + "/locked.png";
@@ -41,9 +41,9 @@ Level.prototype = {
     this.icon_sprite = sprite;
 
     //enable input if level is available
-    if (this.isPlayable) {
+    if (this.available) {
       this.icon_sprite.inputEnabled = true;
-      this.icon_sprite.onInputUp.add(function() { 
+      this.icon_sprite.events.onInputUp.add(function() { 
         game.current_level = this;
         game.state.start("MomGame");
       });
@@ -51,7 +51,7 @@ Level.prototype = {
   },
 
   set_background: function () {
-    this.bg_image = this.path + this.number + "/level" + this.number + ".png";
+    this.bg_image = this.gen_path + this.number + "/level" + this.number + ".png";
   },
 
 };
