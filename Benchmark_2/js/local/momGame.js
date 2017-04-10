@@ -1,6 +1,7 @@
 var momGame = function () {};
 var cursors,
-  oranges_count = 0;
+  oranges_count = 0,
+  health = 5;
 
 momGame.prototype = {
   preload: function () {
@@ -37,9 +38,16 @@ momGame.prototype = {
     // set anchor point for player
     this.player.anchor.setTo(0.75, 0.25);
     this.loadTzarha(this.player);
+    game.player = this.player;
+
     this.load_wizards();
 
     game.camera.follow(this.player);
+
+
+    this.timer = this.game.time.create(this.game);    
+    this.timer.add(50, this.all_wizards_random_act, this.all_wizards_random_act);    
+    this.timer.start();   
 
     gameUI = game.add.sprite(50, 25, "gameUI");
     gameUI.fixedToCamera = true;
@@ -175,6 +183,12 @@ momGame.prototype = {
       var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y, game.wizards);
     });
     console.log(game.wizards);
+  },
+
+  all_wizards_random_act: function () {
+    _.each(game.wizard_list, function(wiz) {
+      wiz.pick_random_act();
+    });
   },
 
   findObjectsBySprite: function(sprite, layer) {

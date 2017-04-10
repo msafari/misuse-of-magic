@@ -12,12 +12,12 @@ function Wizard (type, x, y) {
 Wizard.prototype = {
   destroy : function () {
     this.isDead = true;
-    this.sprite.kill();
     _.remove(game.wizards, function(wizard) {
       if (wizard.sprite == this.sprite) {
         return true;
       }
     }, this);
+    this.sprite.kill();
   },
 
   init_sprite: function () {
@@ -42,13 +42,13 @@ Wizard.prototype = {
   attack_player: function () {
     //attack randomly in left or right direction
     var is_left = Math.random() < 0.5 ? true : false;
-    this.sprite.velocity.x = 0;
+    this.sprite.body.velocity.x = 0;
 
     if (is_left) {
-      this.sprite.animations.play(ATTACK_L);
+      this.sprite.animations.play("ATTACK_L");
       //TODO: play effect animation based on sprite type
     } else {
-      this.sprite.animations.play(ATTACK_R);
+      this.sprite.animations.play("ATTACK_R");
     }
   },
 
@@ -63,6 +63,14 @@ Wizard.prototype = {
       this.sprite.body.velocity.x = rand;
       this.sprite.animations.play("WALK_R");
     }
+  },
+
+  pick_random_act: function () {
+    var is_moving = Math.random() < 0.5 ? true : false;
+    // if (is_moving)
+    //   this.random_move_x();
+    // else
+      this.attack_player();
   }
 
 };
