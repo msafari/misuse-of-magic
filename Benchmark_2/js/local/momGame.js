@@ -1,12 +1,11 @@
 var momGame = function () {};
 var cursors,
-  oranges_count = 0;
-var paused = false;
+  oranges_count = 0,
+  health = 5,
+  paused = false;
 
 momGame.prototype = {
   preload: function () {
-    game.load.spritesheet("TZARHA", 'assets/Sprites/Tzarha/spritesheet.png', 64, 96);
-
     _.each(game.levels, function(level, i) {
         game.load.image(level.bg_image_name, level.bg_image_path);
         game.load.tilemap(level.name, level.tile_map, null, Phaser.Tilemap.TILED_JSON);
@@ -34,14 +33,22 @@ momGame.prototype = {
     this.game.physics.arcade.enable(this.player);
     this.player.body.collideWorldBounds = true;
     this.player.body.allowGravity = true;
-    this.player.body.bounce.y = 0.2;
-    this.player.body.gravity.y = 10000;
+    this.player.body.bounce.y = 0.4;
+    this.player.body.gravity.y = 15000;
 
     // set anchor point for player
     this.player.anchor.setTo(0.75, 0.25);
     this.loadTzarha(this.player);
+    game.player = this.player;
+
+    this.load_wizards();
 
     game.camera.follow(this.player);
+
+
+    this.timer = this.game.time.create(this.game);    
+    this.timer.add(50, this.all_wizards_random_act, this.all_wizards_random_act);    
+    this.timer.start();   
 
     gameUI = game.add.sprite(50, 25, "gameUI");
     gameUI.fixedToCamera = true;
@@ -136,36 +143,39 @@ momGame.prototype = {
   update: function () {
   
     game.physics.arcade.collide(this.player, this.blocked_layer);
+    game.physics.arcade.collide(this.player, game.wizards);
+    game.physics.arcade.collide(game.wizards, this.blocked_layer);
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
+
     if (paused === false) {
       if(cursors.left.isDown && !cursors.up.isDown) {
-        this.player.body.velocity.x = -150;
+        this.player.body.velocity.x = -200;
         this.player.animations.play("WALK_L");
       }
 
       else if (cursors.right.isDown && !cursors.up.isDown) {
-        this.player.body.velocity.x = 150;
+        this.player.body.velocity.x = 200;
         this.player.animations.play("WALK_R");
       }
 
       else if (cursors.up.isDown && cursors.right.isDown) {
-        this.player.body.velocity.y = -350;
-        this.player.body.velocity.x = 150;
+        this.player.body.velocity.y = -550
+        this.player.body.velocity.x = 200;
         this.player.animations.play("JUMP_R");
       }
 
       else if (cursors.up.isDown && cursors.left.isDown) {
-        this.player.body.velocity.y = -350;
-        this.player.body.velocity.x = -150;
+        this.player.body.velocity.y = -550;
+        this.player.body.velocity.x = -200;
         this.player.animations.play("JUMP_L");
       }
 
       else if (cursors.up.isDown) {
-        this.player.body.velocity.y = -350;
+        this.player.body.velocity.y = -550;
       }
       else {
         this.player.animations.play("IDLE");
@@ -221,6 +231,27 @@ momGame.prototype = {
     this.gates.enableBody = true;
   },
 
+  /**
+   * load_wizards will load up the elemental wizards
+   * it will create wizard objects and add that to the list of wizards
+   *  it will retrieve the initial position of wizards from the tilemap
+   */
+  load_wizards: function () {
+    game.wizard_list = [];
+    game.wizards = game.add.group();
+    game.wizards.enableBody = true;
+    this.level_wizards = this.findObjectsBySprite("Wizard", "Wizards");
+    _.each(this.level_wizards, function (wiz) {
+      var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y, game.wizards);
+    });
+    console.log(game.wizards);
+  },
+
+  all_wizards_random_act: function () {
+    _.each(game.wizard_list, function(wiz) {
+      wiz.pick_random_act();
+    });
+  },
 
   findObjectsBySprite: function(sprite, layer) {
     var result = [];
@@ -241,7 +272,7 @@ momGame.prototype = {
     var obj;    
     result = this.findObjectsBySprite(sprite, layer);
     result.forEach(function(element){
-      this.objects.create(element.x, element.y, sprite);;
+      this.objects.create(element.x, element.y, sprite);
     }, this);
     return this.objects;
   },

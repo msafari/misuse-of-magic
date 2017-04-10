@@ -89,6 +89,12 @@ splash.prototype = {
     game.load.image("spaceFlora2", "assets/Levels/Tiles/space flora2.png");
     game.load.image("Gate", "assets/Levels/Tiles/gate.png");
     game.load.image("Orange", "assets/images/orange.png");
+
+    //load sprites
+    game.load.spritesheet("TZARHA", 'assets/Sprites/Tzarha/spritesheet.png', 64, 96);
+    game.load.spritesheet("LIGHTNING_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 64, 96);
+    game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 64, 96);
+    game.load.spritesheet("ICE_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 64, 96);
   },
 
   create: function() {

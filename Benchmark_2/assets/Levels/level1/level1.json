@@ -927,11 +927,13 @@
                  "name":"",
                  "properties":
                     {
-                     "Sprite":"FireWizard"
+                     "Sprite":"Wizard",
+                     "Type":"FIRE"
                     },
                  "propertytypes":
                     {
-                     "Sprite":"string"
+                     "Sprite":"string",
+                     "Type":"string"
                     },
                  "rotation":0,
                  "type":"",
@@ -947,18 +949,20 @@
                  "name":"",
                  "properties":
                     {
-                     "Sprite":"IceWizard"
+                     "Sprite":"Wizard",
+                     "Type":"ICE"
                     },
                  "propertytypes":
                     {
-                     "Sprite":"string"
+                     "Sprite":"string",
+                     "Type":"string"
                     },
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":2230,
-                 "y":1236.1
+                 "x":2240.9721307878,
+                 "y":1248.16934386658
                 }, 
                 {
                  "gid":227,
@@ -967,11 +971,13 @@
                  "name":"",
                  "properties":
                     {
-                     "Sprite":"AirWizard"
+                     "Sprite":"Wizard",
+                     "Type":"LIGHTNING"
                     },
                  "propertytypes":
                     {
-                     "Sprite":"string"
+                     "Sprite":"string",
+                     "Type":"string"
                     },
                  "rotation":0,
                  "type":"",
@@ -987,11 +993,13 @@
                  "name":"",
                  "properties":
                     {
-                     "Sprite":"WaterWizard"
+                     "Sprite":"Wizard",
+                     "Type":"FIRE"
                     },
                  "propertytypes":
                     {
-                     "Sprite":"string"
+                     "Sprite":"string",
+                     "Type":"string"
                     },
                  "rotation":0,
                  "type":"",
@@ -999,6 +1007,28 @@
                  "width":32,
                  "x":1482.79,
                  "y":2952.14
+                }, 
+                {
+                 "gid":227,
+                 "height":32,
+                 "id":88,
+                 "name":"",
+                 "properties":
+                    {
+                     "Sprite":"Wizard",
+                     "Type":"ICE"
+                    },
+                 "propertytypes":
+                    {
+                     "Sprite":"string",
+                     "Type":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":630.25850340136,
+                 "y":1349.11389071758
                 }],
          "opacity":1,
          "type":"objectgroup",
