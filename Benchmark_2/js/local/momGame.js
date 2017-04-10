@@ -8,8 +8,7 @@ var cursors,
   attack_gravity,
   paused = false,
   DAMAGED_L = false,
-  DAMAGED_R = false,
-  death_anim;
+  DAMAGED_R = false;
 
 momGame.prototype = {
   preload: function () {
