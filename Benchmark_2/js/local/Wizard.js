@@ -29,6 +29,7 @@ Wizard.prototype = {
     sprite.body.allowGravity = true;
     sprite.body.bounce.y = 0.2;
     sprite.body.gravity.y = 500;
+    sprite.body.immovable = true;
     sprite.anchor.setTo(0.75, 0.25);
 
     var states = ["ATTACK_L", "ATTACK_R", "DAMAGE_L","DAMAGE_R", "DEAD_L", "DEAD_R", "WALK_L", "WALK_R"];

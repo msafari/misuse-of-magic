@@ -52,6 +52,7 @@ splash.prototype = {
     game.load.image("helpButton", "assets/images/helpButton.png");
     game.load.spritesheet("heartbreak", "assets/images/heartbreak.png", 25, 25);
     game.load.image("winOverlay", "assets/images/winOverlay.png");
+    game.load.image("lossOverlay", "assets/images/lossOverlay.png");
     game.load.image("backButton", "assets/images/backButton.png");
 
     //load in attacks and attack sprites
