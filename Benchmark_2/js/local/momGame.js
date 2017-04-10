@@ -1,6 +1,7 @@
 var momGame = function () {};
 var cursors,
   oranges_count = 0;
+var paused = false;
 
 momGame.prototype = {
   preload: function () {
@@ -120,49 +121,56 @@ momGame.prototype = {
     winOverlay = game.add.sprite(375, 50, "winOverlay");
     winOverlay.visible = false;
     winOverlay.inputEnabled = false;
+    winOverlay.events.onInputUp.add(function() {
+      oranges_count = 0;
+      paused = false;
+      game.state.start("Splash");
+    });
     winOverlay.fixedToCamera = true;
-    winOverlay.cameraOffset.setTo(375, 50);
+    winOverlay.cameraOffset.setTo(375, 50);''
+    
     //control
     cursors = game.input.keyboard.createCursorKeys();
   },
 
   update: function () {
+  
     game.physics.arcade.collide(this.player, this.blocked_layer);
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
+    if (paused === false) {
+      if(cursors.left.isDown && !cursors.up.isDown) {
+        this.player.body.velocity.x = -150;
+        this.player.animations.play("WALK_L");
+      }
 
-    if(cursors.left.isDown && !cursors.up.isDown) {
-      this.player.body.velocity.x = -1050;
-      this.player.animations.play("WALK_L");
-    }
+      else if (cursors.right.isDown && !cursors.up.isDown) {
+        this.player.body.velocity.x = 150;
+        this.player.animations.play("WALK_R");
+      }
 
-    else if (cursors.right.isDown && !cursors.up.isDown) {
-      this.player.body.velocity.x = 1050;
-      this.player.animations.play("WALK_R");
-    }
+      else if (cursors.up.isDown && cursors.right.isDown) {
+        this.player.body.velocity.y = -350;
+        this.player.body.velocity.x = 150;
+        this.player.animations.play("JUMP_R");
+      }
 
-    else if (cursors.up.isDown && cursors.right.isDown) {
-      this.player.body.velocity.y = -750;
-      this.player.body.velocity.x = 150;
-      this.player.animations.play("JUMP_R");
-    }
+      else if (cursors.up.isDown && cursors.left.isDown) {
+        this.player.body.velocity.y = -350;
+        this.player.body.velocity.x = -150;
+        this.player.animations.play("JUMP_L");
+      }
 
-    else if (cursors.up.isDown && cursors.left.isDown) {
-      this.player.body.velocity.y = -350;
-      this.player.body.velocity.x = -150;
-      this.player.animations.play("JUMP_L");
+      else if (cursors.up.isDown) {
+        this.player.body.velocity.y = -350;
+      }
+      else {
+        this.player.animations.play("IDLE");
+      }
     }
-
-    else if (cursors.up.isDown) {
-      this.player.body.velocity.y = -350;
-    }
-    else {
-      this.player.animations.play("IDLE");
-    }
-
   },
 
   collectOranges: function(player, orange) {
@@ -172,14 +180,12 @@ momGame.prototype = {
   },
 
   winLevel: function(player, gate) {
+    player.animations.stop();
     winOverlay.visible = true;
     winOverlay.inputEnabled = true;
-    winOverlay.events.onInputUp.add(function() {resetGame();});
-  },
-
-  resetGame: function() {
-    oranges_count = 0;
-    game.state.start("Splash");
+    helpButton.inputEnabled = false;
+    controlsButton.inputEnabled = false;
+    paused = true;
   },
 
   loadTzarha: function(player) {
@@ -197,6 +203,7 @@ momGame.prototype = {
     this.map.addTilesetImage("grass-rock platforms2", "grassRock");
     this.map.addTilesetImage("space flora", "spaceFlora");
     this.map.addTilesetImage("space flora2", "spaceFlora2");
+    this.map.addTilesetImage("gate", "gate");
     this.map.addTilesetImage(game.current_level.name, game.current_level.bg_image_name);
 
     this.bg_layer = this.map.createLayer('bg');

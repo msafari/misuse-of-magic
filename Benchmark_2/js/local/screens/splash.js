@@ -51,7 +51,6 @@ splash.prototype = {
     game.load.image("controlsButton", "assets/images/controlsButton.png");
     game.load.image("helpButton", "assets/images/helpButton.png");
     game.load.spritesheet("heartbreak", "assets/images/heartbreak.png", 25, 25);
-    game.load.image("gate", "assets/images/gate.png");
     game.load.image("winOverlay", "assets/images/winOverlay.png");
     game.load.image("backButton", "assets/images/backButton.png");
 
@@ -88,6 +87,7 @@ splash.prototype = {
     game.load.image("grassRock", "assets/Levels/Tiles/grass-rock platforms2.png");
     game.load.image("spaceFlora", "assets/Levels/Tiles/space flora.png");
     game.load.image("spaceFlora2", "assets/Levels/Tiles/space flora2.png");
+    game.load.image("Gate", "assets/Levels/Tiles/gate.png");
     game.load.image("Orange", "assets/images/orange.png");
   },
 

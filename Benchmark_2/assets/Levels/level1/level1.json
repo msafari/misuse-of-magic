@@ -785,9 +785,9 @@
                  "y":2920.32
                 }, 
                 {
-                 "gid":1142,
+                 "gid":1147,
                  "height":32,
-                 "id":104,
+                 "id":122,
                  "name":"",
                  "properties":
                     {
@@ -801,13 +801,13 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":127,
-                 "y":2962
+                 "x":98,
+                 "y":2963
                 }, 
                 {
-                 "gid":1143,
+                 "gid":1146,
                  "height":32,
-                 "id":111,
+                 "id":123,
                  "name":"",
                  "properties":
                     {
@@ -821,13 +821,13 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":159,
-                 "y":2962
+                 "x":66,
+                 "y":2963
                 }, 
                 {
-                 "gid":1141,
+                 "gid":1145,
                  "height":32,
-                 "id":112,
+                 "id":125,
                  "name":"",
                  "properties":
                     {
@@ -841,13 +841,13 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":159,
-                 "y":2930
+                 "x":98,
+                 "y":2932
                 }, 
                 {
-                 "gid":1140,
+                 "gid":1144,
                  "height":32,
-                 "id":114,
+                 "id":127,
                  "name":"",
                  "properties":
                     {
@@ -861,8 +861,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":127,
-                 "y":2930
+                 "x":66,
+                 "y":2932
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -905,13 +905,13 @@
         }, 
         {
          "draworder":"topdown",
-         "height":100,
+         "height":0,
          "name":"gate",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":false,
-         "width":100,
+         "width":0,
          "x":0,
          "y":0
         }, 
@@ -1007,7 +1007,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":116,
+ "nextobjectid":130,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,
@@ -1094,6 +1094,19 @@
          "columns":2,
          "firstgid":1140,
          "image":"..\/..\/images\/gate.png",
+         "imageheight":64,
+         "imagewidth":64,
+         "margin":0,
+         "name":"badGate",
+         "spacing":0,
+         "tilecount":4,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "columns":2,
+         "firstgid":1144,
+         "image":"..\/Tiles\/gate.png",
          "imageheight":64,
          "imagewidth":64,
          "margin":0,
