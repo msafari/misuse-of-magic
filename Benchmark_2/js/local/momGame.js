@@ -56,56 +56,96 @@ momGame.prototype = {
         heart.fixedToCamera = true;
         heart.cameraOffset.setTo(150 + (i * 35), 35);
     }
+    
+    orangesCounter = game.add.text(800, 48, "0");
+    orangesCounter.fixedToCamera = true;
+    orangesCounter.cameraOffset.setTo(800, 48);
     xButton = game.add.sprite(850, 35, "xButton");
     xButton.fixedToCamera = true;
     xButton.cameraOffset.setTo(850, 35);
+    xButton.inputEnabled = true;
+    xButton.events.onInputUp.add(function() {game.camera.reset(); game.state.start("Splash");});
 
     pauseButton = game.add.sprite(900, 35, "pauseButton");
     pauseButton.fixedToCamera = true;
     pauseButton.cameraOffset.setTo(900, 35);
     //playButton = game.add.sprite(850, 35, "playButton");
     //playButton.visible = false;
+    
+    controlsBase = game.add.sprite(100,75,"controlsBase");
+    controlsBase.visible = false;
+    controlsBase.fixedToCamera = true;
+    controlsBase.cameraOffset.setTo(100, 75);
+
+    helpBase = game.add.sprite(100,75,"helpBase");
+    helpBase.visible = false;
+    helpBase.fixedToCamera = true;
+    helpBase.cameraOffset.setTo(100, 75);
+
+    //add controls button functionality
     controlsButton = game.add.sprite(950, 35, "controlsButton");
     controlsButton.fixedToCamera = true;
     controlsButton.cameraOffset.setTo(950, 35);
+    controlsButton.inputEnabled = true;
+    controlsButton.events.onInputUp.add(function() {
+      if (helpBase.visible === true)
+        helpBase.visible = false;
+      if (controlsBase.visible === true) {
+        controlsBase.visible = false;
+      }
+      else
+        controlsBase.visible = true;
+    });
 
+    //add help button functionality
     helpButton = game.add.sprite(1000, 35, "helpButton");
     helpButton.fixedToCamera = true;
     helpButton.cameraOffset.setTo(1000, 35);
-
-    treeButton = game.add.sprite(1050, 35, "treeButton");
-    treeButton.fixedToCamera = true;
-    treeButton.cameraOffset.setTo(1050, 35);
-
-    backButton = game.add.sprite(50, 675, "backButton");
-    backButton.inputEnabled = true;
-    backButton.events.onInputUp.add(function() {
-        game.state.start("MomLevelSelect");
+    helpButton.inputEnabled = true;
+    helpButton.events.onInputUp.add(function() {
+      if (controlsBase.visible === true)
+        controlsBase.visible = false;
+      if (helpBase.visible === true) {
+        helpBase.visible = false;
+      }
+      else
+        helpBase.visible = true;
     });
 
-    //controls
+    //backButton = game.add.sprite(50, 675, "backButton");
+    //backButton.inputEnabled = true;
+    //backButton.events.onInputUp.add(function() {
+        //game.state.start("MomLevelSelect");
+    //});
+    winOverlay = game.add.sprite(375, 50, "winOverlay");
+    winOverlay.visible = false;
+    winOverlay.inputEnabled = false;
+    winOverlay.fixedToCamera = true;
+    winOverlay.cameraOffset.setTo(375, 50);
+    //control
     cursors = game.input.keyboard.createCursorKeys();
   },
 
   update: function () {
     game.physics.arcade.collide(this.player, this.blocked_layer);
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
+    game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
 
     if(cursors.left.isDown && !cursors.up.isDown) {
-      this.player.body.velocity.x = -150;
+      this.player.body.velocity.x = -1050;
       this.player.animations.play("WALK_L");
     }
 
     else if (cursors.right.isDown && !cursors.up.isDown) {
-      this.player.body.velocity.x = 150;
+      this.player.body.velocity.x = 1050;
       this.player.animations.play("WALK_R");
     }
 
     else if (cursors.up.isDown && cursors.right.isDown) {
-      this.player.body.velocity.y = -350;
+      this.player.body.velocity.y = -750;
       this.player.body.velocity.x = 150;
       this.player.animations.play("JUMP_R");
     }
@@ -128,6 +168,18 @@ momGame.prototype = {
   collectOranges: function(player, orange) {
     orange.kill();
     oranges_count++;
+    orangesCounter.setText(""+oranges_count);
+  },
+
+  winLevel: function(player, gate) {
+    winOverlay.visible = true;
+    winOverlay.inputEnabled = true;
+    winOverlay.events.onInputUp.add(function() {resetGame();});
+  },
+
+  resetGame: function() {
+    oranges_count = 0;
+    game.state.start("Splash");
   },
 
   loadTzarha: function(player) {
@@ -157,7 +209,9 @@ momGame.prototype = {
 
     this.oranges = this.createObjects("Orange", "object-layer");
     this.oranges.enableBody = true;
-
+    
+    this.gates = this.createObjects("Gate", "object-layer");
+    this.gates.enableBody = true;
   },
 
 
