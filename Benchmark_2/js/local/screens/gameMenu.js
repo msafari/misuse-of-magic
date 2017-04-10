@@ -17,26 +17,26 @@ gameMenu.prototype = {
         fill: '#FFFFFF'
       };
 
-      headerBase = game.add.sprite(game.world.centerX, 50, 'headerBase');
+      headerBase = game.add.sprite(game.camera.width / 2, 50, 'headerBase');
       //buttonBase = game.add.sprite(game.world.centerX * 1.45, 280, 'buttonBase');
       headerBase.anchor.setTo(0.5);
-      header = game.add.text(game.world.centerX, 50, '-- MISUSE OF MAGIC --', titleStyle);
+      header = game.add.text(game.camera.width / 2, 50, '-- MISUSE OF MAGIC --', titleStyle);
       header.anchor.setTo(0.5);
 
-      menuPlay = game.add.text(game.world.centerX * 1.3, 400, 'Play', menuStyle);
+      menuPlay = game.add.text((game.camera.width / 2) * 1.3, 400, 'Play', menuStyle);
       menuPlay.inputEnabled = true;
       menuPlay.events.onInputUp.add(function() {game.state.start("MomLevelSelect");
       });
-      menuOptions = game.add.text(game.world.centerX * 1.3, 500, 'Controls', menuStyle);
+      menuOptions = game.add.text((game.camera.width / 2) * 1.3, 500, 'Controls', menuStyle);
       menuOptions.inputEnabled = true;
       menuOptions.events.onInputUp.add(function() {game.state.start("Controls");
       });
-      menuHelp = game.add.text(game.world.centerX * 1.3, 600, 'Help', menuStyle);
+      menuHelp = game.add.text((game.camera.width / 2) * 1.3, 600, 'Help', menuStyle);
       menuHelp.inputEnabled = true;
       menuHelp.events.onInputUp.add(function() {game.state.start("Help");
       });
     
-      funkylogo = game.add.sprite(game.world.centerX * 0.5, 300, 'coollogo');
+      funkylogo = game.add.sprite((game.camera.width / 2) * 0.5, 300, 'coollogo');
       
   },
 
