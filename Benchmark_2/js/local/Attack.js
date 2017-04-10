@@ -1,5 +1,22 @@
+function Attack(attacker_name, name, type, spritesheet, uses) {
+	this.name = name;
+	this.type = type;
+	this.uses = (attacker_name === "WIZARD") ? Infinity : uses;
+	this.spritesheet = spritesheet; //For animations
+	
+	game.load.spritesheet(name, spritesheet, 16, 16).onFileComplete.addOnce(function(){
+		this.atkSprite = game.world.create(0, 0, name, 0);
+		atkSprite.visible = false;
+		atkSprite.animations.add("launch");
+	});
+	this.icon = "assets/Sprites/attacks/flareIcon.png";  //Right now, just to see something
+	// we assume it's unsuccesful
+	success = false;
+}
+
+
 Attack.prototype = {
-	atkInit: function() {},
+	attack_init: function() {},
 
 	launch: function(attacker) {
 		if(uses <= 0)
@@ -20,39 +37,10 @@ Attack.prototype = {
 		}
 	},
 
-	wasSuccessful: function() {
+	was_successful: function() {
 		return success;
 	},
 };
-function Attack(name, type, spritesheet, uses) {
-	this.name = name;
-	this.type = type;
-	this.uses = uses;
-	this.spritesheet = spritesheet; //For animations
-	
-	game.load.spritesheet(name, spritesheet, 16, 16).onFileComplete.addOnce(function(){
-		this.atkSprite = game.world.create(0, 0, name, 0);
-		atkSprite.visible = false;
-		atkSprite.animations.add("launch");
-	});
-		this.icon = "assets/Sprites/attacks/flareIcon.png";  //Right now, just to see something
-		success = true;
-}
-
-function Attack(name, type, spritesheet) {
-	this.name = name;
-	this.type = type;
-	this.uses = Infinity; //An enemies attack should not run out. In other cases, call above constructor
-	this.spritesheet = spritesheet;
-	
-	game.load.spritesheet(name, spritesheet, 16, 16).onFileComplete.addOnce(function(){
-		this.atkSprite = game.world.create(0, 0, name, 0);
-		atkSprite.visible = false;
-		atkSprite.animations.add("launch");
-	});
-		this.icon = "assets/Sprites/attacks/flareIcon.png"; 
-		success = true;
-}
 
 
 
