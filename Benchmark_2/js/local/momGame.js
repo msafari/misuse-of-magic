@@ -2,6 +2,7 @@ var momGame = function () {};
 var cursors,
   oranges_count = 0,
   health = 5,
+  invincible = false;
   paused = false;
 
 momGame.prototype = {
@@ -77,6 +78,8 @@ momGame.prototype = {
     pauseButton = game.add.sprite(900, 35, "pauseButton");
     pauseButton.fixedToCamera = true;
     pauseButton.cameraOffset.setTo(900, 35);
+    pauseButton.inputEnabled = true;
+    pauseButton.events.onInputUp.add(function() {if (paused === false) paused = true; if (paused === true) paused === false;});
     //playButton = game.add.sprite(850, 35, "playButton");
     //playButton.visible = false;
     
@@ -134,7 +137,18 @@ momGame.prototype = {
       game.state.start("Splash");
     });
     winOverlay.fixedToCamera = true;
-    winOverlay.cameraOffset.setTo(375, 50);''
+    winOverlay.cameraOffset.setTo(375, 50);
+
+    lossOverlay = game.add.sprite(375, 50, "lossOverlay");
+    lossOverlay.visible = false;
+    lossOverlay.inputEnabled = false;
+    lossOverlay.events.onInputUp.add(function() {
+      oranges_count = 0;
+      paused = false;
+      game.state.start("Splash");
+    });
+    lossOverlay.fixedToCamera = true;
+    lossOverlay.cameraOffset.setTo(375, 50);
     
     //control
     cursors = game.input.keyboard.createCursorKeys();
@@ -143,15 +157,20 @@ momGame.prototype = {
   update: function () {
   
     game.physics.arcade.collide(this.player, this.blocked_layer);
-    game.physics.arcade.collide(this.player, game.wizards);
     game.physics.arcade.collide(game.wizards, this.blocked_layer);
+    
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
-
+    
     if (paused === false) {
+      //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
+      game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
+      if (health === 0) {
+        this.loseLevel();
+      }
       if(cursors.left.isDown && !cursors.up.isDown) {
         this.player.body.velocity.x = -200;
         this.player.animations.play("WALK_L");
@@ -183,6 +202,32 @@ momGame.prototype = {
     }
   },
 
+  wizardContact: function(player, wizard) {
+    console.log("wizard touch");
+    if (invincible != true && health >= 1) {
+        //TODO: this doesnt work yet. oops.
+        if (player.body.velocity.x < 0 ) {
+          player.animations.play("DAMAGE_L");
+        }
+        else if (player.body.velocity.x > 0) {
+          player.animations.play("DAMAGE_R");
+        }
+        //else {
+          //this.player.animations.play("DAMAGE_N");
+        //}
+          
+        
+        invincible = true;
+        health--;
+        hearts.children[health].frame = 1;
+        game.time.events.repeat(Phaser.Timer.SECOND * 1.5, 1, invinFrameOver, this);
+    }
+
+    function invinFrameOver() {
+        invincible = false;
+    }
+  },
+
   collectOranges: function(player, orange) {
     orange.kill();
     oranges_count++;
@@ -193,6 +238,18 @@ momGame.prototype = {
     player.animations.stop();
     winOverlay.visible = true;
     winOverlay.inputEnabled = true;
+    helpButton.inputEnabled = false;
+    controlsButton.inputEnabled = false;
+    paused = true;
+  },
+
+  loseLevel: function() {
+    //TODO: death should happen before the overlay plays.
+    this.player.animations.stop();
+    this.player.animations.play("DEATH");
+    this.player.animations.currentAnim.onComplete.add(function () {this.player.kill;}, this);
+    lossOverlay.visible = true;
+    lossOverlay.inputEnabled = true;
     helpButton.inputEnabled = false;
     controlsButton.inputEnabled = false;
     paused = true;
