@@ -273,6 +273,12 @@ momGame.prototype = {
     helpButton.inputEnabled = false;
     controlsButton.inputEnabled = false;
     paused = true;
+    var next_level = "level" + (game.current_level.number+1);
+    next_level = _.find(game.levels, function(l) {
+      if(l.name=== next_level)
+        return l;
+    })
+    next_level.set_playable();
   },
 
   loseLevel: function() {
