@@ -1,14 +1,15 @@
-function Enemy (type, x, y) {
+function Wizard (type, x, y) {
   this.type = type;
-  this.name = type + "_wizard";
+  this.name = type + "_WIZARD";
   this.x = x;
   this.y = y;
   this.isDead = false;
   this.sprite = this.init_sprite();
-  game.wizards.push(this);
+  game.wizards.add(this.sprite);
+  game.wizard_list.push(this);
 }
 
-Enemy.prototype = {
+Wizard.prototype = {
   destroy : function () {
     this.isDead = true;
     this.sprite.kill();
@@ -26,13 +27,14 @@ Enemy.prototype = {
     game.physics.arcade.enable(sprite);
     sprite.body.collideWorldBounds = true;
     sprite.body.allowGravity = true;
-    sprite.body.bounce.y = 0.4;
-    sprite.body.gravity.y = 10000;
+    sprite.body.bounce.y = 0.2;
+    sprite.body.gravity.y = 500;
+    sprite.anchor.setTo(0.75, 0.25);
 
-    var states = ["WALK_L", "WALK_R", "DEAD_L","DEAD_R", "DAMAGED_L", "DAMAGED_R", "ATTACK_L", "ATTACK_R"];
+    var states = ["ATTACK_L", "ATTACK_R", "DAMAGE_L","DAMAGE_R", "DEAD_L", "DEAD_R", "WALK_L", "WALK_R"];
     _.each(states, function(state, index) {
       var frameIndexes = _.range(index * 9, index * 9 + 9);
-      player.animations.add(state, frameIndexes, 15, true);
+      sprite.animations.add(state, frameIndexes, 15, true);
     });
     return sprite;
   },
@@ -44,6 +46,7 @@ Enemy.prototype = {
 
     if (is_left) {
       this.sprite.animations.play(ATTACK_L);
+      //TODO: play effect animation based on sprite type
     } else {
       this.sprite.animations.play(ATTACK_R);
     }

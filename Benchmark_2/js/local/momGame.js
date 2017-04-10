@@ -4,8 +4,6 @@ var cursors,
 
 momGame.prototype = {
   preload: function () {
-    game.load.spritesheet("TZARHA", 'assets/Sprites/Tzarha/spritesheet.png', 64, 96);
-
     _.each(game.levels, function(level, i) {
         game.load.image(level.bg_image_name, level.bg_image_path);
         game.load.tilemap(level.name, level.tile_map, null, Phaser.Tilemap.TILED_JSON);
@@ -39,6 +37,7 @@ momGame.prototype = {
     // set anchor point for player
     this.player.anchor.setTo(0.75, 0.25);
     this.loadTzarha(this.player);
+    this.load_wizards();
 
     game.camera.follow(this.player);
 
@@ -89,6 +88,8 @@ momGame.prototype = {
 
   update: function () {
     game.physics.arcade.collide(this.player, this.blocked_layer);
+    game.physics.arcade.collide(this.player, game.wizards);
+    game.physics.arcade.collide(game.wizards, this.blocked_layer);
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
 
     this.player.body.velocity.x = 0;
@@ -160,8 +161,20 @@ momGame.prototype = {
 
   },
 
+  /**
+   * load_wizards will load up the elemental wizards
+   * it will create wizard objects and add that to the list of wizards
+   *  it will retrieve the initial position of wizards from the tilemap
+   */
   load_wizards: function () {
-    game.wizards = [];
+    game.wizard_list = [];
+    game.wizards = game.add.group();
+    game.wizards.enableBody = true;
+    this.level_wizards = this.findObjectsBySprite("Wizard", "Wizards");
+    _.each(this.level_wizards, function (wiz) {
+      var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y, game.wizards);
+    });
+    console.log(game.wizards);
   },
 
   findObjectsBySprite: function(sprite, layer) {
@@ -183,7 +196,7 @@ momGame.prototype = {
     var obj;    
     result = this.findObjectsBySprite(sprite, layer);
     result.forEach(function(element){
-      this.objects.create(element.x, element.y, sprite);;
+      this.objects.create(element.x, element.y, sprite);
     }, this);
     return this.objects;
   },

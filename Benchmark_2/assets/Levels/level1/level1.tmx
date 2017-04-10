@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="87">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="90">
  <tileset firstgid="1" name="grass-rock platforms2" tilewidth="32" tileheight="32" tilecount="25" columns="5">
   <image source="../Tiles/grass-rock platforms2.png" width="160" height="160"/>
  </tileset>
@@ -527,22 +527,32 @@
  <objectgroup name="Wizards">
   <object id="82" gid="227" x="1993" y="386.858" width="32" height="32">
    <properties>
-    <property name="Sprite" value="FireWizard"/>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
    </properties>
   </object>
-  <object id="83" gid="227" x="2230" y="1236.1" width="32" height="32">
+  <object id="83" gid="227" x="2240.97" y="1248.17" width="32" height="32">
    <properties>
-    <property name="Sprite" value="IceWizard"/>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ICE"/>
    </properties>
   </object>
   <object id="85" gid="227" x="831.048" y="2186.29" width="32" height="32">
    <properties>
-    <property name="Sprite" value="AirWizard"/>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="LIGHTNING"/>
    </properties>
   </object>
   <object id="86" gid="227" x="1482.79" y="2952.14" width="32" height="32">
    <properties>
-    <property name="Sprite" value="WaterWizard"/>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="88" gid="227" x="630.259" y="1349.11" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ICE"/>
    </properties>
   </object>
  </objectgroup>
