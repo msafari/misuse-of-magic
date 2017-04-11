@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="87">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="90">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="130">
  <tileset firstgid="1" name="grass-rock platforms2" tilewidth="32" tileheight="32" tilecount="25" columns="5">
   <image source="../Tiles/grass-rock platforms2.png" width="160" height="160"/>
  </tileset>
@@ -17,6 +18,12 @@
  </tileset>
  <tileset firstgid="228" name="level1" tilewidth="32" tileheight="32" tilecount="912" columns="38">
   <image source="level1.png" width="1216" height="768"/>
+ </tileset>
+ <tileset firstgid="1140" name="badGate" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="../../images/gate.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="1144" name="gate" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="../Tiles/gate.png" width="64" height="64"/>
  </tileset>
  <layer name="bg" width="100" height="100" offsetx="5.68434e-14" offsety="-46.0829">
   <data encoding="csv">
@@ -516,6 +523,26 @@
     <property name="Sprite" value="Orange"/>
    </properties>
   </object>
+  <object id="122" gid="1147" x="98" y="2963" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Gate"/>
+   </properties>
+  </object>
+  <object id="123" gid="1146" x="66" y="2963" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Gate"/>
+   </properties>
+  </object>
+  <object id="125" gid="1145" x="98" y="2932" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Gate"/>
+   </properties>
+  </object>
+  <object id="127" gid="1144" x="66" y="2932" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Gate"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Player">
   <object id="81" gid="227" x="31.1802" y="375.886" width="32" height="32">
@@ -524,25 +551,36 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="gate" visible="0"/>
  <objectgroup name="Wizards">
   <object id="82" gid="227" x="1993" y="386.858" width="32" height="32">
    <properties>
-    <property name="Sprite" value="FireWizard"/>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
    </properties>
   </object>
-  <object id="83" gid="227" x="2230" y="1236.1" width="32" height="32">
+  <object id="83" gid="227" x="2240.97" y="1248.17" width="32" height="32">
    <properties>
-    <property name="Sprite" value="IceWizard"/>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ICE"/>
    </properties>
   </object>
   <object id="85" gid="227" x="831.048" y="2186.29" width="32" height="32">
    <properties>
-    <property name="Sprite" value="AirWizard"/>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="LIGHTNING"/>
    </properties>
   </object>
   <object id="86" gid="227" x="1482.79" y="2952.14" width="32" height="32">
    <properties>
-    <property name="Sprite" value="WaterWizard"/>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="88" gid="227" x="630.259" y="1349.11" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ICE"/>
    </properties>
   </object>
  </objectgroup>

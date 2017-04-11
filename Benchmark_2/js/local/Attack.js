@@ -15,19 +15,21 @@ function Attack(attacker_name, name, type, spritesheet, uses) {
 }
 
 function attack_init() {
-	console.log("AtkInit run!");
-	var AtkImages = ["assets/Sprites/attacks/Electric Attack Prototype.png", "assets/Sprites/attacks/electromagnetism.png", "assets/Sprites/attacks/firefloom.png", "assets/Sprites/attacks/flare.png",  "assets/Sprites/attacks/Movement Spell.png",
+	console.log("AtkInit called.");
+	var AtkImages = ["assets/Sprites/attacks/Electric Attack Prototype.png", "assets/Sprites/attacks/electromagnetism.png", 
+					"assets/Sprites/attacks/firefloom.png", "assets/Sprites/attacks/flare.png",  "assets/Sprites/attacks/Movement Spell.png",
 					"assets/Sprites/attacks/Reverse Direction.png"];
 	for(var i = 0; i < AtkImages.length; i++) {
-	 	console.log(AtkImages[i]);
+	 	//console.log(AtkImages[i]);
 	 	var num = i+1;
-	 	console.log("atk"+num);
+	 	//console.log("atk"+num);
 	 	game.load.spritesheet("atk"+num, AtkImages[i], 16, 16).onLoadComplete.addOnce(function() {
 	 		Attack.prototype.AtkSprites.push(game.world.create(0, 0, "atk"+num));
 	 	}
 	 	);
 	}
 }
+
 
 Attack.prototype = {
 	AtkSprite: null,
@@ -49,12 +51,12 @@ Attack.prototype = {
 		if(direction.search('.*_L') > -1) {
 			//A bit much... if the animation name contains the _L, we are probably facing left. Launch that way
 			AtkSprite.position.x = attacker.position.x - 15;
-			console.log("CANNONS FIRED! (left)");
+			console.log("Attack Fired! (left)");
 			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x - 100});
 		}
 		else {
 			AtkSprite.position.x = attacker.position.x + 15;
-			console.log("CANNONS FIRED! (right)");
+			console.log("Attack Fired! (right)");
 			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x + 100});
 		}
 		AtkSprite.visible = true;
@@ -64,7 +66,7 @@ Attack.prototype = {
 		})
 		atkTween.start().onComplete.addOnce(function() {
 			console.log("Tween completed");
-			AtkSprite.kill();
+			AtkSprite.kill(); //TODO: Actually kill the sprite
 		});
 	},
 
