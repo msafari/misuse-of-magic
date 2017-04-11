@@ -84,9 +84,15 @@ momGame.prototype = {
     pauseButton.fixedToCamera = true;
     pauseButton.cameraOffset.setTo(900, 35);
     pauseButton.inputEnabled = true;
-    pauseButton.events.onInputUp.add(function() {if (paused === false) paused = true; if (paused === true) paused === false;});
-    //playButton = game.add.sprite(850, 35, "playButton");
-    //playButton.visible = false;
+    pauseButton.events.onInputUp.add(function() {if (paused === false) {
+        paused = true;  
+        pauseButton.loadTexture("playButton");
+      } 
+      else {
+        paused = true;  
+        pauseButton.loadTexture("pauseButton");
+      }
+    });
     
     controlsBase = game.add.sprite(100,75,"controlsBase");
     controlsBase.visible = false;
@@ -98,6 +104,15 @@ momGame.prototype = {
     helpBase.fixedToCamera = true;
     helpBase.cameraOffset.setTo(100, 75);
 
+    backButton = game.add.sprite(900, 80, "backButton");
+    backButton.visible = false;
+    backButton.inputEnabled = true;
+    backButton.events.onInputUp.add(function() {
+        backButton.visible = false;
+        helpBase.visible = false;
+        controlsBase.visible = false;
+    });
+
     //add controls button functionality
     controlsButton = game.add.sprite(950, 35, "controlsButton");
     controlsButton.fixedToCamera = true;
@@ -105,11 +120,13 @@ momGame.prototype = {
     controlsButton.inputEnabled = true;
     controlsButton.events.onInputUp.add(function() {
       if (helpBase.visible === true)
+        backButton.visible = false;
         helpBase.visible = false;
       if (controlsBase.visible === true) {
         controlsBase.visible = false;
       }
       else
+        backButton.visible = true;
         controlsBase.visible = true;
     });
 
@@ -120,19 +137,16 @@ momGame.prototype = {
     helpButton.inputEnabled = true;
     helpButton.events.onInputUp.add(function() {
       if (controlsBase.visible === true)
+        backButton.visible = false;
         controlsBase.visible = false;
       if (helpBase.visible === true) {
         helpBase.visible = false;
       }
       else
+        backButton.visible = true;
         helpBase.visible = true;
     });
 
-    //backButton = game.add.sprite(50, 675, "backButton");
-    //backButton.inputEnabled = true;
-    //backButton.events.onInputUp.add(function() {
-        //game.state.start("MomLevelSelect");
-    //});
     winOverlay = game.add.sprite(375, 50, "winOverlay");
     winOverlay.visible = false;
     winOverlay.inputEnabled = false;
