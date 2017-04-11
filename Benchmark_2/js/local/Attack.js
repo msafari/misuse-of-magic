@@ -1,3 +1,4 @@
+var AtkSprites = [];
 function Attack(attacker_name, name, type, spritesheet, uses) {
 	this.name = name;
 	this.type = type;
@@ -14,26 +15,8 @@ function Attack(attacker_name, name, type, spritesheet, uses) {
 	success = false;
 }
 
-function attack_init() {
-	console.log("AtkInit called.");
-	var AtkImages = ["assets/Sprites/attacks/Electric Attack Prototype.png", "assets/Sprites/attacks/electromagnetism.png", 
-					"assets/Sprites/attacks/firefloom.png", "assets/Sprites/attacks/flare.png",  "assets/Sprites/attacks/Movement Spell.png",
-					"assets/Sprites/attacks/Reverse Direction.png"];
-	for(var i = 0; i < AtkImages.length; i++) {
-	 	//console.log(AtkImages[i]);
-	 	var num = i+1;
-	 	//console.log("atk"+num);
-	 	game.load.spritesheet("atk"+num, AtkImages[i], 16, 16).onLoadComplete.addOnce(function() {
-	 		Attack.prototype.AtkSprites.push(game.world.create(0, 0, "atk"+num));
-	 	}
-	 	);
-	}
-}
-
-
 Attack.prototype = {
 	AtkSprite: null,
-	AtkSprites: [],
 	
 	set_sprite: function(sprite) {
 		AtkSprite = sprite;
@@ -73,5 +56,21 @@ Attack.prototype = {
 	was_successful: function() {
 		return success;
 	},
+
+	attack_init: function(){
+		console.log("AtkInit called.");
+		var AtkImages = ["assets/Sprites/attacks/Electric Attack Prototype.png", "assets/Sprites/attacks/Electromagnetism.png", 
+					"assets/Sprites/attacks/Firefloom.png", "assets/Sprites/attacks/Flare.png",  "assets/Sprites/attacks/Movement Spell.png",
+					"assets/Sprites/attacks/Reverse Direction.png"];
+		for(var i = 0; i < AtkImages.length; i++) {
+	 		console.log(AtkImages[i]);
+	 		var num = i+1;
+	 		console.log("atk"+num);
+	 		game.load.spritesheet("atk"+num, AtkImages[i], 16, 16).onLoadComplete.addOnce(function() {
+	 			this.AtkSprites.push(game.world.create(0, 0, "atk"+num));
+	 		}
+	 	);
+	}
+},
 };
 
