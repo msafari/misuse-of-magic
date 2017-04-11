@@ -89,7 +89,7 @@ momGame.prototype = {
         pauseButton.loadTexture("playButton");
       } 
       else {
-        paused = true;  
+        paused = false;  
         pauseButton.loadTexture("pauseButton");
       }
     });
@@ -187,16 +187,16 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
-    //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
-    game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
-    if (health === 0) {
-      this.loseLevel();
-    }
-
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
     
     if (paused === false) {
+      //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
+      game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
+      if (health === 0) {
+        this.loseLevel();
+      }
+
       if (DAMAGED_R) {
         this.player.animations.play("DAMAGE_R");
       }
@@ -241,6 +241,12 @@ momGame.prototype = {
       else {
         this.player.animations.play("IDLE");
       }
+    }
+    else {
+      this.player.animations.stop();
+      _.each(game.wizard_list, function (wizard) {
+        wizard.sprite.animations.stop();
+      });
     }
   },
 
