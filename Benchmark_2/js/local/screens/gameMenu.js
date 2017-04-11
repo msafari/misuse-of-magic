@@ -36,7 +36,7 @@ gameMenu.prototype = {
       menuHelp.events.onInputUp.add(function() {game.state.start("Help");
       });
     
-      funkylogo = game.add.sprite((game.camera.width / 2) * 0.5, 300, 'coollogo');
+      funkylogo = game.add.sprite((game.camera.width / 2) * 0.25, 200, 'coollogo');
       
   },
 
