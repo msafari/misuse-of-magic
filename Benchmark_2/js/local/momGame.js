@@ -89,7 +89,7 @@ momGame.prototype = {
         pauseButton.loadTexture("playButton");
       } 
       else {
-        paused = true;  
+        paused = false;  
         pauseButton.loadTexture("pauseButton");
       }
     });
