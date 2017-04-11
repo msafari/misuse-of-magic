@@ -14,33 +14,64 @@ function Attack(attacker_name, name, type, spritesheet, uses) {
 	success = false;
 }
 
+function attack_init() {
+	console.log("AtkInit called.");
+	var AtkImages = ["assets/Sprites/attacks/Electric Attack Prototype.png", "assets/Sprites/attacks/electromagnetism.png", 
+					"assets/Sprites/attacks/firefloom.png", "assets/Sprites/attacks/flare.png",  "assets/Sprites/attacks/Movement Spell.png",
+					"assets/Sprites/attacks/Reverse Direction.png"];
+	for(var i = 0; i < AtkImages.length; i++) {
+	 	//console.log(AtkImages[i]);
+	 	var num = i+1;
+	 	//console.log("atk"+num);
+	 	game.load.spritesheet("atk"+num, AtkImages[i], 16, 16).onLoadComplete.addOnce(function() {
+	 		Attack.prototype.AtkSprites.push(game.world.create(0, 0, "atk"+num));
+	 	}
+	 	);
+	}
+}
+
 
 Attack.prototype = {
-	attack_init: function() {},
+	AtkSprite: null,
+	AtkSprites: [],
+	
+	set_sprite: function(sprite) {
+		AtkSprite = sprite;
+		AtkSprite.animations.add("launch");
+	},
 
 	launch: function(attacker) {
-		if(uses <= 0)
+		if(this.uses <= 0)
 			return;
-		uses--;
+		this.uses--;
 		var direction = attacker.animations.currentAnim.name;
-		atkSprite.position.y = attacker.position.y + 15;
+		AtkSprite.position.y = attacker.position.y;
+		game.world.add(AtkSprite);
+		var atkTween;
 		if(direction.search('.*_L') > -1) {
 			//A bit much... if the animation name contains the _L, we are probably facing left. Launch that way
-			atkSprite.position.x = attacker.position.x - 15;
-			atkSprite.animations.play('launch');
-			game.add.tween(atkSprite).to({x: attacker.position.x - 100});
+			AtkSprite.position.x = attacker.position.x - 15;
+			console.log("Attack Fired! (left)");
+			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x - 100});
 		}
 		else {
-			atkSprite.animations.play('launch');
-			atkSprite.position.x = attacker.position.x + 15;
-			game.add.tween(atkSprite).to({x: attacker.position.x + 100});
+			AtkSprite.position.x = attacker.position.x + 15;
+			console.log("Attack Fired! (right)");
+			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x + 100});
 		}
+		AtkSprite.visible = true;
+		
+		atkTween.onStart.addOnce(function() {
+			AtkSprite.animations.play('launch', 16, true);
+		})
+		atkTween.start().onComplete.addOnce(function() {
+			console.log("Tween completed");
+			AtkSprite.kill(); //TODO: Actually kill the sprite
+		});
 	},
 
 	was_successful: function() {
 		return success;
 	},
 };
-
-
 
