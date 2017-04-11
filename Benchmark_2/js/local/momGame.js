@@ -178,7 +178,7 @@ momGame.prototype = {
     attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
-    attack = new Attack('Tzhara', 'flare', 'fire', 'assets/Sprites/attacks/Flare.png', 10);
+    game.projectiles = game.add.group();
   },
 
 
@@ -189,6 +189,8 @@ momGame.prototype = {
     
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
+
+    game.physics.arcade.overlap(game.wizards, game.projectiles, this.wizardDamage, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
@@ -211,14 +213,18 @@ momGame.prototype = {
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
         this.player.animations.play('SPELL_L');
-        attack = new Attack('Tzhara', 'flare', 'fire', 'assets/Sprites/attacks/Flare.png', 10);
-        attack.set_sprite(game.world.create(0, 0, "atk4"));
+        var attack = new Attack('Tzhara', 'fire', 10);
+        //attack.set_sprite("Flare");
+        // var result = attack.set_sprite("Flare");
+        // console.log(result);
+        // game.projectiles.add(result);
+        game.projectiles.add(attack.set_sprite("Flare"));
         attack.launch(this.player);
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
-        attack = new Attack('Tzhara', 'flare', 'fire', 'assets/Sprites/attacks/Flare.png', 10);
-        attack.set_sprite(game.world.create(0, 0, "atk4"));
+        var attack = new Attack('Tzhara', 'fire', 10);
+        game.projectiles.add(attack.set_sprite("Flare"));
         attack.launch(this.player);
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
@@ -253,10 +259,12 @@ momGame.prototype = {
     }
     else {
       this.player.animations.stop();
+      Attack.prototype.spriteRemoval();
       _.each(game.wizard_list, function (wizard) {
         wizard.sprite.animations.stop();
       });
     }
+    
   },
 
   wizardContact: function() {
@@ -287,6 +295,10 @@ momGame.prototype = {
       DAMAGED_L = false;
       DAMAGED_R = false;
     }
+  },
+
+  wizardDamage: function() {
+    console.log("The wizard has been hit");
   },
 
   collectOranges: function(player, orange) {
