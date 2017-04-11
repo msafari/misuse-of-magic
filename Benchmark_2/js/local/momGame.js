@@ -2,8 +2,13 @@ var momGame = function () {};
 var cursors,
   oranges_count = 0,
   health = 5,
-  invincible = false;
-  paused = false;
+  invincible = false,
+  attack_pyro,
+  attack_lightning,
+  attack_gravity,
+  paused = false,
+  DAMAGED_L = false,
+  DAMAGED_R = false;
 
 momGame.prototype = {
   preload: function () {
@@ -152,7 +157,13 @@ momGame.prototype = {
     
     //control
     cursors = game.input.keyboard.createCursorKeys();
+    attack_pyro = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+    attack_lightning = game.input.keyboard.addKey(Phaser.Keyboard.C);
+    attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
+
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
   },
+
 
   update: function () {
   
@@ -162,17 +173,33 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
+    //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
+    game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
+    if (health === 0) {
+      this.loseLevel();
+    }
+
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
     
     if (paused === false) {
-      //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
-      game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
-      if (health === 0) {
-        this.loseLevel();
+      if (DAMAGED_R) {
+        this.player.animations.play("DAMAGE_R");
       }
-      if(cursors.left.isDown && !cursors.up.isDown) {
-        this.player.body.velocity.x = -200;
+      else if (DAMAGED_L) {
+        this.player.animations.play("DAMAGE_L");
+      }
+      else if (health == 0) {
+        this.player.animations.play("DEATH", 10, false, true);
+      }
+      else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
+        this.player.animations.play('SPELL_L');
+      }
+      else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+      }
+      else if(cursors.left.isDown && !cursors.up.isDown) {
+        this.player.body.velocity.x = -200; 
         this.player.animations.play("WALK_L");
       }
 
@@ -196,35 +223,40 @@ momGame.prototype = {
       else if (cursors.up.isDown) {
         this.player.body.velocity.y = -550;
       }
+
       else {
         this.player.animations.play("IDLE");
       }
     }
   },
 
-  wizardContact: function(player, wizard) {
-    console.log("wizard touch");
+  wizardContact: function() {
+
     if (invincible != true && health >= 1) {
         //TODO: this doesnt work yet. oops.
-        if (player.body.velocity.x < 0 ) {
-          player.animations.play("DAMAGE_L");
+        if (game.player.body.velocity.x < 0 ) {
+          DAMAGED_L = true;
         }
-        else if (player.body.velocity.x > 0) {
-          player.animations.play("DAMAGE_R");
+        else if (game.player.body.velocity.x > 0) {
+          DAMAGED_R = true;
+        } else {
+          DAMAGED_R = true;
         }
-        //else {
-          //this.player.animations.play("DAMAGE_N");
-        //}
-          
         
         invincible = true;
         health--;
         hearts.children[health].frame = 1;
-        game.time.events.repeat(Phaser.Timer.SECOND * 1.5, 1, invinFrameOver, this);
+        game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, invinFrameOver, this);
+        game.time.events.repeat(Phaser.Timer.SECOND, 1, stopDamage, this);
     }
 
     function invinFrameOver() {
         invincible = false;
+    }
+
+    function stopDamage() {
+      DAMAGED_L = false;
+      DAMAGED_R = false;
     }
   },
 
@@ -241,18 +273,25 @@ momGame.prototype = {
     helpButton.inputEnabled = false;
     controlsButton.inputEnabled = false;
     paused = true;
+    var next_level = "level" + (game.current_level.number+1);
+    next_level = _.find(game.levels, function(l) {
+      if(l.name=== next_level)
+        return l;
+    })
+    next_level.set_playable();
   },
 
   loseLevel: function() {
-    //TODO: death should happen before the overlay plays.
-    this.player.animations.stop();
-    this.player.animations.play("DEATH");
-    this.player.animations.currentAnim.onComplete.add(function () {this.player.kill;}, this);
-    lossOverlay.visible = true;
-    lossOverlay.inputEnabled = true;
-    helpButton.inputEnabled = false;
-    controlsButton.inputEnabled = false;
-    paused = true;
+    game.time.events.repeat(Phaser.Timer.SECOND * 3, 1, _disable, this);
+    
+    function _disable () {
+      paused = true;
+      lossOverlay.visible = true;
+      lossOverlay.inputEnabled = true;
+      helpButton.inputEnabled = false;
+      controlsButton.inputEnabled = false;      
+    }
+
   },
 
   loadTzarha: function(player) {
