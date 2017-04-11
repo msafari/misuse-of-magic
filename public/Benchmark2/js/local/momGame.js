@@ -8,7 +8,8 @@ var cursors,
   attack_gravity,
   paused = false,
   DAMAGED_L = false,
-  DAMAGED_R = false;
+  DAMAGED_R = false,
+  attack;
 
 momGame.prototype = {
   preload: function () {
@@ -16,6 +17,7 @@ momGame.prototype = {
         game.load.image(level.bg_image_name, level.bg_image_path);
         game.load.tilemap(level.name, level.tile_map, null, Phaser.Tilemap.TILED_JSON);
     });
+    Attack.prototype.attack_init();
   },
 
   create: function () { 
@@ -176,6 +178,7 @@ momGame.prototype = {
     attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
+    attack = new Attack('Tzhara', 'flare', 'fire', 'Benchmark2/assets/Sprites/attacks/Flare.png', 10);
   },
 
 
@@ -208,9 +211,15 @@ momGame.prototype = {
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
         this.player.animations.play('SPELL_L');
+        attack = new Attack('Tzhara', 'flare', 'fire', 'assets/Sprites/attacks/Flare.png', 10);
+        attack.set_sprite(game.world.create(0, 0, "atk4"));
+        attack.launch(this.player);
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
+        attack = new Attack('Tzhara', 'flare', 'fire', 'assets/Sprites/attacks/Flare.png', 10);
+        attack.set_sprite(game.world.create(0, 0, "atk4"));
+        attack.launch(this.player);
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
         this.player.body.velocity.x = -200; 
