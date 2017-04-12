@@ -191,6 +191,7 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     game.physics.arcade.collide(game.wizards, game.projectiles, this.wizardDamage, null);
+    game.physics.arcade.collide(this.player, game.projectiles, this.playerDamage, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
@@ -215,17 +216,12 @@ momGame.prototype = {
         this.player.animations.play('SPELL_L');
         var attack = new Attack('Tzhara', 'fire', 10);
         attack.set_sprite("Flare");
-        // var result = attack.set_sprite("Flare");
-        // console.log(result);
-        // game.projectiles.add(result);
-        //game.projectiles.add(attack.set_sprite("Flare"));
         attack.launch(this.player);
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
         var attack = new Attack('Tzhara', 'fire', 10);
         attack.set_sprite("Flare");
-        //game.projectiles.add(attack.set_sprite("Flare"));
         attack.launch(this.player);
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
@@ -260,7 +256,7 @@ momGame.prototype = {
     }
     else {
       this.player.animations.stop();
-      Attack.prototype.spriteRemoval();
+      Attack.prototype.spriteRemoval(); //This does nothing...
       _.each(game.wizard_list, function (wizard) {
         wizard.sprite.animations.stop();
       });
@@ -301,6 +297,24 @@ momGame.prototype = {
   wizardDamage: function() {
     console.log("The wizard has been hit");
   },
+
+  playerDamage: function(player, attackObject) {
+    //Make sure Tzhara does not take damage from her own attacks. Right now, this only looks at the first sprite that collided
+    //This may be a problem later if many attacks are going back and forth.
+    if(attackObject.attacker_name === "Tzhara") {
+      console.log("Stop hitting yourself! (removed attack sprite from projectile group)");
+      //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
+      return;
+    }
+    console.log("Tzhara was attacked");
+    //This crashes the script because the attack sprite is undefined when the timer is up. Not sure why...
+    // function restoreAttackCollision(attackObject) {
+    //   console.log("Added previous attack sprite back to group");
+    //   game.projectiles.add(attackObject);
+    // }
+  
+  },
+  
 
   collectOranges: function(player, orange) {
     orange.kill();

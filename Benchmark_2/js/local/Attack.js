@@ -1,9 +1,8 @@
 
 function Attack(attacker_name, type, uses) {
-	//this.name = name;
+	this.attacker_name = attacker_name;
 	this.type = type;
 	this.uses = (attacker_name === "WIZARD") ? Infinity : uses;
-	//this.icon = "assets/Sprites/attacks/flareIcon.png";  //Right now, just to see something
 	// we assume it's unsuccesful
 	success = false;
 } 
@@ -16,11 +15,9 @@ Attack.prototype = {
 		AtkSprite = game.world.create(0, 0, name, 0);
 		AtkSprite.animations.add("launch");
 		game.physics.arcade.enable(AtkSprite);
-		return AtkSprite;
+		AtkSprite.attacker_name = this.attacker_name; //Taking advantage of the "add fields at runtime" thing
+		return AtkSprite; //return the created sprite in case we need to do something with it later
 	},
-
-	atkSprites: [], //these are never used
-	atkTweens: [],
 
 	launch: function(attacker) {
 		if(this.uses <= 0)
