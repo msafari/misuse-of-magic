@@ -178,6 +178,8 @@ momGame.prototype = {
     attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
+
+    
     game.projectiles = game.add.group();
   },
 
@@ -214,15 +216,20 @@ momGame.prototype = {
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
         this.player.animations.play('SPELL_L');
-        var attack = new Attack('Tzhara', 'fire', 10);
-        attack.set_sprite("Flare");
-        attack.launch(this.player);
+        if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ 10);
+        // attack.set_sprite("Flare");
+        // attack.launch(this.player);
+        this.fireAttack();
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
-        var attack = new Attack('Tzhara', 'fire', 10);
-        attack.set_sprite("Flare");
-        attack.launch(this.player);
+        if(!attack)
+          attack = new Attack('Tzhara', /*'fire',*/ 10);
+        // var attack = new Attack('Tzhara', 'fire', 10);
+        // attack.set_sprite("Flare");
+        // attack.launch(this.player);
+		    this.fireAttack();
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
         this.player.body.velocity.x = -200; 
@@ -259,6 +266,14 @@ momGame.prototype = {
       Attack.prototype.spriteRemoval(); //This does nothing...
       _.each(game.wizard_list, function (wizard) {
         wizard.sprite.animations.stop();
+      });
+    }
+
+    function spriteRemoval() {
+    game.projectiles.forEach(function(sprite) {
+      if(!game.tweens.isTweening(sprite)) {
+        sprite.kill();
+      }
       });
     }
     
@@ -302,20 +317,38 @@ momGame.prototype = {
     //Make sure Tzhara does not take damage from her own attacks. Right now, this only looks at the first sprite that collided
     //This may be a problem later if many attacks are going back and forth.
     if(attackObject.attacker_name === "Tzhara") {
-      console.log("Stop hitting yourself! (removed attack sprite from projectile group)");
+      console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
       //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
       return;
     }
     console.log("Tzhara was attacked");
-    //This crashes the script because the attack sprite is undefined when the timer is up. Not sure why...
+    //This crashes the script because the attack sprite is undefined after the timer is up. Not sure why...
     // function restoreAttackCollision(attackObject) {
     //   console.log("Added previous attack sprite back to group");
     //   game.projectiles.add(attackObject);
     // }
-  
   },
   
-
+  fireAttack: function() {
+	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
+	  attack = new Attack('Tzhara', 10);
+	  if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
+		  attack.set_sprite("Flare");
+	  }
+	  else if(game.time.elapsedSince(attack_lightning.timeDown) <= 200 || attack_lightning.isDown) {
+		 // attack.set_sprite("Electric Attack"); //this spell throws a 'this._frameData is null' error
+     attack.set_sprite("Electromagnetism");
+	  }
+	  else if(game.time.elapsedSince(attack_gravity.timeDown) <= 200|| attack_gravity.isDown) {
+		  attack.set_sprite("Movement Spell");
+	  }
+	  else {
+		  console.log("Unknown attack key, using the default sprite");
+		  attack.set_sprite("default");
+	  }
+	  attack.launch(this.player);
+  },
+  
   collectOranges: function(player, orange) {
     orange.kill();
     oranges_count++;
