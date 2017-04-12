@@ -179,7 +179,6 @@ momGame.prototype = {
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
 
-    
     game.projectiles = game.add.group();
   },
 
@@ -263,20 +262,10 @@ momGame.prototype = {
     }
     else {
       this.player.animations.stop();
-      Attack.prototype.spriteRemoval(); //This does nothing...
       _.each(game.wizard_list, function (wizard) {
         wizard.sprite.animations.stop();
       });
     }
-
-    function spriteRemoval() {
-    game.projectiles.forEach(function(sprite) {
-      if(!game.tweens.isTweening(sprite)) {
-        sprite.kill();
-      }
-      });
-    }
-    
   },
 
   wizardContact: function() {
@@ -310,12 +299,13 @@ momGame.prototype = {
   },
 
   wizardDamage: function() {
+    //TODO: Make the wizard take damage
     console.log("The wizard has been hit");
   },
 
   playerDamage: function(player, attackObject) {
-    //Make sure Tzhara does not take damage from her own attacks. Right now, this only looks at the first sprite that collided
-    //This may be a problem later if many attacks are going back and forth.
+    //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
+    //may be a problem later if many attacks are going back and forth.
     if(attackObject.attacker_name === "Tzhara") {
       console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
       //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
@@ -348,7 +338,7 @@ momGame.prototype = {
 	  }
 	  attack.launch(this.player);
   },
-  
+
   collectOranges: function(player, orange) {
     orange.kill();
     oranges_count++;

@@ -1,4 +1,3 @@
-
 function Attack(attacker_name, type, uses) {
 	this.attacker_name = attacker_name;
 	this.type = type;
@@ -28,6 +27,9 @@ Attack.prototype = {
 		attackList.get(name).sprite = AtkSprite;
 		game.time.events.add(2000, AtkSprite.kill, AtkSprite);
 		return AtkSprite; //return the created sprite in case we need to do something with it later
+		AtkSprite = game.world.create(0, 0, name, 0);
+		AtkSprite.animations.add("launch");
+		return AtkSprite;
 	},
 
 	launch: function(attacker) {
@@ -57,11 +59,7 @@ Attack.prototype = {
 		})
 		atkTween.start().onComplete.addOnce(function() {
 			console.log("Tween completed");
-			//AtkSprite.kill(); //TODO: Actually kill the sprite
-			AtkSprite.visible = false;
-
-		}
-		)
+		});
 	},
 
 	was_successful: function() {
@@ -81,7 +79,6 @@ Attack.prototype = {
 	 	}
 	 	);
 	},
-
 };
 
 Attack.Images = {
