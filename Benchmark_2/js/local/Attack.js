@@ -3,14 +3,7 @@ function Attack(attacker_name, type, uses) {
 	//this.name = name;
 	this.type = type;
 	this.uses = (attacker_name === "WIZARD") ? Infinity : uses;
-	//this.spritesheet = spritesheet; //For animations
-	
-	// game.load.spritesheet(name, spritesheet, 16, 16).onFileComplete.addOnce(function(){
-	// 	this.atkSprite = game.world.create(0, 0, name, 0);
-	// 	atkSprite.visible = false;
-	// 	atkSprite.animations.add("launch");
-	// });
-	this.icon = "assets/Sprites/attacks/flareIcon.png";  //Right now, just to see something
+	//this.icon = "assets/Sprites/attacks/flareIcon.png";  //Right now, just to see something
 	// we assume it's unsuccesful
 	success = false;
 } 
@@ -22,6 +15,7 @@ Attack.prototype = {
 		//TODO: make the map a global (or equivalent) variable and check if the map actually contains the requested sprite first.
 		AtkSprite = game.world.create(0, 0, name, 0);
 		AtkSprite.animations.add("launch");
+		game.physics.arcade.enable(AtkSprite);
 		return AtkSprite;
 	},
 
@@ -55,9 +49,11 @@ Attack.prototype = {
 		})
 		atkTween.start().onComplete.addOnce(function() {
 			console.log("Tween completed");
-			AtkSprite.kill(); //TODO: Actually kill the sprite
+			//AtkSprite.kill(); //TODO: Actually kill the sprite
 			AtkSprite.visible = false;
-		});
+
+		}
+		)
 	},
 
 	was_successful: function() {
@@ -73,13 +69,13 @@ Attack.prototype = {
 	 	attackList.forEach(function(item, key) {
 	 		console.log(key + " : " + item.image);
 	 		game.load.spritesheet(key, item.image, 16, 16);
-	 		game.load.image(key + "_icon", item.icon, 16, 16);
+	 		game.load.image(key + "_icon", item.icon, 48, 48);
 	 	}
 	 	);
 	},
 
 	spriteRemoval: function() {
-		game.projectiles.forEachAlive(function(sprite) {
+		game.projectiles.forEach(function(sprite) {
 			if(!game.tweens.isTweening(sprite)) {
 				sprite.kill();
 			}
