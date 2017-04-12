@@ -8,7 +8,8 @@ var cursors,
   attack_gravity,
   paused = false,
   DAMAGED_L = false,
-  DAMAGED_R = false;
+  DAMAGED_R = false,
+  attack;
 
 momGame.prototype = {
   preload: function () {
@@ -16,6 +17,7 @@ momGame.prototype = {
         game.load.image(level.bg_image_name, level.bg_image_path);
         game.load.tilemap(level.name, level.tile_map, null, Phaser.Tilemap.TILED_JSON);
     });
+    Attack.prototype.attack_init();
   },
 
   create: function () { 
@@ -84,9 +86,15 @@ momGame.prototype = {
     pauseButton.fixedToCamera = true;
     pauseButton.cameraOffset.setTo(900, 35);
     pauseButton.inputEnabled = true;
-    pauseButton.events.onInputUp.add(function() {if (paused === false) paused = true; if (paused === true) paused === false;});
-    //playButton = game.add.sprite(850, 35, "playButton");
-    //playButton.visible = false;
+    pauseButton.events.onInputUp.add(function() {if (paused === false) {
+        paused = true;  
+        pauseButton.loadTexture("playButton");
+      } 
+      else {
+        paused = false;  
+        pauseButton.loadTexture("pauseButton");
+      }
+    });
     
     controlsBase = game.add.sprite(100,75,"controlsBase");
     controlsBase.visible = false;
@@ -98,6 +106,15 @@ momGame.prototype = {
     helpBase.fixedToCamera = true;
     helpBase.cameraOffset.setTo(100, 75);
 
+    backButton = game.add.sprite(900, 80, "backButton");
+    backButton.visible = false;
+    backButton.inputEnabled = true;
+    backButton.events.onInputUp.add(function() {
+        backButton.visible = false;
+        helpBase.visible = false;
+        controlsBase.visible = false;
+    });
+
     //add controls button functionality
     controlsButton = game.add.sprite(950, 35, "controlsButton");
     controlsButton.fixedToCamera = true;
@@ -105,11 +122,13 @@ momGame.prototype = {
     controlsButton.inputEnabled = true;
     controlsButton.events.onInputUp.add(function() {
       if (helpBase.visible === true)
+        backButton.visible = false;
         helpBase.visible = false;
       if (controlsBase.visible === true) {
         controlsBase.visible = false;
       }
       else
+        backButton.visible = true;
         controlsBase.visible = true;
     });
 
@@ -120,19 +139,16 @@ momGame.prototype = {
     helpButton.inputEnabled = true;
     helpButton.events.onInputUp.add(function() {
       if (controlsBase.visible === true)
+        backButton.visible = false;
         controlsBase.visible = false;
       if (helpBase.visible === true) {
         helpBase.visible = false;
       }
       else
+        backButton.visible = true;
         helpBase.visible = true;
     });
 
-    //backButton = game.add.sprite(50, 675, "backButton");
-    //backButton.inputEnabled = true;
-    //backButton.events.onInputUp.add(function() {
-        //game.state.start("MomLevelSelect");
-    //});
     winOverlay = game.add.sprite(375, 50, "winOverlay");
     winOverlay.visible = false;
     winOverlay.inputEnabled = false;
@@ -162,6 +178,7 @@ momGame.prototype = {
     attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
+    game.projectiles = game.add.group();
   },
 
 
@@ -173,16 +190,18 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
-    //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
-    game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
-    if (health === 0) {
-      this.loseLevel();
-    }
+    game.physics.arcade.collide(game.wizards, game.projectiles, this.wizardDamage, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
     
     if (paused === false) {
+      //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
+      game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
+      if (health === 0) {
+        this.loseLevel();
+      }
+
       if (DAMAGED_R) {
         this.player.animations.play("DAMAGE_R");
       }
@@ -194,9 +213,20 @@ momGame.prototype = {
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
         this.player.animations.play('SPELL_L');
+        var attack = new Attack('Tzhara', 'fire', 10);
+        attack.set_sprite("Flare");
+        // var result = attack.set_sprite("Flare");
+        // console.log(result);
+        // game.projectiles.add(result);
+        //game.projectiles.add(attack.set_sprite("Flare"));
+        attack.launch(this.player);
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
+        var attack = new Attack('Tzhara', 'fire', 10);
+        attack.set_sprite("Flare");
+        //game.projectiles.add(attack.set_sprite("Flare"));
+        attack.launch(this.player);
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
         this.player.body.velocity.x = -200; 
@@ -228,6 +258,14 @@ momGame.prototype = {
         this.player.animations.play("IDLE");
       }
     }
+    else {
+      this.player.animations.stop();
+      Attack.prototype.spriteRemoval();
+      _.each(game.wizard_list, function (wizard) {
+        wizard.sprite.animations.stop();
+      });
+    }
+    
   },
 
   wizardContact: function() {
@@ -258,6 +296,10 @@ momGame.prototype = {
       DAMAGED_L = false;
       DAMAGED_R = false;
     }
+  },
+
+  wizardDamage: function() {
+    console.log("The wizard has been hit");
   },
 
   collectOranges: function(player, orange) {
