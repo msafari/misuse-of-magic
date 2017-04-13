@@ -216,18 +216,13 @@ momGame.prototype = {
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
         this.player.animations.play('SPELL_L');
         if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ 10);
-        // attack.set_sprite("Flare");
-        // attack.launch(this.player);
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity); //Just for now
         this.fireAttack();
       }
       else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
         if(!attack)
-          attack = new Attack('Tzhara', /*'fire',*/ 10);
-        // var attack = new Attack('Tzhara', 'fire', 10);
-        // attack.set_sprite("Flare");
-        // attack.launch(this.player);
+          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
 		    this.fireAttack();
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
@@ -321,15 +316,13 @@ momGame.prototype = {
   
   fireAttack: function() {
 	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
-	  attack = new Attack('Tzhara', 10);
 	  if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
 		  attack.set_sprite("Flare");
 	  }
 	  else if(game.time.elapsedSince(attack_lightning.timeDown) <= 200 || attack_lightning.isDown) {
-		 // attack.set_sprite("Electric Attack"); //this spell throws a 'this._frameData is null' error
-     attack.set_sprite("Electromagnetism");
+		  attack.set_sprite("Electric Attack");
 	  }
-	  else if(game.time.elapsedSince(attack_gravity.timeDown) <= 200|| attack_gravity.isDown) {
+	  else if(game.time.elapsedSince(attack_gravity.timeDown) <= 200 || attack_gravity.isDown) {
 		  attack.set_sprite("Movement Spell");
 	  }
 	  else {

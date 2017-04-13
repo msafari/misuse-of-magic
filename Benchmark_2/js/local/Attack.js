@@ -1,6 +1,7 @@
-function Attack(attacker_name, type, uses) {
+function Attack(attacker_name, uses) {
+	//TODO: Uses should be unique to each attack.
 	this.attacker_name = attacker_name;
-	this.type = type;
+	//this.type = type;
 	this.uses = (attacker_name === "WIZARD") ? Infinity : uses;
 	// we assume it's unsuccesful
 	this.attackList = null;
@@ -11,7 +12,6 @@ Attack.prototype = {
 	AtkSprite: null,
 	
 	set_sprite: function(name) {
-		//TODO: make the map a global (or equivalent) variable and check if the map actually contains the requested sprite first.
 		if(!attackList.has(name))
 			name = "Default";
 		if(!attackList.get(name).sprite === null) {
@@ -27,9 +27,6 @@ Attack.prototype = {
 		attackList.get(name).sprite = AtkSprite;
 		game.time.events.add(2000, AtkSprite.kill, AtkSprite);
 		return AtkSprite; //return the created sprite in case we need to do something with it later
-		AtkSprite = game.world.create(0, 0, name, 0);
-		AtkSprite.animations.add("launch");
-		return AtkSprite;
 	},
 
 	launch: function(attacker) {
@@ -81,6 +78,7 @@ Attack.prototype = {
 	},
 };
 
+//It's time to move this bit elsewhere. And the name 'images' no longer applies
 Attack.Images = {
 	//Sprites cannot be created during preload beacuse the world doesn't exist yet, we populate that field when needed
 	ElectricAttack: {
