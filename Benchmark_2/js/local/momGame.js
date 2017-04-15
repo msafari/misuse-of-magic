@@ -45,7 +45,7 @@ momGame.prototype = {
     this.player.body.gravity.y = 15000;
 
     // set anchor point for player
-    this.player.anchor.setTo(0.75, 0.25);
+    this.player.anchor.setTo(0.5, 0.5);
     this.loadTzarha(this.player);
     game.player = this.player;
 
@@ -179,7 +179,48 @@ momGame.prototype = {
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
 
-    game.projectiles = game.add.group();
+    game.wizardProjectiles = game.add.group();
+    game.playerProjectiles = game.add.group();
+
+    attack_pyro.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+    
+    attack_gravity.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+
+    attack_lightning.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+
   },
 
 
@@ -191,8 +232,8 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
-    game.physics.arcade.collide(game.wizards, game.projectiles, this.wizardDamage, null);
-    game.physics.arcade.collide(this.player, game.projectiles, this.playerDamage, null);
+    game.physics.arcade.collide(game.wizards, game.playerProjectiles, this.wizardDamage, null);
+    game.physics.arcade.collide(this.player, game.wizardProjectiles, this.playerDamage, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
@@ -212,18 +253,6 @@ momGame.prototype = {
       }
       else if (health == 0) {
         this.player.animations.play("DEATH", 10, false, true);
-      }
-      else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
-        this.player.animations.play('SPELL_L');
-        if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity); //Just for now
-        this.fireAttack();
-      }
-      else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        if(!attack)
-          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
-		    this.fireAttack();
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
         this.player.body.velocity.x = -200; 
@@ -293,9 +322,30 @@ momGame.prototype = {
     }
   },
 
-  wizardDamage: function() {
+  wizardDamage: function(wizard, attackObject) {
     //TODO: Make the wizard take damage
-    console.log("The wizard has been hit");
+    attackObject.kill();
+    if(attackObject.attacker_name === "Tzhara") {
+      wizard.hitPoints--;
+      console.log("Wizard hit! Wizard health: " + wizard.hitPoints);
+    }
+    if (wizard.hitPoints === 0) {
+      direction = wizard.animations.currentAnim.name;
+      console.log(direction);
+      if(direction.search('.*_L') > -1) {
+        
+        wizard.animations.stop();
+        wizard.animations.play("DEAD_L");
+        wizard.animations.currentAnim.onLoop.add(function() { console.log("death to the left");}, this);
+      }
+      else {
+        
+        wizard.animations.stop();
+        wizard.animations.play("DEAD_R");
+        wizard.animations.currentAnim.onLoop.add(function() {console.log("death to the right");}, this);
+      }
+      
+    }
   },
 
   playerDamage: function(player, attackObject) {

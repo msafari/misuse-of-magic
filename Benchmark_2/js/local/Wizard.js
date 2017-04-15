@@ -5,6 +5,7 @@ function Wizard (type, x, y) {
   this.y = y;
   this.isDead = false;
   this.sprite = this.init_sprite();
+  this.sprite.hitPoints = 2;
   game.wizards.add(this.sprite);
   game.wizard_list.push(this);
 }
