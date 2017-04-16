@@ -45,7 +45,7 @@ momGame.prototype = {
     this.player.body.gravity.y = 15000;
 
     // set anchor point for player
-    this.player.anchor.setTo(0.75, 0.25);
+    this.player.anchor.setTo(0.5, 0.5);
     this.loadTzarha(this.player);
     game.player = this.player;
 
@@ -178,7 +178,49 @@ momGame.prototype = {
     attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
-    attack = new Attack('Tzhara', 'flare', 'fire', 'Benchmark2/assets/Sprites/attacks/Flare.png', 10);
+
+    game.wizardProjectiles = game.add.group();
+    game.playerProjectiles = game.add.group();
+
+    attack_pyro.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+    
+    attack_gravity.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+
+    attack_lightning.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+
   },
 
 
@@ -189,6 +231,9 @@ momGame.prototype = {
     
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
+
+    game.physics.arcade.collide(game.wizards, game.playerProjectiles, this.wizardDamage, null);
+    game.physics.arcade.collide(this.player, game.wizardProjectiles, this.playerDamage, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
@@ -201,25 +246,13 @@ momGame.prototype = {
       }
 
       if (DAMAGED_R) {
-        this.player.animations.play("DAMAGE_R");
+        this.player.animations.play("DAMAGE_R",15, false, false);
       }
       else if (DAMAGED_L) {
-        this.player.animations.play("DAMAGE_L");
+        this.player.animations.play("DAMAGE_L", 15, false, false);
       }
       else if (health == 0) {
         this.player.animations.play("DEATH", 10, false, true);
-      }
-      else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
-        this.player.animations.play('SPELL_L');
-        attack = new Attack('Tzhara', 'flare', 'fire', 'assets/Sprites/attacks/Flare.png', 10);
-        attack.set_sprite(game.world.create(0, 0, "atk4"));
-        attack.launch(this.player);
-      }
-      else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        attack = new Attack('Tzhara', 'flare', 'fire', 'assets/Sprites/attacks/Flare.png', 10);
-        attack.set_sprite(game.world.create(0, 0, "atk4"));
-        attack.launch(this.player);
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
         this.player.body.velocity.x = -200; 
@@ -263,30 +296,114 @@ momGame.prototype = {
 
     if (invincible != true && health >= 1) {
         //TODO: this doesnt work yet. oops.
-        if (game.player.body.velocity.x < 0 ) {
+        if (game.player.body.touching.left) {
           DAMAGED_L = true;
         }
-        else if (game.player.body.velocity.x > 0) {
+        else if (game.player.body.touching.right) {
           DAMAGED_R = true;
         } else {
           DAMAGED_R = true;
         }
-        
+        game.player.tint = 0x0078ff;
         invincible = true;
         health--;
         hearts.children[health].frame = 1;
         game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, invinFrameOver, this);
-        game.time.events.repeat(Phaser.Timer.SECOND, 1, stopDamage, this);
+        game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, stopDamage, this);
+        if (health != 0) {
+          game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, changeTint, this);
+        }
     }
 
     function invinFrameOver() {
         invincible = false;
+        game.player.tint = 0xffffff;
     }
 
     function stopDamage() {
       DAMAGED_L = false;
       DAMAGED_R = false;
     }
+
+    function changeTint() {
+      console.log(game.player.tint);
+      if (game.player.tint === 16777215)
+        game.player.tint = 0x83ccf9;
+      else
+        game.player.tint = 0xffffff;
+    }
+  },
+
+  wizardDamage: function(wizard, attackObject) {
+    //TODO: Make the wizard take damage
+    attackObject.kill();
+    if(attackObject.attacker_name === "Tzhara") {
+      wizard.hitPoints--;
+      console.log("Wizard hit! Wizard health: " + wizard.hitPoints);
+    }
+    if (wizard.hitPoints === 0) {
+      direction = wizard.animations.currentAnim.name;
+      console.log(direction);
+      if(direction.search('.*_L') > -1) {
+        
+        wizard.animations.stop();
+        wizard.animations.play("DEAD_L", 8);
+        wizard.animations.currentAnim.onLoop.add(function() { 
+          _.each(game.wizard_list, function (wiz) {
+            if (wiz.sprite === wizard) {
+              wiz.destroy();
+            }
+          });
+        }, this);
+      }
+      else {
+        
+        wizard.animations.stop();
+        wizard.animations.play("DEAD_R", 8);
+        wizard.animations.currentAnim.onLoop.add(function() { 
+          _.each(game.wizard_list, function (wiz) {
+            if (wiz.sprite === wizard) {
+              wiz.destroy();
+            }
+          });
+        }, this);
+      }
+      
+    }
+  },
+
+  playerDamage: function(player, attackObject) {
+    //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
+    //may be a problem later if many attacks are going back and forth.
+    if(attackObject.attacker_name === "Tzhara") {
+      console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
+      //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
+      return;
+    }
+    console.log("Tzhara was attacked");
+    //This crashes the script because the attack sprite is undefined after the timer is up. Not sure why...
+    // function restoreAttackCollision(attackObject) {
+    //   console.log("Added previous attack sprite back to group");
+    //   game.projectiles.add(attackObject);
+    // }
+  },
+  
+  fireAttack: function() {
+	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
+	  if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
+		  attack.set_sprite("Flare");
+	  }
+	  else if(game.time.elapsedSince(attack_lightning.timeDown) <= 200 || attack_lightning.isDown) {
+		  attack.set_sprite("Electric Attack");
+	  }
+	  else if(game.time.elapsedSince(attack_gravity.timeDown) <= 200 || attack_gravity.isDown) {
+		  attack.set_sprite("Movement Spell");
+	  }
+	  else {
+		  console.log("Unknown attack key, using the default sprite");
+		  attack.set_sprite("default");
+	  }
+	  attack.launch(this.player);
   },
 
   collectOranges: function(player, orange) {
