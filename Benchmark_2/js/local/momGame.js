@@ -31,8 +31,7 @@ momGame.prototype = {
         font: 'bold 20pt', 
         fill: '#FF0000'
     };
-    background = game.add.sprite(0, 0, "background1");
-    background.fixedToCamera = true;
+
     this.loadLevelMap();
 
     // load player sprite animations
@@ -451,6 +450,8 @@ momGame.prototype = {
   },
 
   loadLevelMap: function () {
+    this.background = game.add.sprite(0, 0, game.current_level.bg_image_name);
+    this.background.fixedToCamera = true;
 
     this.map = game.add.tilemap(game.current_level.name);
 
