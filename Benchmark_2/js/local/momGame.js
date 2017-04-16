@@ -45,7 +45,7 @@ momGame.prototype = {
     this.player.body.gravity.y = 15000;
 
     // set anchor point for player
-    this.player.anchor.setTo(0.75, 0.25);
+    this.player.anchor.setTo(0.5, 0.5);
     this.loadTzarha(this.player);
     game.player = this.player;
 
@@ -179,7 +179,48 @@ momGame.prototype = {
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
 
-    game.projectiles = game.add.group();
+    game.wizardProjectiles = game.add.group();
+    game.playerProjectiles = game.add.group();
+
+    attack_pyro.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+    
+    attack_gravity.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+
+    attack_lightning.onDown.add(function() { 
+      if(!attack)
+           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if (cursors.left.isDown) {
+         this.player.animations.play('SPELL_L'); 
+         this.fireAttack();
+      }
+      else if (cursors.right.isDown) {
+        this.player.animations.play('SPELL_R');
+        this.fireAttack();
+      }
+    }, this);
+
   },
 
 
@@ -191,8 +232,8 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
-    game.physics.arcade.collide(game.wizards, game.projectiles, this.wizardDamage, null);
-    game.physics.arcade.collide(this.player, game.projectiles, this.playerDamage, null);
+    game.physics.arcade.collide(game.wizards, game.playerProjectiles, this.wizardDamage, null);
+    game.physics.arcade.collide(this.player, game.wizardProjectiles, this.playerDamage, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
@@ -205,25 +246,13 @@ momGame.prototype = {
       }
 
       if (DAMAGED_R) {
-        this.player.animations.play("DAMAGE_R");
+        this.player.animations.play("DAMAGE_R",15, false, false);
       }
       else if (DAMAGED_L) {
-        this.player.animations.play("DAMAGE_L");
+        this.player.animations.play("DAMAGE_L", 15, false, false);
       }
       else if (health == 0) {
         this.player.animations.play("DEATH", 10, false, true);
-      }
-      else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.left.isDown) {
-        this.player.animations.play('SPELL_L');
-        if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity); //Just for now
-        this.fireAttack();
-      }
-      else if ((attack_pyro.isDown || attack_gravity.isDown || attack_lightning.isDown) && cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        if(!attack)
-          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
-		    this.fireAttack();
       }
       else if(cursors.left.isDown && !cursors.up.isDown) {
         this.player.body.velocity.x = -200; 
@@ -267,35 +296,80 @@ momGame.prototype = {
 
     if (invincible != true && health >= 1) {
         //TODO: this doesnt work yet. oops.
-        if (game.player.body.velocity.x < 0 ) {
+        if (game.player.body.touching.left) {
           DAMAGED_L = true;
         }
-        else if (game.player.body.velocity.x > 0) {
+        else if (game.player.body.touching.right) {
           DAMAGED_R = true;
         } else {
           DAMAGED_R = true;
         }
-        
+        game.player.tint = 0x0078ff;
         invincible = true;
         health--;
         hearts.children[health].frame = 1;
         game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, invinFrameOver, this);
-        game.time.events.repeat(Phaser.Timer.SECOND, 1, stopDamage, this);
+        game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, stopDamage, this);
+        if (health != 0) {
+          game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, changeTint, this);
+        }
     }
 
     function invinFrameOver() {
         invincible = false;
+        game.player.tint = 0xffffff;
     }
 
     function stopDamage() {
       DAMAGED_L = false;
       DAMAGED_R = false;
     }
+
+    function changeTint() {
+      console.log(game.player.tint);
+      if (game.player.tint === 16777215)
+        game.player.tint = 0x83ccf9;
+      else
+        game.player.tint = 0xffffff;
+    }
   },
 
-  wizardDamage: function() {
+  wizardDamage: function(wizard, attackObject) {
     //TODO: Make the wizard take damage
-    console.log("The wizard has been hit");
+    attackObject.kill();
+    if(attackObject.attacker_name === "Tzhara") {
+      wizard.hitPoints--;
+      console.log("Wizard hit! Wizard health: " + wizard.hitPoints);
+    }
+    if (wizard.hitPoints === 0) {
+      direction = wizard.animations.currentAnim.name;
+      console.log(direction);
+      if(direction.search('.*_L') > -1) {
+        
+        wizard.animations.stop();
+        wizard.animations.play("DEAD_L", 8);
+        wizard.animations.currentAnim.onLoop.add(function() { 
+          _.each(game.wizard_list, function (wiz) {
+            if (wiz.sprite === wizard) {
+              wiz.destroy();
+            }
+          });
+        }, this);
+      }
+      else {
+        
+        wizard.animations.stop();
+        wizard.animations.play("DEAD_R", 8);
+        wizard.animations.currentAnim.onLoop.add(function() { 
+          _.each(game.wizard_list, function (wiz) {
+            if (wiz.sprite === wizard) {
+              wiz.destroy();
+            }
+          });
+        }, this);
+      }
+      
+    }
   },
 
   playerDamage: function(player, attackObject) {

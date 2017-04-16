@@ -36,18 +36,24 @@ Attack.prototype = {
 		var direction = attacker.animations.currentAnim.name;
 		AtkSprite.position.y = attacker.position.y;
 		game.world.add(AtkSprite);
-		game.projectiles.add(AtkSprite);
+		//creates two different types of projectives: the player's and everyone else's
+		if (attacker.key === 'TZARHA') {
+			game.playerProjectiles.add(AtkSprite);
+		}
+		else {
+			game.wizardProjectiles.add(AtkSprite);
+		}
 		var atkTween;
 		if(direction.search('.*_L') > -1) {
 			//A bit much... if the animation name contains the _L, we are probably facing left. Launch that way
 			AtkSprite.position.x = attacker.position.x - 15;
 			console.log("Attack Fired! (left)");
-			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x - 100});
+			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x - 250});
 		}
 		else {
 			AtkSprite.position.x = attacker.position.x + 15;
 			console.log("Attack Fired! (right)");
-			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x + 100});
+			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x + 250});
 		}
 		AtkSprite.visible = true;
 		
@@ -55,7 +61,7 @@ Attack.prototype = {
 			AtkSprite.animations.play('launch', 16, true);
 		})
 		atkTween.start().onComplete.addOnce(function() {
-			console.log("Tween completed");
+			AtkSprite.kill();
 		});
 	},
 
