@@ -461,9 +461,6 @@ momGame.prototype = {
     this.map.addTilesetImage("gate", "gate");
     this.map.addTilesetImage(game.current_level.name, game.current_level.bg_image_name);
     
-      background = game.add.sprite(0, 0, game.current_level.bg_image_name);
-      background.fixedToCamera = true;
-    
     this.bg_layer = this.map.createLayer('bg');
     this.grass_layer = this.map.createLayer('grass');
     this.blocked_layer = this.map.createLayer('blocked-layer');
