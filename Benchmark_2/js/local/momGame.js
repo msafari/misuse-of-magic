@@ -348,13 +348,25 @@ momGame.prototype = {
         
         wizard.animations.stop();
         wizard.animations.play("DEAD_L", 8);
-        wizard.animations.currentAnim.onLoop.add(function() { wizard.kill();}, this);
+        wizard.animations.currentAnim.onLoop.add(function() { 
+          _.each(game.wizard_list, function (wiz) {
+            if (wiz.sprite === wizard) {
+              wiz.destroy();
+            }
+          });
+        }, this);
       }
       else {
         
         wizard.animations.stop();
         wizard.animations.play("DEAD_R", 8);
-        wizard.animations.currentAnim.onLoop.add(function() { wizard.kill();}, this);
+        wizard.animations.currentAnim.onLoop.add(function() { 
+          _.each(game.wizard_list, function (wiz) {
+            if (wiz.sprite === wizard) {
+              wiz.destroy();
+            }
+          });
+        }, this);
       }
       
     }

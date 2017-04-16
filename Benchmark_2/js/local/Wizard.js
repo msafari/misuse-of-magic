@@ -13,8 +13,8 @@ function Wizard (type, x, y) {
 Wizard.prototype = {
   destroy : function () {
     this.isDead = true;
-    _.remove(game.wizards, function(wizard) {
-      if (wizard.sprite == this.sprite) {
+    _.remove(game.wizards_list, function(wizard) {
+      if (wizard.sprite === this.sprite) {
         return true;
       }
     }, this);
