@@ -246,10 +246,10 @@ momGame.prototype = {
       }
 
       if (DAMAGED_R) {
-        this.player.animations.play("DAMAGE_R");
+        this.player.animations.play("DAMAGE_R",15, false, false);
       }
       else if (DAMAGED_L) {
-        this.player.animations.play("DAMAGE_L");
+        this.player.animations.play("DAMAGE_L", 15, false, false);
       }
       else if (health == 0) {
         this.player.animations.play("DEATH", 10, false, true);
@@ -296,29 +296,41 @@ momGame.prototype = {
 
     if (invincible != true && health >= 1) {
         //TODO: this doesnt work yet. oops.
-        if (game.player.body.velocity.x < 0 ) {
+        if (game.player.body.touching.left) {
           DAMAGED_L = true;
         }
-        else if (game.player.body.velocity.x > 0) {
+        else if (game.player.body.touching.right) {
           DAMAGED_R = true;
         } else {
           DAMAGED_R = true;
         }
-        
+        game.player.tint = 0x0078ff;
         invincible = true;
         health--;
         hearts.children[health].frame = 1;
         game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, invinFrameOver, this);
-        game.time.events.repeat(Phaser.Timer.SECOND, 1, stopDamage, this);
+        game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, stopDamage, this);
+        if (health != 0) {
+          game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, changeTint, this);
+        }
     }
 
     function invinFrameOver() {
         invincible = false;
+        game.player.tint = 0xffffff;
     }
 
     function stopDamage() {
       DAMAGED_L = false;
       DAMAGED_R = false;
+    }
+
+    function changeTint() {
+      console.log(game.player.tint);
+      if (game.player.tint === 16777215)
+        game.player.tint = 0x83ccf9;
+      else
+        game.player.tint = 0xffffff;
     }
   },
 
@@ -335,14 +347,14 @@ momGame.prototype = {
       if(direction.search('.*_L') > -1) {
         
         wizard.animations.stop();
-        wizard.animations.play("DEAD_L");
-        wizard.animations.currentAnim.onLoop.add(function() { console.log("death to the left");}, this);
+        wizard.animations.play("DEAD_L", 8);
+        wizard.animations.currentAnim.onLoop.add(function() { wizard.kill();}, this);
       }
       else {
         
         wizard.animations.stop();
-        wizard.animations.play("DEAD_R");
-        wizard.animations.currentAnim.onLoop.add(function() {console.log("death to the right");}, this);
+        wizard.animations.play("DEAD_R", 8);
+        wizard.animations.currentAnim.onLoop.add(function() { wizard.kill();}, this);
       }
       
     }
