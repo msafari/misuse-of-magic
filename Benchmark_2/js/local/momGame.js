@@ -31,10 +31,12 @@ momGame.prototype = {
         font: 'bold 20pt', 
         fill: '#FF0000'
     };
-
+    background = game.add.sprite(0, 0, "background1");
+    background.fixedToCamera = true;
     this.loadLevelMap();
 
     // load player sprite animations
+    
     var player_start = this.findObjectsBySprite("Player", "Player")[0];
     this.player = game.add.sprite(player_start.x, player_start.y, 'TZARHA');
 

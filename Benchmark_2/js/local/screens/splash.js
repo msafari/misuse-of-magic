@@ -70,6 +70,7 @@ splash.prototype = {
     game.load.spritesheet("reverseDirection", "assets/Sprites/attacks/Reverse Direction.png", 16,16);
     game.load.spritesheet("attackIcons", "assets/Sprites/attacks/attackIconList.png");
     //level icons
+    game.load.image("background1", "assets/Levels/level1/level1.png");
     game.load.image("level1_portal_ul", "assets/Levels/level1/unlocked.png");
     game.load.image("level2_portal_l", "assets/Levels/level2/locked.png");
     game.load.image("level2_portal_ul", "assets/Levels/level2/unlocked.png");
