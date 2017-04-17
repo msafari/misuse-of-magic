@@ -39,8 +39,23 @@ Level.prototype = {
     if (this.available) {
       this.icon_sprite.inputEnabled = true;
       this.icon_sprite.events.onInputUp.add(function() { 
-        game.current_level = this;
-        game.state.start("MomGame");
+        game.sameAttackText.destroy();
+        if (game.attackIcon1.frame === game.attackIcon2.frame && game.attackIcon2.frame === game.attackIcon3.frame)
+          game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 1, 2, and 3. Try again!");
+        else if (game.attackIcon1.frame === game.attackIcon2.frame) 
+          game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 1 and 2. Try again!");
+        else if (game.attackIcon1.frame === game.attackIcon3.frame)
+          game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 1 and 3. Try again!");
+        else if (game.attackIcon2.frame === game.attackIcon3.frame)
+          game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 2 and 3. Try again!");
+        else {
+          game.current_level = this;
+          game.sameAttackText.destroy(); //save resources by removing the text when we load the level
+          game.state.start("MomGame");
+        }
+        game.sameAttackText.fixedToCamera = true;
+        game.sameAttackText.cameraOffset.setTo(600,665);
+        game.sameAttackText.anchor.setTo(0.5);
       }, this);
     }
   },

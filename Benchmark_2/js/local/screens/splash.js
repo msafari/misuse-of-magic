@@ -68,7 +68,10 @@ splash.prototype = {
     game.load.spritesheet("electromagnetism", "assets/Sprites/attacks/Electromagnetism.png", 16, 16);
     game.load.spritesheet("vector", "assets/Sprites/attacks/Movement Spell.png", 17, 17);
     game.load.spritesheet("reverseDirection", "assets/Sprites/attacks/Reverse Direction.png", 16,16);
-    game.load.spritesheet("attackIcons", "assets/Sprites/attacks/attackIconList.png");
+    game.load.spritesheet("attackIcons", "assets/Sprites/attacks/attackIconList.png", 48, 48);
+    game.load.image("attackUp", "assets/images/attackChangeUp.png");
+    game.load.image("attackDown", "assets/images/attackChangeDown.png");
+
     //level icons
     game.load.image("level1_bg", "assets/Levels/level1/level1.png");
     game.load.image("level2_bg", "assets/Levels/level2/level2.png");
