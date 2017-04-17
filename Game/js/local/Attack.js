@@ -1,64 +1,63 @@
-function Attack(attacker_name, uses) {
+function Attack(attacker_name, type, uses) {
 	//TODO: Uses should be unique to each attack.
 	this.attacker_name = attacker_name;
-	//this.type = type;
+	this.type = type;
+	this.AtkSprite = null;
 	this.uses = (attacker_name === "WIZARD") ? Infinity : uses;
 	// we assume it's unsuccesful
 	this.success = false;
 } 
 
 Attack.prototype = {
-	AtkSprite: null,
-	
 	set_sprite: function(name) {
 		if(!Attack.Types[name])
 			name = "Default";
 		if(Attack.Types[name].sprite) {
-			AtkSprite = Attack.Types[name].sprite;
-			game.time.events.add(2000, AtkSprite.kill, AtkSprite);
+			this.AtkSprite = Attack.Types[name].sprite;
+			game.time.events.add(2000, this.AtkSprite.kill, this.AtkSprite);
 			this.type = Attack.Types[name].type;
-			return AtkSprite;
+			return this.AtkSprite;
 		}
-		AtkSprite = game.world.create(0, 0, name, 0);
-		AtkSprite.animations.add("launch");
-		game.physics.arcade.enable(AtkSprite);
-		AtkSprite.attacker_name = this.attacker_name;
-		Attack.Types[name].sprite = AtkSprite;
-		game.time.events.add(2000, AtkSprite.kill, AtkSprite);
-		return AtkSprite; //return the created sprite in case we need to do something with it later
+		this.AtkSprite = game.world.create(0, 0, name, 0);
+		this.AtkSprite.animations.add("launch");
+		game.physics.arcade.enable(this.AtkSprite);
+		this.AtkSprite.attacker_name = this.attacker_name;
+		Attack.Types[name].sprite = this.AtkSprite;
+		game.time.events.add(2000, this.AtkSprite.kill, this.AtkSprite);
+		return this.AtkSprite; //return the created sprite in case we need to do something with it later
 	},
 
 	launch: function(attacker, direction) {
 		if(this.uses <= 0)
 			return;
 		this.uses--;
-		AtkSprite.position.y = attacker.position.y;
-		game.world.add(AtkSprite);
+		this.AtkSprite.position.y = attacker.position.y;
+		this.AtkSprite.direction = direction;
+		game.world.add(this.AtkSprite);
 		//creates two different types of projectives: the player's and everyone else's
 		if (attacker.key === 'TZARHA') {
-			game.playerProjectiles.add(AtkSprite);
+			game.playerProjectiles.add(this.AtkSprite);
 		}
 		else {
-			game.wizardProjectiles.add(AtkSprite);
+			game.wizardProjectiles.add(this.AtkSprite);
 		}
 		var atkTween;
 		if(direction === "left") {
-			//A bit much... if the animation name contains the _L, we are probably facing left. Launch that way
-			AtkSprite.position.x = attacker.position.x - 15;
-			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x - 250});
+			this.AtkSprite.position.x = attacker.position.x - 15;
+			atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x - 250});
 		}
 		else {
-			AtkSprite.position.x = attacker.position.x + 15;
-			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x + 250});
+			this.AtkSprite.position.x = attacker.position.x + 15;
+			atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x + 250});
 		}
-		AtkSprite.visible = true;
+		this.AtkSprite.visible = true;
 		
 		atkTween.onStart.addOnce(function() {
-			AtkSprite.animations.play('launch', 16, true);
-		})
+			this.AtkSprite.animations.play('launch', 16, true);
+		}, this)
 		atkTween.start().onComplete.addOnce(function() {
-			AtkSprite.kill();
-		});
+			this.AtkSprite.kill();
+		}, this);
 	},
 
 	was_successful: function() {

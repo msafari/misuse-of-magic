@@ -185,7 +185,7 @@ momGame.prototype = {
 
     attack_pyro.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
          this.player.animations.play('SPELL_L'); 
          this.fireAttack("left");
@@ -198,10 +198,10 @@ momGame.prototype = {
     
     attack_gravity.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
-         this.player.animations.play('SPELL_L'); 
-         this.fireAttack("left");
+        this.player.animations.play('SPELL_L'); 
+        this.fireAttack("left");
       }
       else if (cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
@@ -211,10 +211,10 @@ momGame.prototype = {
 
     attack_lightning.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+        attack = new Attack('Tzhara', Infinity);
       if (cursors.left.isDown) {
-         this.player.animations.play('SPELL_L'); 
-         this.fireAttack("left");
+        this.player.animations.play('SPELL_L'); 
+        this.fireAttack("left");
       }
       else if (cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
@@ -327,7 +327,6 @@ momGame.prototype = {
     }
 
     function changeTint() {
-      console.log(game.player.tint);
       if (game.player.tint === 16777215)
         game.player.tint = 0x83ccf9;
       else
@@ -340,42 +339,45 @@ momGame.prototype = {
     attackObject.kill();
     if(attackObject.attacker_name === "Tzhara") {
       wizard.hitPoints--;
+      w_damage_anim = (attack.AtkSprite.direction === "left") ? "DAMAGE_R" : "DAMAGE_L"
+      wizard.animations.stop();
+      wizard.animations.play(w_damage_anim, 8);
+      console.log("losing wizard health");
     }
-    if (wizard.hitPoints === 0) {
+    if (wizard.hitPoints == 0) {
       direction = wizard.animations.currentAnim.name;
-      console.log(direction);
-      if(direction.search('.*_L') > -1) {
-        
-        wizard.animations.stop();
-        wizard.animations.play("DEAD_L", 8);
-        wizard.animations.currentAnim.onLoop.add(function() { 
-          _.each(game.wizard_list, function (wiz) {
-            if (wiz.sprite === wizard) {
-              wiz.destroy();
-            }
-          });
-        }, this);
-      }
-      else {
-        
-        wizard.animations.stop();
-        wizard.animations.play("DEAD_R", 8);
-        wizard.animations.currentAnim.onLoop.add(function() { 
-          _.each(game.wizard_list, function (wiz) {
-            if (wiz.sprite === wizard) {
-              wiz.destroy();
-            }
-          });
-        }, this);
-      }
-      
+      animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
+      wizard.animations.stop();
+      wizard.animations.play(animation_name, 8);
+      wizard.animations.currentAnim.onLoop.add(function() { 
+        _.each(game.wizard_list, function (wiz) {
+          if (wiz.sprite === wizard) {
+            wiz.destroy();
+          }
+        });
+      }, this); 
     }
+  },
+
+  playerDamage: function(player, attackObject) {
+   //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
+   //may be a problem later if many attacks are going back and forth.
+   if(attackObject.attacker_name === "Tzhara") {
+     console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
+     //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
+     return;
+   }
+   console.log("Tzhara was attacked");
+   //This crashes the script because the attack sprite is undefined after the timer is up. Not sure why...
+   // function restoreAttackCollision(attackObject) {
+   //   console.log("Added previous attack sprite back to group");
+   //   game.projectiles.add(attackObject);
+   // }
   },
   
   fireAttack: function(direction) {
-	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
-	  if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
-		  attack.set_sprite("Flare");
+    if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
+      attack.set_sprite("Flare");
 	  }
 	  else if(game.time.elapsedSince(attack_lightning.timeDown) <= 200 || attack_lightning.isDown) {
 		  attack.set_sprite("ElectricAttack");
@@ -472,7 +474,6 @@ momGame.prototype = {
     _.each(this.level_wizards, function (wiz) {
       var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y, game.wizards);
     });
-    console.log(game.wizards);
   },
 
   all_wizards_random_act: function () {
