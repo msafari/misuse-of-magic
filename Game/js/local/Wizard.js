@@ -6,6 +6,7 @@ function Wizard (type, x, y) {
   this.isDead = false;
   this.sprite = this.init_sprite();
   this.sprite.hitPoints = 2;
+  this.attack_obj = null;
   game.wizards.add(this.sprite);
   game.wizard_list.push(this);
 }
@@ -43,20 +44,20 @@ Wizard.prototype = {
   attack_player: function () {
     //attack randomly in left or right direction
     this.sprite.body.velocity.x = 0;
-    var attack_left = (game.player.x - this.x < 0) ? true : false;
+    var attack_left = (game.player.position.x - this.x < 0) ? true : false;
     if (attack_left) {
       this.sprite.animations.play("ATTACK_L");
     } else {
       this.sprite.animations.play("ATTACK_R");
     }
 
-    if (this.type === "FIRE") {
+    //launch attack sprite
+    this.attack_obj = new Attack(this.name, Infinity, this.type);
+    this.attack_obj.set_sprite(this.attack_type());
 
-    } else if (this.type === "ELECTRIC") {
+    var attack_dir = attack_left ? "left" : "right";
+    this.attack_obj.launch(this.sprite, attack_dir); 
 
-    } else if (this.type === "GRAVITY") {
-
-    }
   },
 
   random_move_x: function () {
@@ -78,5 +79,14 @@ Wizard.prototype = {
     //   this.random_move_x();
     // else
       this.attack_player();
+  },
+
+  attack_type: function() {
+    if (this.type === "FIRE") 
+      return "Flare";
+    else if (this.type === "ELECTRIC")
+      return "ElectricAttack";
+    else if (this.type === "GRAVITY")
+      return "MovementSpell";
   }
 };

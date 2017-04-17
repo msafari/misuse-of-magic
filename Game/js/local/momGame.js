@@ -52,12 +52,9 @@ momGame.prototype = {
 
     this.load_wizards();
 
-    game.camera.follow(this.player);
+    //setInterval(this.all_wizards_random_act, Phaser.Timer.SECOND * 1.5);    
 
-
-    this.timer = this.game.time.create(this.game);    
-    this.timer.add(50, this.all_wizards_random_act, this.all_wizards_random_act);    
-    this.timer.start();   
+    game.camera.follow(this.player);  
 
     gameUI = game.add.sprite(50, 25, "gameUI");
     gameUI.fixedToCamera = true;
@@ -185,7 +182,7 @@ momGame.prototype = {
 
     attack_pyro.onDown.add(function() { 
       if(!attack)
-          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+          attack = new Attack('Tzhara', Infinity, "FIRE");
       if (cursors.left.isDown) {
          this.player.animations.play('SPELL_L'); 
          this.fireAttack("left");
@@ -198,7 +195,7 @@ momGame.prototype = {
     
     attack_gravity.onDown.add(function() { 
       if(!attack)
-          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+          attack = new Attack('Tzhara', Infinity, "GRAVITY");
       if (cursors.left.isDown) {
         this.player.animations.play('SPELL_L'); 
         this.fireAttack("left");
@@ -211,7 +208,7 @@ momGame.prototype = {
 
     attack_lightning.onDown.add(function() { 
       if(!attack)
-        attack = new Attack('Tzhara', Infinity);
+        attack = new Attack('Tzhara', Infinity, "ELECTRIC");
       if (cursors.left.isDown) {
         this.player.animations.play('SPELL_L'); 
         this.fireAttack("left");
@@ -242,6 +239,8 @@ momGame.prototype = {
     if (paused === false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
       game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
+
+
       if (health === 0) {
         this.loseLevel();
       }
@@ -284,6 +283,7 @@ momGame.prototype = {
       else {
         this.player.animations.play("IDLE");
       }
+
     }
     else {
       this.player.animations.stop();

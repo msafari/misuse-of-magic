@@ -1,4 +1,4 @@
-function Attack(attacker_name, type, uses) {
+function Attack(attacker_name, uses, type) {
 	//TODO: Uses should be unique to each attack.
 	this.attacker_name = attacker_name;
 	this.type = type;
@@ -34,22 +34,34 @@ Attack.prototype = {
 		this.AtkSprite.position.y = attacker.position.y;
 		this.AtkSprite.direction = direction;
 		game.world.add(this.AtkSprite);
+		var atkTween;
+
 		//creates two different types of projectives: the player's and everyone else's
 		if (attacker.key === 'TZARHA') {
 			game.playerProjectiles.add(this.AtkSprite);
+
+			if(direction === "left") {
+				this.AtkSprite.position.x = attacker.position.x - 15;
+				atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x - 250});
+			}
+			else {
+				this.AtkSprite.position.x = attacker.position.x + 15;
+				atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x + 250});
+			}
 		}
 		else {
 			game.wizardProjectiles.add(this.AtkSprite);
+
+			if(direction === "left") {
+				this.AtkSprite.position.x = attacker.position.x - 15;
+				atkTween = game.add.tween(this.AtkSprite).to({x: game.player.position.x });
+			}
+			else {
+				this.AtkSprite.position.x = attacker.position.x + 15;
+				atkTween = game.add.tween(this.AtkSprite).to({x: game.player.position.x });
+			}
 		}
-		var atkTween;
-		if(direction === "left") {
-			this.AtkSprite.position.x = attacker.position.x - 15;
-			atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x - 250});
-		}
-		else {
-			this.AtkSprite.position.x = attacker.position.x + 15;
-			atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x + 250});
-		}
+
 		this.AtkSprite.visible = true;
 		
 		atkTween.onStart.addOnce(function() {
