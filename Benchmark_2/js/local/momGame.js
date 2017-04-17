@@ -9,7 +9,8 @@ var cursors,
   paused = false,
   DAMAGED_L = false,
   DAMAGED_R = false,
-  attack;
+  attack,
+  f_attackIcon1, f_attackIcon2, f_attackIcon3;
 
 momGame.prototype = {
   preload: function () {
@@ -21,7 +22,6 @@ momGame.prototype = {
   },
 
   create: function () { 
-
     titleStyle = { 
         font: 'bold 25pt', 
         fill: '#673ab7', 
@@ -149,6 +149,19 @@ momGame.prototype = {
         backButton.visible = true;
         helpBase.visible = true;
     });
+
+    mom_AttackIcon1 = game.add.sprite(550, 27, "attackIcons");
+    mom_AttackIcon1.fixedToCamera = true;
+    mom_AttackIcon1.cameraOffset.setTo(550, 27);
+    mom_AttackIcon1.frame = f_attackIcon1;
+    mom_AttackIcon2 = game.add.sprite(610, 27, "attackIcons");
+    mom_AttackIcon2.fixedToCamera = true;
+    mom_AttackIcon2.cameraOffset.setTo(610, 27);
+    mom_AttackIcon2.frame = f_attackIcon2;
+    mom_AttackIcon3 = game.add.sprite(670, 27, "attackIcons");
+    mom_AttackIcon3.fixedToCamera = true;
+    mom_AttackIcon3.cameraOffset.setTo(670, 27);
+    mom_AttackIcon3.frame = f_attackIcon3;
 
     winOverlay = game.add.sprite(375, 50, "winOverlay");
     winOverlay.visible = false;

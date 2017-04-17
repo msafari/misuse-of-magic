@@ -1,4 +1,5 @@
 var momLevelSelect = function () {};
+var attackIcon1, attackIcon2, attackIcon3;
 
 momLevelSelect.prototype = {
   preload: function () {
@@ -59,70 +60,70 @@ momLevelSelect.prototype = {
     attackDown3.cameraOffset.setTo(660,625);
     attackDown3.anchor.setTo(0.5);
 
-    game.attackIcon1 = game.add.sprite(540, 590, "attackIcons");
-    game.attackIcon1.cameraOffset.setTo(600,630);
-    game.attackIcon1.anchor.setTo(0.5);
-    game.attackIcon2 = game.add.sprite(600, 590, "attackIcons");
-    game.attackIcon2.cameraOffset.setTo(600,630);
-    game.attackIcon2.anchor.setTo(0.5);
-    game.attackIcon3 = game.add.sprite(660, 590, "attackIcons");
-    game.attackIcon3.cameraOffset.setTo(600,630);
-    game.attackIcon3.anchor.setTo(0.5);
-    game.attackIcon1.frame = 1; //set the default attacks
-    game.attackIcon2.frame = 3;
-    game.attackIcon3.frame = 5;
-    game.attackIcon1.anchor.setTo(0.5);
-    game.attackIcon2.anchor.setTo(0.5);
-    game.attackIcon3.anchor.setTo(0.5);
+    attackIcon1 = game.add.sprite(540, 590, "attackIcons");
+    attackIcon1.cameraOffset.setTo(600,630);
+    attackIcon1.anchor.setTo(0.5);
+    attackIcon2 = game.add.sprite(600, 590, "attackIcons");
+    attackIcon2.cameraOffset.setTo(600,630);
+    attackIcon2.anchor.setTo(0.5);
+    attackIcon3 = game.add.sprite(660, 590, "attackIcons");
+    attackIcon3.cameraOffset.setTo(600,630);
+    attackIcon3.anchor.setTo(0.5);
+    attackIcon1.frame = 1; //set the default attacks
+    attackIcon2.frame = 3;
+    attackIcon3.frame = 5;
+    attackIcon1.anchor.setTo(0.5);
+    attackIcon2.anchor.setTo(0.5);
+    attackIcon3.anchor.setTo(0.5);
 
     attackUp1.inputEnabled = true;
     attackUp1.events.onInputUp.add(function() {
-      if (game.attackIcon1.frame === 6) {
-        game.attackIcon1.frame = 1;
+      if (attackIcon1.frame === 6) {
+        attackIcon1.frame = 1;
       }
       else
-        game.attackIcon1.frame = game.attackIcon1.frame + 1;
+        attackIcon1.frame = attackIcon1.frame + 1;
     });
     attackUp2.inputEnabled = true;
     attackUp2.events.onInputUp.add(function() {
-      if (game.attackIcon2.frame === 6) {
-        game.attackIcon2.frame = 1;
+      if (attackIcon2.frame === 6) {
+        attackIcon2.frame = 1;
       }
       else
-        game.attackIcon2.frame = game.attackIcon2.frame + 1;
+        attackIcon2.frame = attackIcon2.frame + 1;
     });
     attackUp3.inputEnabled = true;
     attackUp3.events.onInputUp.add(function() {
-      if (game.attackIcon3.frame === 6) {
-        game.attackIcon3.frame = 1;
+      if (attackIcon3.frame === 6) {
+        attackIcon3.frame = 1;
       }
       else
-        game.attackIcon3.frame = game.attackIcon3.frame + 1;
+        attackIcon3.frame = attackIcon3.frame + 1;
     });
 
     attackDown1.inputEnabled = true;
     attackDown1.events.onInputUp.add(function() {
-      if (game.attackIcon1.frame === 1) {
-        game.attackIcon1.frame = 6;
+      if (attackIcon1.frame === 1) {
+        attackIcon1.frame = 6;
       }
       else
-        game.attackIcon1.frame = game.attackIcon1.frame - 1;
+        attackIcon1.frame = attackIcon1.frame - 1;
     });
     attackDown2.inputEnabled = true;
     attackDown2.events.onInputUp.add(function() {
-      if (game.attackIcon2.frame === 1) {
-        game.attackIcon2.frame = 6;
+      if (attackIcon2.frame === 1) {
+        attackIcon2.frame = 6;
       }
       else
-        game.attackIcon2.frame = game.attackIcon2.frame - 1;
+        attackIcon2.frame = attackIcon2.frame - 1;
     });
     attackDown3.inputEnabled = true;
     attackDown3.events.onInputUp.add(function() {
-      if (game.attackIcon1.frame === 1) {
-        game.attackIcon3.frame = 6;
+      if (attackIcon1.frame === 1) {
+        attackIcon3.frame = 6;
       }
       else
-        game.attackIcon3.frame = game.attackIcon3.frame - 1;
+        attackIcon3.frame = attackIcon3.frame - 1;
     });
 
     this.loadLevels();
