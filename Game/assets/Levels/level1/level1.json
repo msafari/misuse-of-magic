@@ -937,7 +937,7 @@
                  "properties":
                     {
                      "Sprite":"Wizard",
-                     "Type":"ICE"
+                     "Type":"GRAVITY"
                     },
                  "propertytypes":
                     {
@@ -959,7 +959,7 @@
                  "properties":
                     {
                      "Sprite":"Wizard",
-                     "Type":"LIGHTNING"
+                     "Type":"ELECTRIC"
                     },
                  "propertytypes":
                     {

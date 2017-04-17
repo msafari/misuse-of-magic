@@ -43,14 +43,20 @@ Wizard.prototype = {
 
   attack_player: function () {
     //attack randomly in left or right direction
-    var is_left = Math.random() < 0.5 ? true : false;
     this.sprite.body.velocity.x = 0;
-
-    if (is_left) {
+    var attack_left = (game.player.x - this.x < 0) ? true : false;
+    if (attack_left) {
       this.sprite.animations.play("ATTACK_L");
-      //TODO: play effect animation based on sprite type
     } else {
       this.sprite.animations.play("ATTACK_R");
+    }
+
+    if (this.type === "FIRE") {
+
+    } else if (this.type === "ELECTRIC") {
+
+    } else if (this.type === "GRAVITY") {
+
     }
   },
 

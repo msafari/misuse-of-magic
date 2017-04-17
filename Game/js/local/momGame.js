@@ -340,7 +340,6 @@ momGame.prototype = {
     attackObject.kill();
     if(attackObject.attacker_name === "Tzhara") {
       wizard.hitPoints--;
-      console.log("Wizard hit! Wizard health: " + wizard.hitPoints);
     }
     if (wizard.hitPoints === 0) {
       direction = wizard.animations.currentAnim.name;
@@ -395,10 +394,10 @@ momGame.prototype = {
 		  attack.set_sprite("Flare");
 	  }
 	  else if(game.time.elapsedSince(attack_lightning.timeDown) <= 200 || attack_lightning.isDown) {
-		  attack.set_sprite("Electric Attack");
+		  attack.set_sprite("ElectricAttack");
 	  }
 	  else if(game.time.elapsedSince(attack_gravity.timeDown) <= 200 || attack_gravity.isDown) {
-		  attack.set_sprite("Movement Spell");
+		  attack.set_sprite("MovementSpell");
 	  }
 	  else {
 		  console.log("Unknown attack key, using the default sprite");

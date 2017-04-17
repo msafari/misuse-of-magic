@@ -4,27 +4,26 @@ function Attack(attacker_name, uses) {
 	//this.type = type;
 	this.uses = (attacker_name === "WIZARD") ? Infinity : uses;
 	// we assume it's unsuccesful
-	this.attackList = null;
-	success = false;
+	this.success = false;
 } 
 
 Attack.prototype = {
 	AtkSprite: null,
 	
 	set_sprite: function(name) {
-		if(!attackList.has(name))
+		if(!Attack.Types[name])
 			name = "Default";
-		if(!attackList.get(name).sprite === null) {
-			AtkSprite = attackList.get(name).sprite;
+		if(Attack.Types[name].sprite) {
+			AtkSprite = Attack.Types[name].sprite;
 			game.time.events.add(2000, AtkSprite.kill, AtkSprite);
-			this.type = attackList.get(name).type;
+			this.type = Attack.Types[name].type;
 			return AtkSprite;
 		}
 		AtkSprite = game.world.create(0, 0, name, 0);
 		AtkSprite.animations.add("launch");
 		game.physics.arcade.enable(AtkSprite);
 		AtkSprite.attacker_name = this.attacker_name;
-		attackList.get(name).sprite = AtkSprite;
+		Attack.Types[name].sprite = AtkSprite;
 		game.time.events.add(2000, AtkSprite.kill, AtkSprite);
 		return AtkSprite; //return the created sprite in case we need to do something with it later
 	},
@@ -47,12 +46,10 @@ Attack.prototype = {
 		if(direction.search('.*_L') > -1) {
 			//A bit much... if the animation name contains the _L, we are probably facing left. Launch that way
 			AtkSprite.position.x = attacker.position.x - 15;
-			console.log("Attack Fired! (left)");
 			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x - 250});
 		}
 		else {
 			AtkSprite.position.x = attacker.position.x + 15;
-			console.log("Attack Fired! (right)");
 			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x + 250});
 		}
 		AtkSprite.visible = true;
@@ -70,58 +67,51 @@ Attack.prototype = {
 	},
 
 	attack_init: function(){
-		console.log("AtkInit called.");
-	 	attackList = new Map([["Electric Attack", Attack.Images.ElectricAttack], ["Electromagnetism", Attack.Images.Electromagnetism],
-								["Firefloom", Attack.Images.Firefloom], ["Flare", Attack.Images.Flare],
-								["Movement Spell", Attack.Images.MovementSpell], ["Reverse Direction", Attack.Images.ReverseDirection],
-								["default", Attack.Images.Default]]);
-	 	attackList.forEach(function(item, key) {
-	 		console.log(key + " : " + item.image);
-	 		game.load.spritesheet(key, item.image, 16, 16);
-	 		game.load.image(key + "_icon", item.icon, 48, 48);
-	 	}
-	 	);
+	 	_.each(Attack.Types, function(attack, key) {
+	 		game.load.spritesheet(key, attack.image, 16, 16);
+	 		game.load.image(key + "_icon", attack.icon, 48, 48);
+	 	});
 	},
 };
 
 //It's time to move this bit elsewhere. And the name 'images' no longer applies
-Attack.Images = {
+Attack.Types = {
 	//Sprites cannot be created during preload beacuse the world doesn't exist yet, we populate that field when needed
 	ElectricAttack: {
 		image: "assets/Sprites/attacks/Electric Attack Prototype.png",
 		icon: "assets/Sprites/attacks/zoltIcon.png",
 		sprite: null,
-		type: "Electric"
+		type: "ELECTRIC"
 	},
 	Electromagnetism:{
 		image: "assets/Sprites/attacks/Electromagnetism.png",
 		icon: "assets/Sprites/attacks/electromagnetismIcon.png",
 		sprite: null,
-		type: "Electric"
+		type: "GRAVITY"
 	},
 	Firefloom: {
 		image: "assets/Sprites/attacks/Firefloom.png",
 		icon: "assets/Sprites/attacks/firefloomIcon.png",
 		sprite: null,
-		type: "Fire"
+		type: "FIRE"
 	},
 	Flare:{
 		image: "assets/Sprites/attacks/Flare.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
-		type: "Fire"
+		type: "FIRE"
 	},
 	MovementSpell: {
 		image: "assets/Sprites/attacks/Movement Spell.png",
 		icon: "assets/Sprites/attacks/movementIcon.png",
 		sprite: null,
-		type: "Gravity"
+		type: "GRAVITY"
 	},
 	ReverseDirection: {
 		image: "assets/Sprites/attacks/Reverse Direction.png",
 		icon: "assets/Sprites/attacks/reverseTrajectoryIcon.png",
 		sprite: null,
-		type: "Gravity"
+		type: "GRAVITY"
 	},
 	Default: {
 		image: "assets/Sprites/attacks/Debug attack.png",
