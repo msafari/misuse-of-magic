@@ -100,9 +100,9 @@ splash.prototype = {
 
     //load sprites
     game.load.spritesheet("TZARHA", 'assets/Sprites/Tzarha/spritesheet.png', 64, 96);
-    game.load.spritesheet("LIGHTNING_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 64, 96);
+    game.load.spritesheet("ELECTRIC_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 64, 96);
     game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 64, 96);
-    game.load.spritesheet("ICE_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 64, 96);
+    game.load.spritesheet("GRAVITY_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 64, 96);
   },
 
   create: function() {

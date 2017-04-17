@@ -993,7 +993,7 @@
                  "visible":true,
                  "width":32,
                  "x":1482.79,
-                 "y":2952.14
+                 "y":2100.14
                 }, 
                 {
                  "gid":227,
@@ -1003,7 +1003,7 @@
                  "properties":
                     {
                      "Sprite":"Wizard",
-                     "Type":"ICE"
+                     "Type":"GRAVITY"
                     },
                  "propertytypes":
                     {

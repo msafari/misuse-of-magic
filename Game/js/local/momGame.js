@@ -371,22 +371,6 @@ momGame.prototype = {
       
     }
   },
-
-  playerDamage: function(player, attackObject) {
-    //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
-    //may be a problem later if many attacks are going back and forth.
-    if(attackObject.attacker_name === "Tzhara") {
-      console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
-      //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
-      return;
-    }
-    console.log("Tzhara was attacked");
-    //This crashes the script because the attack sprite is undefined after the timer is up. Not sure why...
-    // function restoreAttackCollision(attackObject) {
-    //   console.log("Added previous attack sprite back to group");
-    //   game.projectiles.add(attackObject);
-    // }
-  },
   
   fireAttack: function() {
 	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
