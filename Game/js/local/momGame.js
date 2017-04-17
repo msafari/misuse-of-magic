@@ -188,11 +188,11 @@ momGame.prototype = {
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
          this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+         this.fireAttack("left");
       }
       else if (cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
-        this.fireAttack();
+        this.fireAttack("right");
       }
     }, this);
     
@@ -201,11 +201,11 @@ momGame.prototype = {
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
          this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+         this.fireAttack("left");
       }
       else if (cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
-        this.fireAttack();
+        this.fireAttack("right");
       }
     }, this);
 
@@ -214,11 +214,11 @@ momGame.prototype = {
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
          this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+         this.fireAttack("left");
       }
       else if (cursors.right.isDown) {
         this.player.animations.play('SPELL_R');
-        this.fireAttack();
+        this.fireAttack("right");
       }
     }, this);
 
@@ -372,7 +372,7 @@ momGame.prototype = {
     }
   },
   
-  fireAttack: function() {
+  fireAttack: function(direction) {
 	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
 	  if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
 		  attack.set_sprite("Flare");
@@ -387,7 +387,7 @@ momGame.prototype = {
 		  console.log("Unknown attack key, using the default sprite");
 		  attack.set_sprite("default");
 	  }
-	  attack.launch(this.player);
+	  attack.launch(this.player, direction);
   },
 
   collectOranges: function(player, orange) {

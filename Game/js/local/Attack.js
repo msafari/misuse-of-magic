@@ -28,11 +28,10 @@ Attack.prototype = {
 		return AtkSprite; //return the created sprite in case we need to do something with it later
 	},
 
-	launch: function(attacker) {
+	launch: function(attacker, direction) {
 		if(this.uses <= 0)
 			return;
 		this.uses--;
-		var direction = attacker.animations.currentAnim.name;
 		AtkSprite.position.y = attacker.position.y;
 		game.world.add(AtkSprite);
 		//creates two different types of projectives: the player's and everyone else's
@@ -43,7 +42,7 @@ Attack.prototype = {
 			game.wizardProjectiles.add(AtkSprite);
 		}
 		var atkTween;
-		if(direction.search('.*_L') > -1) {
+		if(direction === "left") {
 			//A bit much... if the animation name contains the _L, we are probably facing left. Launch that way
 			AtkSprite.position.x = attacker.position.x - 15;
 			atkTween = game.add.tween(AtkSprite).to({x: attacker.position.x - 250});
