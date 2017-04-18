@@ -107,6 +107,10 @@ momGame.prototype = {
       else {
         paused = false;  
         pauseButton.loadTexture("pauseButton");
+        _.each(game.wizard_list, function (wizard) {
+        if(!wizard.sprite.animations.currentAnim.isPlaying)
+          wizard.sprite.animations.currentAnim.play();
+      });
       }
     });
     
@@ -120,10 +124,10 @@ momGame.prototype = {
     helpBase.fixedToCamera = true;
     helpBase.cameraOffset.setTo(100, 75);
 
-	spellRestorePopup = game.add.sprite(100,75,"spellRestorePopup");
+	  spellRestorePopup = game.add.sprite(125, 75,"spellRestorePopup");
     spellRestorePopup.visible = false;
     spellRestorePopup.fixedToCamera = true;
-    spellRestorePopup.cameraOffset.setTo(100, 75);
+    spellRestorePopup.cameraOffset.setTo(125, 75);
 
     backButton = game.add.sprite(900, 80, "backButton");
     backButton.visible = false;
@@ -279,8 +283,13 @@ momGame.prototype = {
       paused = false;
       spellRestorePopup.visible = false;
       //Do not decrement oranges if we cancel
+      _.each(game.wizard_list, function (wizard) {
+        if(!wizard.sprite.animations.currentAnim.isPlaying)
+          wizard.sprite.animations.currentAnim.play();
+      });
       return;
     }
+    oranges_usable = oranges_count >= 10;
     if(!oranges_usable) {
       console.log("Not enough oranges (count: " + oranges_count + ")");
       //TODO: Show a pop up of some sort
@@ -289,12 +298,11 @@ momGame.prototype = {
       restoreSpell();
       oranges_count -= 10;
       orangesCounter.setText(""+oranges_count);
-      oranges_usable = oranges_count >= 10;
       updateOrangeText();
 	}, this);
 	
 	function updateOrangeText() {
-		if(!oranges_usable) {
+		if(oranges_count <= 10) {
 			orangesCounter.setStyle({
 				fill: "#ff2d2d"
 			});
@@ -308,7 +316,6 @@ momGame.prototype = {
 		is_restoring = true;
 	}
   },
-
 
   update: function () {
   
@@ -462,20 +469,14 @@ momGame.prototype = {
     //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
     //may be a problem later if many attacks are going back and forth.
     if(attackObject.attacker_name === "Tzhara") {
-      console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
+      console.log("Stop hitting yourself!");
       //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
       return;
     }
     console.log("Tzhara was attacked");
-    //This crashes the script because the attack sprite is undefined after the timer is up. Not sure why...
-    // function restoreAttackCollision(attackObject) {
-    //   console.log("Added previous attack sprite back to group");
-    //   game.projectiles.add(attackObject);
-    // }
   },
   
   fireAttack: function() {
-	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
 	  if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
 		  attack.set_sprite("Flare");
 	  }
@@ -496,27 +497,15 @@ momGame.prototype = {
     orange.kill();
     oranges_count++;
     orangesCounter.setText(""+oranges_count);
-	oranges_usable = oranges_count >= 10;
-	if(oranges_usable) {
-		orangesCounter.setStyle({
-		fill: "#000000"
-	});
-	orangeUnavailable.visible = false;
-	}
+	  oranges_usable = oranges_count >= 10;
+	  if(oranges_usable) {
+		  orangesCounter.setStyle({
+		  fill: "#000000"
+	   });
+	  orangeUnavailable.visible = false;
+	 }
   },
   
-  useOranges: function() {
-    oranges_count -= 10;
-    orangesCounter.setText(""+oranges_count);
-	oranges_usable = oranges_count >= 10;
-	if(!oranges_usable) {
-		orangesCounter.setStyle({
-		fill: "#ff2d2d"
-	});
-	orangeUnavailable.visible = true;
-	}
-  },
-
   winLevel: function(player, gate) {
     player.animations.stop();
     winOverlay.visible = true;
