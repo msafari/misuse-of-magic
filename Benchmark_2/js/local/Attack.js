@@ -71,8 +71,8 @@ Attack.prototype = {
 
 	attack_init: function(){
 		console.log("AtkInit called.");
-	 	attackList = new Map([["Electric Attack", Attack.Images.ElectricAttack], ["Electromagnetism", Attack.Images.Electromagnetism],
-								["Firefloom", Attack.Images.Firefloom], ["Flare", Attack.Images.Flare],
+	 	attackList = new Map([["Flare", Attack.Images.Flare], ["Firefloom", Attack.Images.Firefloom], 
+		 						["Electric Attack", Attack.Images.ElectricAttack], ["Electromagnetism", Attack.Images.Electromagnetism],
 								["Movement Spell", Attack.Images.MovementSpell], ["Reverse Direction", Attack.Images.ReverseDirection],
 								["default", Attack.Images.Default]]);
 	 	attackList.forEach(function(item, key) {

@@ -3,9 +3,9 @@ var cursors,
   oranges_count = 0,
   health = 5,
   invincible = false,
-  attack_pyro,
-  attack_lightning,
-  attack_gravity,
+  attack_Z,
+  attack_X,
+  attack_C,
   paused = false,
   DAMAGED_L = false,
   DAMAGED_R = false,
@@ -187,16 +187,16 @@ momGame.prototype = {
     
     //control
     cursors = game.input.keyboard.createCursorKeys();
-    attack_pyro = game.input.keyboard.addKey(Phaser.Keyboard.Z);
-    attack_lightning = game.input.keyboard.addKey(Phaser.Keyboard.C);
-    attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
+    attack_Z = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+    attack_C = game.input.keyboard.addKey(Phaser.Keyboard.C);
+    attack_X = game.input.keyboard.addKey(Phaser.Keyboard.X);
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
 
     game.wizardProjectiles = game.add.group();
     game.playerProjectiles = game.add.group();
 
-    attack_pyro.onDown.add(function() { 
+    attack_Z.onDown.add(function() { 
       if(!attack)
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
@@ -209,7 +209,7 @@ momGame.prototype = {
       }
     }, this);
     
-    attack_gravity.onDown.add(function() { 
+    attack_X.onDown.add(function() { 
       if(!attack)
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
@@ -222,7 +222,7 @@ momGame.prototype = {
       }
     }, this);
 
-    attack_lightning.onDown.add(function() { 
+    attack_C.onDown.add(function() { 
       if(!attack)
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
@@ -404,14 +404,15 @@ momGame.prototype = {
   
   fireAttack: function() {
 	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
-	  if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
-		  attack.set_sprite("Flare");
+	  var attackSet = ["Default", "Flare", "Firefloom", "Electric Attack", "Electromagnetism", "Movement Spell", "Reverse Direction"];
+    if(game.time.elapsedSince(attack_Z.timeDown) <= 200 || attack_Z.isDown) { // Last 200ms (is this enough? too much?)
+		  attack.set_sprite(attackSet[f_attackIcon1]);
 	  }
-	  else if(game.time.elapsedSince(attack_lightning.timeDown) <= 200 || attack_lightning.isDown) {
-		  attack.set_sprite("Electric Attack");
+	  else if(game.time.elapsedSince(attack_X.timeDown) <= 200 || attack_X.isDown) {
+		  attack.set_sprite(attackSet[f_attackIcon2]);
 	  }
-	  else if(game.time.elapsedSince(attack_gravity.timeDown) <= 200 || attack_gravity.isDown) {
-		  attack.set_sprite("Movement Spell");
+	  else if(game.time.elapsedSince(attack_C.timeDown) <= 200 || attack_C.isDown) {
+		  attack.set_sprite(attackSet[f_attackIcon3]);
 	  }
 	  else {
 		  console.log("Unknown attack key, using the default sprite");
