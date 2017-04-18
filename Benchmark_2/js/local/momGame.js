@@ -1,6 +1,8 @@
 var momGame = function () {};
 var cursors,
   oranges_count = 0,
+  oranges_usable = false,
+  is_restoring = false,
   health = 5,
   invincible = false,
   attack_pyro,
@@ -17,6 +19,9 @@ momGame.prototype = {
         game.load.image(level.bg_image_name, level.bg_image_path);
         game.load.tilemap(level.name, level.tile_map, null, Phaser.Tilemap.TILED_JSON);
     });
+	//Not sure how/where all of the menu images are loaded, so for now I'll put this here
+	game.load.image("noOrange", "assets/images/noOrange.png");
+	game.load.image("spellRestorePopup", "assets/images/spellRestorePopup.png");
     Attack.prototype.attack_init();
   },
 
@@ -77,6 +82,14 @@ momGame.prototype = {
     orangesCounter = game.add.text(800, 48, "0");
     orangesCounter.fixedToCamera = true;
     orangesCounter.cameraOffset.setTo(800, 48);
+	orangesCounter.setStyle({
+		fill: "#ff2d2d"
+	});
+	
+	orangeUnavailable = game.add.sprite(784, 24, "noOrange");
+	orangeUnavailable.fixedToCamera = true;
+    orangeUnavailable.cameraOffset.setTo(784, 24);
+	
     xButton = game.add.sprite(850, 35, "xButton");
     xButton.fixedToCamera = true;
     xButton.cameraOffset.setTo(850, 35);
@@ -107,6 +120,11 @@ momGame.prototype = {
     helpBase.fixedToCamera = true;
     helpBase.cameraOffset.setTo(100, 75);
 
+	spellRestorePopup = game.add.sprite(100,75,"spellRestorePopup");
+    spellRestorePopup.visible = false;
+    spellRestorePopup.fixedToCamera = true;
+    spellRestorePopup.cameraOffset.setTo(100, 75);
+
     backButton = game.add.sprite(900, 80, "backButton");
     backButton.visible = false;
     backButton.inputEnabled = true;
@@ -114,6 +132,7 @@ momGame.prototype = {
         backButton.visible = false;
         helpBase.visible = false;
         controlsBase.visible = false;
+		spellRestorePopup.visible = false;
     });
 
     //add controls button functionality
@@ -177,51 +196,117 @@ momGame.prototype = {
     attack_pyro = game.input.keyboard.addKey(Phaser.Keyboard.Z);
     attack_lightning = game.input.keyboard.addKey(Phaser.Keyboard.C);
     attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
+	  use_orange = game.input.keyboard.addKey(Phaser.Keyboard.O);
 
-    game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X, Phaser.Keyboard.O]);
 
     game.wizardProjectiles = game.add.group();
     game.playerProjectiles = game.add.group();
 
     attack_pyro.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
-      if (cursors.left.isDown) {
-         this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if(!is_restoring) {  
+        if (cursors.left.isDown) {
+            this.player.animations.play('SPELL_L'); 
+            this.fireAttack();
+        }
+        else if (cursors.right.isDown) {
+            this.player.animations.play('SPELL_R');
+            this.fireAttack();
+        }
       }
-      else if (cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        this.fireAttack();
+      else {
+        var prevUses = attack.uses;
+        attack.uses++; //Later, use the uses for the specific attack
+        console.log("Added an extra use to the fire attack (" + prevUses + " -> " + attack.uses + ")");
+        is_restoring = false;
+        paused = false;
+        spellRestorePopup.visible = false;
       }
     }, this);
     
     attack_gravity.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
-      if (cursors.left.isDown) {
-         this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if(!is_restoring) {
+        if (cursors.left.isDown) {
+          this.player.animations.play('SPELL_L'); 
+          this.fireAttack();
+        }
+        else if (cursors.right.isDown) {
+          this.player.animations.play('SPELL_R');
+          this.fireAttack();
+        }
       }
-      else if (cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        this.fireAttack();
+      else {
+        var prevUses = attack.uses;
+        attack.uses++;
+        console.log("Added an extra use to the gravity attack (" + prevUses + " -> " + attack.uses + ")");
+        is_restoring = false;
+        paused = false;
+        spellRestorePopup.visible = false;
       }
     }, this);
 
     attack_lightning.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
-      if (cursors.left.isDown) {
-         this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+      if(!is_restoring) {
+        if (cursors.left.isDown) {
+            this.player.animations.play('SPELL_L'); 
+            this.fireAttack();
+          }
+        else if (cursors.right.isDown) {
+            this.player.animations.play('SPELL_R');
+            this.fireAttack();
+        }
       }
-      else if (cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        this.fireAttack();
+      else {
+        var prevUses = attack.uses;
+        attack.uses++;
+        console.log("Added an extra use to the lightning attack (" + prevUses + " -> " + attack.uses + ")");
+        is_restoring = false;
+        paused = false;
+        spellRestorePopup.visible = false;
       }
     }, this);
-
+	
+	use_orange.onDown.add(function() {
+    if(is_restoring) {
+      console.log("Canceled spell restore");
+      is_restoring = false;
+      paused = false;
+      spellRestorePopup.visible = false;
+      //Do not decrement oranges if we cancel
+      return;
+    }
+    if(!oranges_usable) {
+      console.log("Not enough oranges (count: " + oranges_count + ")");
+      //TODO: Show a pop up of some sort
+      return;
+    }
+      restoreSpell();
+      oranges_count -= 10;
+      orangesCounter.setText(""+oranges_count);
+      oranges_usable = oranges_count >= 10;
+      updateOrangeText();
+	}, this);
+	
+	function updateOrangeText() {
+		if(!oranges_usable) {
+			orangesCounter.setStyle({
+				fill: "#ff2d2d"
+			});
+			orangeUnavailable.visible = true;
+		}
+	}
+	
+	function restoreSpell() {
+		paused = true;
+		spellRestorePopup.visible = true;
+		is_restoring = true;
+	}
   },
 
 
@@ -238,7 +323,7 @@ momGame.prototype = {
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
-    
+
     if (paused === false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
       game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
@@ -411,6 +496,25 @@ momGame.prototype = {
     orange.kill();
     oranges_count++;
     orangesCounter.setText(""+oranges_count);
+	oranges_usable = oranges_count >= 10;
+	if(oranges_usable) {
+		orangesCounter.setStyle({
+		fill: "#000000"
+	});
+	orangeUnavailable.visible = false;
+	}
+  },
+  
+  useOranges: function() {
+    oranges_count -= 10;
+    orangesCounter.setText(""+oranges_count);
+	oranges_usable = oranges_count >= 10;
+	if(!oranges_usable) {
+		orangesCounter.setStyle({
+		fill: "#ff2d2d"
+	});
+	orangeUnavailable.visible = true;
+	}
   },
 
   winLevel: function(player, gate) {
