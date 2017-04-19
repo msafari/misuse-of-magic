@@ -241,6 +241,8 @@ momGame.prototype = {
         //paused = false;
         pauseGame(false);
         spellRestorePopup.visible = false;
+        oranges_count -= 10;
+        updateOrangeText();
         // _.each(game.wizard_list, function (wizard) {
         // if(!wizard.sprite.animations.currentAnim.isPlaying)
         //   wizard.sprite.animations.currentAnim.play();
@@ -268,6 +270,8 @@ momGame.prototype = {
         is_restoring = false;
         pauseGame(false);
         spellRestorePopup.visible = false;
+        oranges_count -= 10;
+        updateOrangeText();
       }
     }, this);
 
@@ -291,6 +295,8 @@ momGame.prototype = {
         is_restoring = false;
         pauseGame(false);
         spellRestorePopup.visible = false;
+        oranges_count -= 10;
+        updateOrangeText();
       }
     }, this);
 	
@@ -310,12 +316,11 @@ momGame.prototype = {
       return;
     }
       restoreSpell();
-      oranges_count -= 10;
-      orangesCounter.setText(""+oranges_count);
       updateOrangeText();
 	}, this);
 	
 	function updateOrangeText() {
+    orangesCounter.setText(""+oranges_count);
 		if(oranges_count <= 10) {
 			orangesCounter.setStyle({
 				fill: "#ff2d2d"
