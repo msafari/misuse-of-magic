@@ -13,6 +13,25 @@ var cursors,
   DAMAGED_R = false,
   attack;
 
+pauseGame = function(pause) {
+    if(!pause) {
+      paused = false;
+      pauseButton.loadTexture("pauseButton");
+    _.each(game.wizard_list, function (wizard) {
+        if(!wizard.sprite.animations.currentAnim.isPlaying)
+          wizard.sprite.animations.currentAnim.play();
+      });
+    }
+    else {
+      paused = true;
+      pauseButton.loadTexture("playButton");
+      //player.animations.stop();
+      _.each(game.wizard_list, function (wizard) {
+        wizard.sprite.animations.stop();
+      });
+    }
+  };
+
 momGame.prototype = {
   preload: function () {
     _.each(game.levels, function(level, i) {
@@ -100,20 +119,13 @@ momGame.prototype = {
     pauseButton.fixedToCamera = true;
     pauseButton.cameraOffset.setTo(900, 35);
     pauseButton.inputEnabled = true;
-    pauseButton.events.onInputUp.add(function() {if (paused === false) {
-        paused = true;  
-        pauseButton.loadTexture("playButton");
-      } 
-      else {
-        paused = false;  
-        pauseButton.loadTexture("pauseButton");
-        _.each(game.wizard_list, function (wizard) {
-        if(!wizard.sprite.animations.currentAnim.isPlaying)
-          wizard.sprite.animations.currentAnim.play();
-      });
-      }
-    });
-    
+    pauseButton.events.onInputUp.add(function() {
+      if (paused === false)
+        pauseGame(true);
+      else
+        pauseGame(false);
+     });
+
     controlsBase = game.add.sprite(100,75,"controlsBase");
     controlsBase.visible = false;
     controlsBase.fixedToCamera = true;
@@ -178,7 +190,7 @@ momGame.prototype = {
     winOverlay.inputEnabled = false;
     winOverlay.events.onInputUp.add(function() {
       oranges_count = 0;
-      paused = false;
+      this.pauseGame(false);
       game.state.start("Splash");
     });
     winOverlay.fixedToCamera = true;
@@ -189,7 +201,8 @@ momGame.prototype = {
     lossOverlay.inputEnabled = false;
     lossOverlay.events.onInputUp.add(function() {
       oranges_count = 0;
-      paused = false;
+      //paused = false;
+      this.pauseGame(false);
       game.state.start("Splash");
     });
     lossOverlay.fixedToCamera = true;
@@ -209,7 +222,7 @@ momGame.prototype = {
 
     attack_pyro.onDown.add(function() { 
       if(!attack)
-          attack = new Attack('Tzhara', /*'fire',*/ Infinity);
+          attack = new Attack('Tzhara', /*'fire',*/ 4);
       if(!is_restoring) {  
         if (cursors.left.isDown) {
             this.player.animations.play('SPELL_L'); 
@@ -225,8 +238,13 @@ momGame.prototype = {
         attack.uses++; //Later, use the uses for the specific attack
         console.log("Added an extra use to the fire attack (" + prevUses + " -> " + attack.uses + ")");
         is_restoring = false;
-        paused = false;
+        //paused = false;
+        pauseGame(false);
         spellRestorePopup.visible = false;
+        // _.each(game.wizard_list, function (wizard) {
+        // if(!wizard.sprite.animations.currentAnim.isPlaying)
+        //   wizard.sprite.animations.currentAnim.play();
+      //});
       }
     }, this);
     
@@ -248,7 +266,7 @@ momGame.prototype = {
         attack.uses++;
         console.log("Added an extra use to the gravity attack (" + prevUses + " -> " + attack.uses + ")");
         is_restoring = false;
-        paused = false;
+        pauseGame(false);
         spellRestorePopup.visible = false;
       }
     }, this);
@@ -271,7 +289,7 @@ momGame.prototype = {
         attack.uses++;
         console.log("Added an extra use to the lightning attack (" + prevUses + " -> " + attack.uses + ")");
         is_restoring = false;
-        paused = false;
+        pauseGame(false);
         spellRestorePopup.visible = false;
       }
     }, this);
@@ -280,13 +298,9 @@ momGame.prototype = {
     if(is_restoring) {
       console.log("Canceled spell restore");
       is_restoring = false;
-      paused = false;
+      pauseGame(false);
       spellRestorePopup.visible = false;
       //Do not decrement oranges if we cancel
-      _.each(game.wizard_list, function (wizard) {
-        if(!wizard.sprite.animations.currentAnim.isPlaying)
-          wizard.sprite.animations.currentAnim.play();
-      });
       return;
     }
     oranges_usable = oranges_count >= 10;
@@ -311,10 +325,11 @@ momGame.prototype = {
 	}
 	
 	function restoreSpell() {
-		paused = true;
+    this.pauseGame(true);
 		spellRestorePopup.visible = true;
 		is_restoring = true;
 	}
+
   },
 
   update: function () {
@@ -379,9 +394,9 @@ momGame.prototype = {
     }
     else {
       this.player.animations.stop();
-      _.each(game.wizard_list, function (wizard) {
-        wizard.sprite.animations.stop();
-      });
+      // _.each(game.wizard_list, function (wizard) {
+      //   wizard.sprite.animations.stop();
+     // });
     }
   },
 
@@ -450,7 +465,6 @@ momGame.prototype = {
         }, this);
       }
       else {
-        
         wizard.animations.stop();
         wizard.animations.play("DEAD_R", 8);
         wizard.animations.currentAnim.onLoop.add(function() { 
