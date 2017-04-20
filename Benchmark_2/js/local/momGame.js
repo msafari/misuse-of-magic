@@ -3,13 +3,14 @@ var cursors,
   oranges_count = 0,
   health = 5,
   invincible = false,
-  attack_pyro,
-  attack_lightning,
-  attack_gravity,
+  attack_Z,
+  attack_X,
+  attack_C,
   paused = false,
   DAMAGED_L = false,
   DAMAGED_R = false,
-  attack;
+  attack,
+  f_attackIcon1, f_attackIcon2, f_attackIcon3;
 
 momGame.prototype = {
   preload: function () {
@@ -21,7 +22,6 @@ momGame.prototype = {
   },
 
   create: function () { 
-
     titleStyle = { 
         font: 'bold 25pt', 
         fill: '#673ab7', 
@@ -150,6 +150,19 @@ momGame.prototype = {
         helpBase.visible = true;
     });
 
+    mom_AttackIcon1 = game.add.sprite(550, 27, "attackIcons");
+    mom_AttackIcon1.fixedToCamera = true;
+    mom_AttackIcon1.cameraOffset.setTo(550, 27);
+    mom_AttackIcon1.frame = f_attackIcon1;
+    mom_AttackIcon2 = game.add.sprite(610, 27, "attackIcons");
+    mom_AttackIcon2.fixedToCamera = true;
+    mom_AttackIcon2.cameraOffset.setTo(610, 27);
+    mom_AttackIcon2.frame = f_attackIcon2;
+    mom_AttackIcon3 = game.add.sprite(670, 27, "attackIcons");
+    mom_AttackIcon3.fixedToCamera = true;
+    mom_AttackIcon3.cameraOffset.setTo(670, 27);
+    mom_AttackIcon3.frame = f_attackIcon3;
+
     winOverlay = game.add.sprite(375, 50, "winOverlay");
     winOverlay.visible = false;
     winOverlay.inputEnabled = false;
@@ -174,16 +187,16 @@ momGame.prototype = {
     
     //control
     cursors = game.input.keyboard.createCursorKeys();
-    attack_pyro = game.input.keyboard.addKey(Phaser.Keyboard.Z);
-    attack_lightning = game.input.keyboard.addKey(Phaser.Keyboard.C);
-    attack_gravity = game.input.keyboard.addKey(Phaser.Keyboard.X);
+    attack_Z = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+    attack_C = game.input.keyboard.addKey(Phaser.Keyboard.C);
+    attack_X = game.input.keyboard.addKey(Phaser.Keyboard.X);
 
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
 
     game.wizardProjectiles = game.add.group();
     game.playerProjectiles = game.add.group();
 
-    attack_pyro.onDown.add(function() { 
+    attack_Z.onDown.add(function() { 
       if(!attack)
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
@@ -196,7 +209,7 @@ momGame.prototype = {
       }
     }, this);
     
-    attack_gravity.onDown.add(function() { 
+    attack_X.onDown.add(function() { 
       if(!attack)
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
@@ -209,7 +222,7 @@ momGame.prototype = {
       }
     }, this);
 
-    attack_lightning.onDown.add(function() { 
+    attack_C.onDown.add(function() { 
       if(!attack)
            attack = new Attack('Tzhara', /*'fire',*/ Infinity);
       if (cursors.left.isDown) {
@@ -391,14 +404,15 @@ momGame.prototype = {
   
   fireAttack: function() {
 	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
-	  if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
-		  attack.set_sprite("Flare");
+	  var attackSet = ["Default", "Flare", "Firefloom", "Electric Attack", "Electromagnetism", "Movement Spell", "Reverse Direction"];
+    if(game.time.elapsedSince(attack_Z.timeDown) <= 200 || attack_Z.isDown) { // Last 200ms (is this enough? too much?)
+		  attack.set_sprite(attackSet[f_attackIcon1]);
 	  }
-	  else if(game.time.elapsedSince(attack_lightning.timeDown) <= 200 || attack_lightning.isDown) {
-		  attack.set_sprite("Electric Attack");
+	  else if(game.time.elapsedSince(attack_X.timeDown) <= 200 || attack_X.isDown) {
+		  attack.set_sprite(attackSet[f_attackIcon2]);
 	  }
-	  else if(game.time.elapsedSince(attack_gravity.timeDown) <= 200 || attack_gravity.isDown) {
-		  attack.set_sprite("Movement Spell");
+	  else if(game.time.elapsedSince(attack_C.timeDown) <= 200 || attack_C.isDown) {
+		  attack.set_sprite(attackSet[f_attackIcon3]);
 	  }
 	  else {
 		  console.log("Unknown attack key, using the default sprite");
