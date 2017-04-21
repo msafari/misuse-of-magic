@@ -1,6 +1,8 @@
 var momGame = function () {};
 var cursors,
   oranges_count = 0,
+  oranges_usable = false,
+  is_restoring = false,
   health = 5,
   invincible = false,
   attack_Z,
@@ -11,6 +13,25 @@ var cursors,
   DAMAGED_R = false,
   attack,
   f_attackIcon1, f_attackIcon2, f_attackIcon3;
+
+pauseGame = function(pause) {
+    if(!pause) {
+      paused = false;
+      pauseButton.loadTexture("pauseButton");
+    _.each(game.wizard_list, function (wizard) {
+        if(!wizard.sprite.animations.currentAnim.isPlaying)
+          wizard.sprite.animations.currentAnim.play();
+      });
+    }
+    else {
+      paused = true;
+      pauseButton.loadTexture("playButton");
+      //player.animations.stop();
+      _.each(game.wizard_list, function (wizard) {
+        wizard.sprite.animations.stop();
+      });
+    }
+  };
 
 momGame.prototype = {
   preload: function () {
@@ -77,6 +98,15 @@ momGame.prototype = {
     orangesCounter = game.add.text(800, 48, "0");
     orangesCounter.fixedToCamera = true;
     orangesCounter.cameraOffset.setTo(800, 48);
+    orangesCounter.setStyle({
+    fill: "#ff2d2d"
+    });
+  
+    orangeUnavailable = game.add.sprite(784, 24, "noOrange");
+    orangeUnavailable.fixedToCamera = true;
+    orangeUnavailable.cameraOffset.setTo(784, 24);
+
+
     xButton = game.add.sprite(850, 35, "xButton");
     xButton.fixedToCamera = true;
     xButton.cameraOffset.setTo(850, 35);
@@ -87,15 +117,12 @@ momGame.prototype = {
     pauseButton.fixedToCamera = true;
     pauseButton.cameraOffset.setTo(900, 35);
     pauseButton.inputEnabled = true;
-    pauseButton.events.onInputUp.add(function() {if (paused === false) {
-        paused = true;  
-        pauseButton.loadTexture("playButton");
-      } 
-      else {
-        paused = false;  
-        pauseButton.loadTexture("pauseButton");
-      }
-    });
+    pauseButton.events.onInputUp.add(function() {
+      if (paused === false)
+        pauseGame(true);
+      else
+        pauseGame(false);
+     });
     
     controlsBase = game.add.sprite(100,75,"controlsBase");
     controlsBase.visible = false;
@@ -114,6 +141,7 @@ momGame.prototype = {
         backButton.visible = false;
         helpBase.visible = false;
         controlsBase.visible = false;
+        spellRestorePopup.visible = false;
     });
 
     //add controls button functionality
@@ -150,17 +178,22 @@ momGame.prototype = {
         helpBase.visible = true;
     });
 
-    mom_AttackIcon1 = game.add.sprite(550, 27, "attackIcons");
+    spellRestorePopup = game.add.sprite(125, 75,"spellRestorePopup");
+    spellRestorePopup.visible = false;
+    spellRestorePopup.fixedToCamera = true;
+    spellRestorePopup.cameraOffset.setTo(125, 75);
+
+    mom_AttackIcon1 = game.add.sprite(500, 27, "attackIcons");
     mom_AttackIcon1.fixedToCamera = true;
-    mom_AttackIcon1.cameraOffset.setTo(550, 27);
+    mom_AttackIcon1.cameraOffset.setTo(500, 27);
     mom_AttackIcon1.frame = f_attackIcon1;
-    mom_AttackIcon2 = game.add.sprite(610, 27, "attackIcons");
+    mom_AttackIcon2 = game.add.sprite(565, 27, "attackIcons"); //This one is a tad off center, so -5px to make up for that
     mom_AttackIcon2.fixedToCamera = true;
-    mom_AttackIcon2.cameraOffset.setTo(610, 27);
+    mom_AttackIcon2.cameraOffset.setTo(565, 27);
     mom_AttackIcon2.frame = f_attackIcon2;
-    mom_AttackIcon3 = game.add.sprite(670, 27, "attackIcons");
+    mom_AttackIcon3 = game.add.sprite(630, 27, "attackIcons");
     mom_AttackIcon3.fixedToCamera = true;
-    mom_AttackIcon3.cameraOffset.setTo(670, 27);
+    mom_AttackIcon3.cameraOffset.setTo(630, 27);
     mom_AttackIcon3.frame = f_attackIcon3;
 
     winOverlay = game.add.sprite(375, 50, "winOverlay");
@@ -190,53 +223,124 @@ momGame.prototype = {
     attack_Z = game.input.keyboard.addKey(Phaser.Keyboard.Z);
     attack_C = game.input.keyboard.addKey(Phaser.Keyboard.C);
     attack_X = game.input.keyboard.addKey(Phaser.Keyboard.X);
+    use_orange = game.input.keyboard.addKey(Phaser.Keyboard.O);
 
-    game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X]);
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X, Phaser.Keyboard.O]);
 
     game.wizardProjectiles = game.add.group();
     game.playerProjectiles = game.add.group();
 
     attack_Z.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
-      if (cursors.left.isDown) {
-         this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+           attack = new Attack('Tzhara', Infinity);
+      if(!is_restoring) {
+        if (cursors.left.isDown) {
+            this.player.animations.play('SPELL_L'); 
+            this.fireAttack();
+        }
+        else if (cursors.right.isDown) {
+            this.player.animations.play('SPELL_R');
+            this.fireAttack();
+        }
       }
-      else if (cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        this.fireAttack();
+      else {
+          var prevUses = attack.uses;
+          attack.uses++; //Later, use the uses for the specific attack
+          console.log("Added an extra use to the Z attack (" + prevUses + " -> " + attack.uses + ")");
+          is_restoring = false;
+          pauseGame(false);
+          spellRestorePopup.visible = false;
+          oranges_count -= 10;
+          updateOrangeText();
       }
     }, this);
     
     attack_X.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
-      if (cursors.left.isDown) {
-         this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+           attack = new Attack('Tzhara', Infinity);
+      if(!is_restoring) {
+        if (cursors.left.isDown) {
+            this.player.animations.play('SPELL_L'); 
+            this.fireAttack();
+        }
+        else if (cursors.right.isDown) {
+            this.player.animations.play('SPELL_R');
+            this.fireAttack();
+        }
       }
-      else if (cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        this.fireAttack();
+      else {
+          var prevUses = attack.uses;
+          attack.uses++;
+          console.log("Added an extra use to the X attack (" + prevUses + " -> " + attack.uses + ")");
+          is_restoring = false;
+          pauseGame(false);
+          spellRestorePopup.visible = false;
+          oranges_count -= 10;
+          updateOrangeText();
       }
     }, this);
 
     attack_C.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', /*'fire',*/ Infinity);
-      if (cursors.left.isDown) {
-         this.player.animations.play('SPELL_L'); 
-         this.fireAttack();
+           attack = new Attack('Tzhara', Infinity);
+      if(!is_restoring) {
+        if (cursors.left.isDown) {
+            this.player.animations.play('SPELL_L'); 
+            this.fireAttack();
+        }
+        else if (cursors.right.isDown) {
+            this.player.animations.play('SPELL_R');
+            this.fireAttack();
+        }
       }
-      else if (cursors.right.isDown) {
-        this.player.animations.play('SPELL_R');
-        this.fireAttack();
+      else {
+          var prevUses = attack.uses;
+          attack.uses++; //Later, use the uses for the specific attack
+          console.log("Added an extra use to the C attack (" + prevUses + " -> " + attack.uses + ")");
+          is_restoring = false;
+          pauseGame(false);
+          spellRestorePopup.visible = false;
+          oranges_count -= 10;
+          updateOrangeText();
       }
     }, this);
 
-  },
+    use_orange.onDown.add(function() {
+    if(is_restoring) {
+      console.log("Canceled spell restore");
+      is_restoring = false;
+      pauseGame(false);
+      spellRestorePopup.visible = false;
+      //Do not decrement oranges if we cancel
+      return;
+    }
+    oranges_usable = oranges_count >= 10;
+    if(!oranges_usable) {
+      console.log("Not enough oranges (count: " + oranges_count + ")");
+      //TODO: Show a pop up of some sort
+      return;
+    }
+      restoreSpell();
+      updateOrangeText();
+  }, this);
+  
+  function updateOrangeText() {
+    orangesCounter.setText(""+oranges_count);
+    if(oranges_count < 10) {
+      orangesCounter.setStyle({
+        fill: "#ff2d2d"
+      });
+      orangeUnavailable.visible = true;
+    }
+  }
+  
+  function restoreSpell() {
+    this.pauseGame(true);
+    spellRestorePopup.visible = true;
+    is_restoring = true;
+  }
 
+  },
 
   update: function () {
   
@@ -300,9 +404,9 @@ momGame.prototype = {
     }
     else {
       this.player.animations.stop();
-      _.each(game.wizard_list, function (wizard) {
-        wizard.sprite.animations.stop();
-      });
+      // _.each(game.wizard_list, function (wizard) {
+      //   wizard.sprite.animations.stop();
+      // });
     }
   },
 
@@ -390,20 +494,13 @@ momGame.prototype = {
     //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
     //may be a problem later if many attacks are going back and forth.
     if(attackObject.attacker_name === "Tzhara") {
-      console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
-      //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
+      console.log("Stop hitting yourself! (remove attack sprite from this projectile group)");
       return;
     }
     console.log("Tzhara was attacked");
-    //This crashes the script because the attack sprite is undefined after the timer is up. Not sure why...
-    // function restoreAttackCollision(attackObject) {
-    //   console.log("Added previous attack sprite back to group");
-    //   game.projectiles.add(attackObject);
-    // }
   },
   
   fireAttack: function() {
-	  //TODO: Attack produces multiple projectiles; only launch one. Do not allow held attacks (It's allowed now to prevent the defaultAttack) 
 	  var attackSet = ["Default", "Flare", "Firefloom", "Electric Attack", "Electromagnetism", "Movement Spell", "Reverse Direction"];
     if(game.time.elapsedSince(attack_Z.timeDown) <= 200 || attack_Z.isDown) { // Last 200ms (is this enough? too much?)
 		  attack.set_sprite(attackSet[f_attackIcon1]);
@@ -415,7 +512,7 @@ momGame.prototype = {
 		  attack.set_sprite(attackSet[f_attackIcon3]);
 	  }
 	  else {
-		  console.log("Unknown attack key, using the default sprite");
+		  console.warn("Unknown attack key, using the default sprite");
 		  attack.set_sprite("default");
 	  }
 	  attack.launch(this.player);
@@ -425,6 +522,13 @@ momGame.prototype = {
     orange.kill();
     oranges_count++;
     orangesCounter.setText(""+oranges_count);
+    oranges_usable = oranges_count >= 10;
+    if(oranges_usable) {
+      orangesCounter.setStyle({
+      fill: "#000000"
+     });
+    orangeUnavailable.visible = false;
+   }
   },
 
   winLevel: function(player, gate) {

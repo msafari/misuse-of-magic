@@ -54,6 +54,8 @@ splash.prototype = {
     game.load.image("winOverlay", "assets/images/winOverlay.png");
     game.load.image("lossOverlay", "assets/images/lossOverlay.png");
     game.load.image("backButton", "assets/images/backButton.png");
+    game.load.image("noOrange", "assets/images/noOrange.png");
+    game.load.image("spellRestorePopup", "assets/images/spellRestorePopup.png");
 
     //load in attacks and attack sprites
     game.load.image("flareIcon", "assets/Sprites/attacks/flareIcon.png");
@@ -106,6 +108,7 @@ splash.prototype = {
     game.load.spritesheet("LIGHTNING_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 64, 96);
     game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 64, 96);
     game.load.spritesheet("ICE_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 64, 96);
+
   },
 
   create: function() {
