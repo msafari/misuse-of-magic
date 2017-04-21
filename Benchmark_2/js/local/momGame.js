@@ -178,7 +178,6 @@ momGame.prototype = {
         helpBase.visible = true;
     });
 
-
     spellRestorePopup = game.add.sprite(125, 75,"spellRestorePopup");
     spellRestorePopup.visible = false;
     spellRestorePopup.fixedToCamera = true;
