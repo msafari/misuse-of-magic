@@ -15,6 +15,8 @@ var cursors,
   f_attackIcon1, f_attackIcon2, f_attackIcon3;
 
 pauseGame = function(pause) {
+    if(paused == pause)
+      return; //Prevent useless iteration if something tries to set the same state twice 
     if(!pause) {
       paused = false;
       pauseButton.loadTexture("pauseButton");
@@ -26,7 +28,6 @@ pauseGame = function(pause) {
     else {
       paused = true;
       pauseButton.loadTexture("playButton");
-      //player.animations.stop();
       _.each(game.wizard_list, function (wizard) {
         wizard.sprite.animations.stop();
       });
@@ -75,7 +76,6 @@ momGame.prototype = {
 
     game.camera.follow(this.player);
 
-
     this.timer = this.game.time.create(this.game);    
     this.timer.add(50, this.all_wizards_random_act, this.all_wizards_random_act);    
     this.timer.start();   
@@ -106,7 +106,6 @@ momGame.prototype = {
     orangeUnavailable.fixedToCamera = true;
     orangeUnavailable.cameraOffset.setTo(784, 24);
 
-
     xButton = game.add.sprite(850, 35, "xButton");
     xButton.fixedToCamera = true;
     xButton.cameraOffset.setTo(850, 35);
@@ -134,14 +133,25 @@ momGame.prototype = {
     helpBase.fixedToCamera = true;
     helpBase.cameraOffset.setTo(100, 75);
 
+    infoBase = game.add.sprite(100,75,"infoBase");
+    infoBase.visible = false;
+    infoBase.fixedToCamera = true;
+    infoBase.cameraOffset.setTo(100, 75);
+
     backButton = game.add.sprite(900, 80, "backButton");
     backButton.visible = false;
     backButton.inputEnabled = true;
-    backButton.events.onInputUp.add(function() {
+    backEvent = backButton.events.onInputUp.add(function() {
         backButton.visible = false;
         helpBase.visible = false;
         controlsBase.visible = false;
         spellRestorePopup.visible = false;
+        infoBase.visible = false;
+        pauseGame(false);
+    });
+    _.attempt(function() {
+    //This is so the the cheats get removed from the screen without causing an issue if the file is not used
+      Cheats.backAction = backEvent.getSignal();
     });
 
     //add controls button functionality
@@ -224,15 +234,16 @@ momGame.prototype = {
     attack_C = game.input.keyboard.addKey(Phaser.Keyboard.C);
     attack_X = game.input.keyboard.addKey(Phaser.Keyboard.X);
     use_orange = game.input.keyboard.addKey(Phaser.Keyboard.O);
+    cheat_menu = game.input.keyboard.addKey(Phaser.Keyboard.M);
 
-    game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X, Phaser.Keyboard.O]);
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.C, Phaser.Keyboard.Z, Phaser.Keyboard.X, Phaser.Keyboard.O, Phaser.Keyboard.M]);
 
     game.wizardProjectiles = game.add.group();
     game.playerProjectiles = game.add.group();
 
     attack_Z.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', Infinity);
+           attack = new Attack('Tzhara', 10);
       if(!is_restoring) {
         if (cursors.left.isDown) {
             this.player.animations.play('SPELL_L'); 
@@ -245,7 +256,7 @@ momGame.prototype = {
       }
       else {
           var prevUses = attack.uses;
-          attack.uses++; //Later, use the uses for the specific attack
+          attack.uses++;
           console.log("Added an extra use to the Z attack (" + prevUses + " -> " + attack.uses + ")");
           is_restoring = false;
           pauseGame(false);
@@ -257,7 +268,7 @@ momGame.prototype = {
     
     attack_X.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', Infinity);
+           attack = new Attack('Tzhara', 10);
       if(!is_restoring) {
         if (cursors.left.isDown) {
             this.player.animations.play('SPELL_L'); 
@@ -282,7 +293,7 @@ momGame.prototype = {
 
     attack_C.onDown.add(function() { 
       if(!attack)
-           attack = new Attack('Tzhara', Infinity);
+           attack = new Attack('Tzhara', 10);
       if(!is_restoring) {
         if (cursors.left.isDown) {
             this.player.animations.play('SPELL_L'); 
@@ -295,7 +306,7 @@ momGame.prototype = {
       }
       else {
           var prevUses = attack.uses;
-          attack.uses++; //Later, use the uses for the specific attack
+          attack.uses++;
           console.log("Added an extra use to the C attack (" + prevUses + " -> " + attack.uses + ")");
           is_restoring = false;
           pauseGame(false);
@@ -304,6 +315,10 @@ momGame.prototype = {
           updateOrangeText();
       }
     }, this);
+
+    cheat_menu.onDown.add(function() {
+      _.attempt(showCheatMenu); //So much neater than try/catch, because we don't really need to handle the exception
+    });
 
     use_orange.onDown.add(function() {
     if(is_restoring) {
@@ -338,6 +353,14 @@ momGame.prototype = {
     this.pauseGame(true);
     spellRestorePopup.visible = true;
     is_restoring = true;
+  }
+
+  function showCheatMenu() {
+    if(cheatFileLoaded) {
+      infoBase.visible = true;
+      backButton.visible = true;
+      cheatMenu();
+    }
   }
 
   },
