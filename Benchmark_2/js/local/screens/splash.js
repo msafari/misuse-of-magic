@@ -42,6 +42,7 @@ splash.prototype = {
     game.load.image("buttonBase", "assets/images/buttonBase.png")
     game.load.image("helpBase", "assets/images/helpBase.png");
     game.load.image("controlsBase", "assets/images/controlsBase.png");
+    game.load.image("infoBase", "assets/images/infobase.png");
 
     //load in images related to gameplay
     game.load.image("gameUI", "assets/images/gameUI.png");
