@@ -49,9 +49,13 @@ Level.prototype = {
         else if (attackIcon2.frame === attackIcon3.frame)
           game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 2 and 3. Try again!");
         else {
+          menuClick = game.add.audio("menuClick");
+          menuClick.play();
           game.current_level = this;
           game.sameAttackText.destroy(); //save resources by removing the text when we load the level
           f_attackIcon1 = attackIcon1.frame; f_attackIcon2 = attackIcon2.frame; f_attackIcon3 = attackIcon3.frame;
+          game.sound.stopAll();
+          menuClick.play();
           game.state.start("MomGame");
         }
         game.sameAttackText.fixedToCamera = true;

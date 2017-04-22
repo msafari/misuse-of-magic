@@ -5,6 +5,11 @@ gameMenu.prototype = {
   },
 
   create: function () {
+      menuTheme = game.add.audio("menuTheme");
+      menuTheme.loop = true;
+      menuTheme.play();
+      menuClick = game.add.audio("menuClick");
+      
       game.add.sprite(0, 0, 'background');
       titleStyle = { 
         font: 'bold 25pt', 
@@ -25,15 +30,15 @@ gameMenu.prototype = {
 
       menuPlay = game.add.text((game.camera.width / 2) * 1.3, 400, 'Play', menuStyle);
       menuPlay.inputEnabled = true;
-      menuPlay.events.onInputUp.add(function() {game.state.start("MomLevelSelect");
+      menuPlay.events.onInputUp.add(function() {game.state.start("MomLevelSelect"); menuClick.play();
       });
       menuOptions = game.add.text((game.camera.width / 2) * 1.3, 500, 'Controls', menuStyle);
       menuOptions.inputEnabled = true;
-      menuOptions.events.onInputUp.add(function() {game.state.start("Controls");
+      menuOptions.events.onInputUp.add(function() {game.state.start("Controls"); menuClick.play();
       });
       menuHelp = game.add.text((game.camera.width / 2) * 1.3, 600, 'Help', menuStyle);
       menuHelp.inputEnabled = true;
-      menuHelp.events.onInputUp.add(function() {game.state.start("Help");
+      menuHelp.events.onInputUp.add(function() {game.state.start("Help"); menuClick.play();
       });
     
       funkylogo = game.add.sprite((game.camera.width / 2) * 0.25, 200, 'coollogo');

@@ -109,6 +109,23 @@ splash.prototype = {
     game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 64, 96);
     game.load.spritesheet("ICE_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 64, 96);
 
+    //load audio
+    game.load.audio("menuClick", "assets/audio/menuClick.mp3");
+    game.load.audio("menuTheme", "assets/audio/menuTheme.mp3");
+    game.load.audio("a_flare", 'assets/audio/flare.mp3');
+    game.load.audio("a_firefloom", 'assets/audio/firefloom.mp3');
+    game.load.audio("a_zolt", 'assets/audio/zolt.mp3');
+    game.load.audio("a_electromagnetism", 'assets/audio/electromagnetism.mp3');
+    game.load.audio("a_vector", 'assets/audio/vector.mp3');
+    game.load.audio("a_reverseTrajectory", "assets/audio/reverseTrajectory.mp3");
+    game.load.audio("a_iceAttack", "assets/audio/iceAttack.mp3");
+    game.load.audio("hitSound", "assets/audio/hitSound.mp3");
+    game.load.audio("damagedSound", "assets/audio/hitSound2.mp3");
+    game.load.audio("jump", "assets/audio/jump.mp3");
+    game.load.audio("orangeCollect", "assets/audio/orangeCollect3.mp3");
+    game.load.audio("lossTheme", "assets/audio/lossTheme.mp3");
+    game.load.audio("winTheme", "assets/audio/winTheme.mp3");
+    game.load.audio("inGameMusic", "assets/audio/inGameMusic1.mp3");
   },
 
   create: function() {
