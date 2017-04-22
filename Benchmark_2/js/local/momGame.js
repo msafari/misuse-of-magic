@@ -141,6 +141,8 @@ momGame.prototype = {
     backButton = game.add.sprite(900, 80, "backButton");
     backButton.visible = false;
     backButton.inputEnabled = true;
+    backButton.fixedToCamera = true;
+    backButton.cameraOffset.setTo(900, 80);
     backEvent = backButton.events.onInputUp.add(function() {
         backButton.visible = false;
         helpBase.visible = false;
@@ -326,7 +328,6 @@ momGame.prototype = {
       is_restoring = false;
       pauseGame(false);
       spellRestorePopup.visible = false;
-      //Do not decrement oranges if we cancel
       return;
     }
     oranges_usable = oranges_count >= 10;
@@ -427,9 +428,6 @@ momGame.prototype = {
     }
     else {
       this.player.animations.stop();
-      // _.each(game.wizard_list, function (wizard) {
-      //   wizard.sprite.animations.stop();
-      // });
     }
   },
 
@@ -467,7 +465,7 @@ momGame.prototype = {
     }
 
     function changeTint() {
-      console.log(game.player.tint);
+      //console.log(game.player.tint);
       if (game.player.tint === 16777215)
         game.player.tint = 0x83ccf9;
       else
