@@ -79,17 +79,24 @@ Cheats.CheatList = {
 			}
 		} 
 	},
-	infiniteJump: {
+	infiniteOranges: {
 		enabled: false,
-		text: "Make Tzhara fly: ",
+		text: "Infinite oranges: ",
 		action: function() {
 			if(!this.enabled) {
 				this.enabled = true;
-				console.log("Tzhara can now fly.");
+				console.log("Oranges will never run out");
+				orangesCounter.setText(String.fromCharCode(0x221E)); //infinity symbol
+				oranges_count = Infinity;
+				orangeUnavailable.visible = false;
+				oranges_usable = true;
 			}
 			else {
 				this.enabled = false;
-				console.log("Infiinite jump disabled");
+				console.log("Infiinite oranges disabled");
+				oranges_count = 0;
+				orangeUnavailable.visible = true;
+				orangesCounter.setText(""+oranges_count);
 			}
 			
 		}  

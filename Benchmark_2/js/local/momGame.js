@@ -323,30 +323,34 @@ momGame.prototype = {
     });
 
     use_orange.onDown.add(function() {
-    if(is_restoring) {
-      console.log("Canceled spell restore");
-      is_restoring = false;
-      pauseGame(false);
-      spellRestorePopup.visible = false;
-      return;
-    }
-    oranges_usable = oranges_count >= 10;
-    if(!oranges_usable) {
-      console.log("Not enough oranges (count: " + oranges_count + ")");
-      //TODO: Show a pop up of some sort
-      return;
-    }
-      restoreSpell();
-      updateOrangeText();
-  }, this);
+      if(is_restoring) {
+        console.log("Canceled spell restore");
+        is_restoring = false;
+        pauseGame(false);
+        spellRestorePopup.visible = false;
+        return;
+      }
+      oranges_usable = oranges_count >= 10;
+      if(!oranges_usable) {
+        console.log("Not enough oranges (count: " + oranges_count + ")");
+        //TODO: Show a pop up of some sort
+        return;
+      }
+        restoreSpell();
+        updateOrangeText();
+    }, this);
   
   function updateOrangeText() {
-    orangesCounter.setText(""+oranges_count);
-    if(oranges_count < 10) {
-      orangesCounter.setStyle({
-        fill: "#ff2d2d"
-      });
-      orangeUnavailable.visible = true;
+    if(oranges_count === Infinity) //the ornage cheat is enabled then so show inifity symbol
+      orangesCounter.setText(String.fromCharCode(0x221E));
+    else {
+      orangesCounter.setText(""+oranges_count);
+      if(oranges_count < 10) {
+        orangesCounter.setStyle({
+          fill: "#ff2d2d"
+        });
+        orangeUnavailable.visible = true;
+      }
     }
   }
   
