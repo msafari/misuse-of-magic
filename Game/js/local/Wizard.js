@@ -57,7 +57,6 @@ _.extend(Wizard.prototype, {
       var frameIndexes = _.range(index * 9, index * 9 + 9);
       sprite.animations.add(state, frameIndexes, 15, true);
     });
-    //setInterval(this.pick_random_act, Phaser.Timer.SECOND);
     _.extend(this, sprite);
   },
 

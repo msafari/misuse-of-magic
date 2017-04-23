@@ -13,7 +13,6 @@ var cursors,
   DAMAGED_R = false,
   attack,
   f_attackIcon1, f_attackIcon2, f_attackIcon3,
-  hitSound, damagedSound,
   gameWin;
 
 pauseGame = function(pause) {
@@ -88,22 +87,9 @@ momGame.prototype = {
     // load player sprite animations
     
     var player_start = this.findObjectsBySprite("Player", "Player")[0];
-    this.player = game.add.sprite(player_start.x, player_start.y, 'TZARHA');
+    this.player = new Tzhara(player_start.x, player_start.y);
 
-    this.game.physics.arcade.enable(this.player);
-    this.player.body.collideWorldBounds = true;
-    this.player.body.allowGravity = true;
-    this.player.body.bounce.y = 0.4;
-    this.player.body.gravity.y = 15000;
-
-    // set anchor point for player
-    this.player.anchor.setTo(0.5, 0.5);
-    this.loadTzarha(this.player);
-    game.player = this.player;
-
-    this.load_wizards();
-
-    game.camera.follow(this.player);    
+    this.load_wizards();   
 
     gameUI = game.add.sprite(50, 25, "gameUI");
     gameUI.fixedToCamera = true;
@@ -415,7 +401,6 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
-    game.physics.arcade.collide(this.player, game.wizardProjectiles, this.playerDamage, null);
 
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
@@ -518,20 +503,6 @@ momGame.prototype = {
         game.player.tint = 0xffffff;
     }
   },
-
-  playerDamage: function(player, attackObject) {
-    //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
-    //may be a problem later if many attacks are going back and forth.
-    if(attackObject.attacker_name === "Tzhara") {
-      console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
-      //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
-      return;
-    }
-    else {
-      console.log("Tzhara was attacked");
-      damagedSound.play();
-    }
-  },
   
   fireAttack: function(direction) {
 	  var attackSet = ["Default", "Flare", "Firefloom", "ElectricAttack", "Electromagnetism", "MovementSpell", "ReverseDirection"];
@@ -600,15 +571,6 @@ momGame.prototype = {
       helpButton.inputEnabled = false;
       controlsButton.inputEnabled = false;      
     }
-
-  },
-
-  loadTzarha: function(player) {
-    var states = ["IDLE", "SPELL_L", "SPELL_R", "DEATH", "DAMAGE_L", "DAMAGE_R", "JUMP_L", "JUMP_R", "WALK_L", "WALK_R"];
-    _.each(states, function (state, i) {
-        var frameIndexes = _.range(i*6, i*6 + 6);
-        player.animations.add(state, frameIndexes, 10, true);
-    });
   },
 
   loadLevelMap: function () {
