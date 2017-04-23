@@ -43,7 +43,6 @@ Wizard.prototype = {
 
   attack_player: function () {
     //attack randomly in left or right direction
-    this.sprite.body.velocity.x = 0;
     var attack_left = (game.player.position.x - this.x < 0) ? true : false;
     if (attack_left) {
       this.sprite.animations.play("ATTACK_L");
@@ -53,7 +52,8 @@ Wizard.prototype = {
 
     //launch attack sprite
     this.attack_obj = new Attack(this.name, Infinity, this.type);
-    this.attack_obj.set_sprite(this.attack_type());
+    var sprite_name = this.attack_type();
+    this.attack_obj.set_sprite(sprite_name);
 
     var attack_dir = attack_left ? "left" : "right";
     this.attack_obj.launch(this.sprite, attack_dir); 

@@ -3,7 +3,7 @@ function Attack(attacker_name, uses, type) {
 	this.attacker_name = attacker_name;
 	this.type = type;
 	this.AtkSprite = null;
-	this.uses = (attacker_name === "WIZARD") ? Infinity : uses;
+	this.uses = uses;
 	// we assume it's unsuccesful
 	this.success = false;
 } 
@@ -54,7 +54,8 @@ Attack.prototype = {
 
 			if(direction === "left") {
 				this.AtkSprite.position.x = attacker.position.x - 15;
-				atkTween = game.add.tween(this.AtkSprite).to({x: game.player.position.x });
+				this.AtkSprite.visible = true;
+				atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x - 250 });
 			}
 			else {
 				this.AtkSprite.position.x = attacker.position.x + 15;
@@ -64,9 +65,9 @@ Attack.prototype = {
 
 		this.AtkSprite.visible = true;
 		
-		atkTween.onStart.addOnce(function() {
+		// atkTween.onStart.addOnce(function() {
 			this.AtkSprite.animations.play('launch', 16, true);
-		}, this)
+		// }, this)
 		atkTween.start().onComplete.addOnce(function() {
 			this.AtkSprite.kill();
 		}, this);

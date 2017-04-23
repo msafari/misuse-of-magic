@@ -14,7 +14,8 @@ var cursors,
   attack,
   f_attackIcon1, f_attackIcon2, f_attackIcon3,
   hitSound, damagedSound,
-  gameWin;
+  gameWin,
+  wizard_timer = 0;
 
 pauseGame = function(pause) {
     if(paused == pause)
@@ -105,13 +106,10 @@ momGame.prototype = {
 
     //setInterval(this.all_wizards_random_act, Phaser.Timer.SECOND * 1.5);    
 
-<<<<<<< HEAD:Game/js/local/momGame.js
     game.camera.follow(this.player);  
-=======
-    this.timer = this.game.time.create(this.game);    
-    this.timer.add(50, this.all_wizards_random_act, this.all_wizards_random_act);    
-    this.timer.start();   
->>>>>>> 69aa214ea6fc128f0d0d56e1bd5b8cb6fb0a283a:Benchmark_2/js/local/momGame.js
+    // this.timer = this.game.time.create(this.game);    
+    // this.timer.add(50, this.all_wizards_random_act, this.all_wizards_random_act);    
+    // this.timer.start();   
 
     gameUI = game.add.sprite(50, 25, "gameUI");
     gameUI.fixedToCamera = true;
@@ -288,7 +286,7 @@ momGame.prototype = {
 
     attack_Z.onDown.add(function() { 
       if(!attack)
-        attack = new Attack('Tzhara', 10, "FIRE");
+        attack = new Attack('Tzhara', Infinity, "FIRE");
       if(!is_restoring) {
         if (cursors.left.isDown) {
             this.player.animations.play('SPELL_L'); 
@@ -313,7 +311,7 @@ momGame.prototype = {
     
     attack_X.onDown.add(function() { 
       if(!attack)
-        attack = new Attack('Tzhara', 10, "GRAVITY");
+        attack = new Attack('Tzhara', Infinity, "GRAVITY");
       if(!is_restoring) {
         if (cursors.left.isDown) {
             this.player.animations.play('SPELL_L'); 
@@ -338,7 +336,7 @@ momGame.prototype = {
 
     attack_C.onDown.add(function() { 
       if(!attack)
-        attack = new Attack('Tzhara', 10, "ELECTRIC");
+        attack = new Attack('Tzhara', Infinity, "ELECTRIC");
 
       if(!is_restoring) {
         if (cursors.left.isDown) {
@@ -433,6 +431,13 @@ momGame.prototype = {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
       game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
 
+      if (wizard_timer <= 60) {
+        wizard_timer++;
+      }
+      else {
+        this.all_wizards_random_act();
+        wizard_timer = 0;
+      }
 
       if (health === 0) {
         this.loseLevel();
@@ -536,14 +541,12 @@ momGame.prototype = {
       hitSound.play();
       wizard.hitPoints--;
       w_damage_anim = (attack.AtkSprite.direction === "left") ? "DAMAGE_R" : "DAMAGE_L"
-      wizard.animations.stop();
       wizard.animations.play(w_damage_anim, 8);
       console.log("losing wizard health");
     }
     if (wizard.hitPoints == 0) {
       direction = wizard.animations.currentAnim.name;
       animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
-      wizard.animations.stop();
       wizard.animations.play(animation_name, 8);
       wizard.animations.currentAnim.onLoop.add(function() { 
         _.each(game.wizard_list, function (wiz) {
@@ -556,45 +559,21 @@ momGame.prototype = {
   },
 
   playerDamage: function(player, attackObject) {
-   //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
-   //may be a problem later if many attacks are going back and forth.
-   if(attackObject.attacker_name === "Tzhara") {
-     console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
-     //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
-     return;
-   }
-   console.log("Tzhara was attacked");
-   //This crashes the script because the attack sprite is undefined after the timer is up. Not sure why...
-   // function restoreAttackCollision(attackObject) {
-   //   console.log("Added previous attack sprite back to group");
-   //   game.projectiles.add(attackObject);
-   // }
-  },
-
-  fireAttack: function(direction) {
-    if(game.time.elapsedSince(attack_pyro.timeDown) <= 200 || attack_pyro.isDown) { // Last 200ms (is this enough? too much?)
-      attack.set_sprite("Flare");
-	  }
-	  else if(game.time.elapsedSince(attack_lightning.timeDown) <= 200 || attack_lightning.isDown) {
-		  attack.set_sprite("ElectricAttack");
-	  }
-	  else if(game.time.elapsedSince(attack_gravity.timeDown) <= 200 || attack_gravity.isDown) {
-		  attack.set_sprite("MovementSpell");
-    }
     //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
     //may be a problem later if many attacks are going back and forth.
     if(attackObject.attacker_name === "Tzhara") {
-      console.log("Stop hitting yourself! (remove attack sprite from this projectile group)");
+      console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
+      //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
       return;
     }
     else {
-    console.log("Tzhara was attacked");
-    damagedSound.play();
+      console.log("Tzhara was attacked");
+      damagedSound.play();
     }
   },
   
-  fireAttack: function() {
-	  var attackSet = ["Default", "Flare", "Firefloom", "Electric Attack", "Electromagnetism", "Movement Spell", "Reverse Direction"];
+  fireAttack: function(direction) {
+	  var attackSet = ["Default", "Flare", "Firefloom", "ElectricAttack", "Electromagnetism", "MovementSpell", "ReverseDirection"];
     attackSounds = ["default", flareSound, firefloomSound, zoltSound, electromagnetismSound, vectorSound, reverseTrajectorySound];
     if(game.time.elapsedSince(attack_Z.timeDown) <= 200 || attack_Z.isDown) { // Last 200ms (is this enough? too much?)
 		  attack.set_sprite(attackSet[f_attackIcon1]);
@@ -611,8 +590,7 @@ momGame.prototype = {
 	  else {
 		  attack.set_sprite("default");
 	  }
-	  attack.launch(this.player, direction);
-	  } 
+	  attack.launch(this.player, direction); 
   },
 
   collectOranges: function(player, orange) {
@@ -716,7 +694,8 @@ momGame.prototype = {
 
   all_wizards_random_act: function () {
     _.each(game.wizard_list, function(wiz) {
-      wiz.pick_random_act();
+      if (wiz.sprite.hitPoints == 0)
+        wiz.pick_random_act();
     });
   },
 
