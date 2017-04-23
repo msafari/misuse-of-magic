@@ -148,10 +148,11 @@ momGame.prototype = {
     pauseButton.events.onInputUp.add(function() {
       menuClick.play();
       if (paused === false) {
-        inGameMusic.pause();
+        inGameMusic.volume -= .45;
         pauseGame(true);
       }
       else {
+        inGameMusic.volume += .45;
         inGameMusic.resume();
         pauseGame(false);
       }
@@ -270,7 +271,10 @@ momGame.prototype = {
     
     //control
     cursors = game.input.keyboard.createCursorKeys();
-    cursors.up.onDown.add(function() {jumpSound.play();}, this);
+    cursors.up.onDown.add(function() {
+      if (paused === false)
+        jumpSound.play();
+      }, this);
     attack_Z = game.input.keyboard.addKey(Phaser.Keyboard.Z);
     attack_C = game.input.keyboard.addKey(Phaser.Keyboard.C);
     attack_X = game.input.keyboard.addKey(Phaser.Keyboard.X);
