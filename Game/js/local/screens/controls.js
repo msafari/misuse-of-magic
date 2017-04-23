@@ -5,6 +5,7 @@ controls.prototype = {
   },
 
   create: function () { 
+    menuClick = game.add.audio("menuClick");
     game.add.sprite(0, 0, 'background');
     titleStyle = { font: 'bold 25pt', fill: '#673ab7', align: 'center'};
     menuStyle = { font: 'bold 20pt', fill: '#FF0000'};
@@ -15,6 +16,6 @@ controls.prototype = {
     header.anchor.setTo(0.5);
     backButton = game.add.sprite(50, 675, "backButton");
     backButton.inputEnabled = true;
-    backButton.events.onInputUp.add(function() {game.state.start("GameMenu")});
+    backButton.events.onInputUp.add(function() {menuClick.play(); game.state.start("GameMenu");});
   }
 }
