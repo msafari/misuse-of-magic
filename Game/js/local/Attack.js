@@ -3,7 +3,7 @@ function Attack(attacker_name, uses, type) {
 	this.attacker_name = attacker_name;
 	this.type = type;
 	this.AtkSprite = null;
-	this.uses = uses;
+	this.uses = (attacker_name.includes("WIZARD")) ? Infinity : uses;
 	// we assume it's unsuccesful
 	this.success = false;
 } 

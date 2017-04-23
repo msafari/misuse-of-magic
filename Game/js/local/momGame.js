@@ -14,8 +14,7 @@ var cursors,
   attack,
   f_attackIcon1, f_attackIcon2, f_attackIcon3,
   hitSound, damagedSound,
-  gameWin,
-  wizard_timer = 0;
+  gameWin;
 
 pauseGame = function(pause) {
     if(paused == pause)
@@ -24,15 +23,15 @@ pauseGame = function(pause) {
       paused = false;
       pauseButton.loadTexture("pauseButton");
     _.each(game.wizard_list, function (wizard) {
-        if(!wizard.sprite.animations.currentAnim.isPlaying)
-          wizard.sprite.animations.currentAnim.play();
+        if(!wizard.animations.currentAnim.isPlaying)
+          wizard.animations.currentAnim.play();
       });
     }
     else {
       paused = true;
       pauseButton.loadTexture("playButton");
       _.each(game.wizard_list, function (wizard) {
-        wizard.sprite.animations.stop();
+        wizard.animations.stop();
       });
     }
   };
@@ -104,12 +103,7 @@ momGame.prototype = {
 
     this.load_wizards();
 
-    //setInterval(this.all_wizards_random_act, Phaser.Timer.SECOND * 1.5);    
-
-    game.camera.follow(this.player);  
-    // this.timer = this.game.time.create(this.game);    
-    // this.timer.add(50, this.all_wizards_random_act, this.all_wizards_random_act);    
-    // this.timer.start();   
+    game.camera.follow(this.player);    
 
     gameUI = game.add.sprite(50, 25, "gameUI");
     gameUI.fixedToCamera = true;
@@ -421,7 +415,6 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
-    game.physics.arcade.collide(game.wizards, game.playerProjectiles, this.wizardDamage, null);
     game.physics.arcade.collide(this.player, game.wizardProjectiles, this.playerDamage, null);
 
     this.player.body.velocity.x = 0;
@@ -430,14 +423,6 @@ momGame.prototype = {
     if (paused === false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
       game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
-
-      if (wizard_timer <= 60) {
-        wizard_timer++;
-      }
-      else {
-        this.all_wizards_random_act();
-        wizard_timer = 0;
-      }
 
       if (health === 0) {
         this.loseLevel();
@@ -531,30 +516,6 @@ momGame.prototype = {
         game.player.tint = 0x83ccf9;
       else
         game.player.tint = 0xffffff;
-    }
-  },
-
-  wizardDamage: function(wizard, attackObject) {
-    //TODO: Make the wizard take damage
-    attackObject.kill();
-    if(attackObject.attacker_name === "Tzhara") {
-      hitSound.play();
-      wizard.hitPoints--;
-      w_damage_anim = (attack.AtkSprite.direction === "left") ? "DAMAGE_R" : "DAMAGE_L"
-      wizard.animations.play(w_damage_anim, 8);
-      console.log("losing wizard health");
-    }
-    if (wizard.hitPoints == 0) {
-      direction = wizard.animations.currentAnim.name;
-      animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
-      wizard.animations.play(animation_name, 8);
-      wizard.animations.currentAnim.onLoop.add(function() { 
-        _.each(game.wizard_list, function (wiz) {
-          if (wiz.sprite === wizard) {
-            wiz.destroy();
-          }
-        });
-      }, this); 
     }
   },
 
@@ -689,13 +650,6 @@ momGame.prototype = {
     this.level_wizards = this.findObjectsBySprite("Wizard", "Wizards");
     _.each(this.level_wizards, function (wiz) {
       var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y, game.wizards);
-    });
-  },
-
-  all_wizards_random_act: function () {
-    _.each(game.wizard_list, function(wiz) {
-      if (wiz.sprite.hitPoints == 0)
-        wiz.pick_random_act();
     });
   },
 
