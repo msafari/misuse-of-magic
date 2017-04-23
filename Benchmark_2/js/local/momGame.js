@@ -12,7 +12,9 @@ var cursors,
   DAMAGED_L = false,
   DAMAGED_R = false,
   attack,
-  f_attackIcon1, f_attackIcon2, f_attackIcon3;
+  f_attackIcon1, f_attackIcon2, f_attackIcon3,
+  hitSound, damagedSound,
+  gameWin;
 
 pauseGame = function(pause) {
     if(paused == pause)
@@ -44,6 +46,33 @@ momGame.prototype = {
   },
 
   create: function () { 
+    gameWin = false;
+    inGameMusic = game.add.audio("inGameMusic");
+    inGameMusic.loop = true; 
+    inGameMusic.volume -= .4;
+    menuClick = game.add.audio("menuClick");
+    winTheme = game.add.audio("winTheme");
+    lossTheme = game.add.audio("lossTheme");
+    lossTheme.loop = true;
+    lossTheme.volume -=.5;
+    flareSound = game.add.audio("a_flare");
+    firefloomSound = game.add.audio("a_firefloom");
+    zoltSound = game.add.audio("a_zolt");
+    electromagnetismSound = game.add.audio("a_electromagnetism");
+    vectorSound = game.add.audio("a_vector");
+    reverseTrajectorySound = game.add.audio("a_reverseTrajectory");
+    jumpSound = game.add.audio("jump");
+    jumpSound.volume -= .7;
+    hitSound = game.add.audio("hitSound");
+    hitSound.volume -= .5;
+    damagedSound = game.add.audio("damagedSound");
+    damagedSound.volume -= .6;
+    orangeSound = game.add.audio("orangeCollect");
+    orangeSound.volume -= .9;
+    attackSounds = [flareSound, firefloomSound, zoltSound, electromagnetismSound, vectorSound, reverseTrajectorySound];
+    for (var i = 2; i < 6; i++) {
+      attackSounds[i].volume -= .8;
+    }
     titleStyle = { 
         font: 'bold 25pt', 
         fill: '#673ab7', 
@@ -110,17 +139,22 @@ momGame.prototype = {
     xButton.fixedToCamera = true;
     xButton.cameraOffset.setTo(850, 35);
     xButton.inputEnabled = true;
-    xButton.events.onInputUp.add(function() {game.camera.reset(); game.state.start("Splash");});
+    xButton.events.onInputUp.add(function() {game.sound.stopAll(); menuClick.play(); game.camera.reset(); game.state.start("Splash");});
 
     pauseButton = game.add.sprite(900, 35, "pauseButton");
     pauseButton.fixedToCamera = true;
     pauseButton.cameraOffset.setTo(900, 35);
     pauseButton.inputEnabled = true;
     pauseButton.events.onInputUp.add(function() {
-      if (paused === false)
+      menuClick.play();
+      if (paused === false) {
+        inGameMusic.pause();
         pauseGame(true);
-      else
+      }
+      else {
+        inGameMusic.resume();
         pauseGame(false);
+      }
      });
     
     controlsBase = game.add.sprite(100,75,"controlsBase");
@@ -162,6 +196,7 @@ momGame.prototype = {
     controlsButton.cameraOffset.setTo(950, 35);
     controlsButton.inputEnabled = true;
     controlsButton.events.onInputUp.add(function() {
+      menuClick.play();
       if (helpBase.visible === true)
         backButton.visible = false;
         helpBase.visible = false;
@@ -179,6 +214,7 @@ momGame.prototype = {
     helpButton.cameraOffset.setTo(1000, 35);
     helpButton.inputEnabled = true;
     helpButton.events.onInputUp.add(function() {
+      menuClick.play();
       if (controlsBase.visible === true)
         backButton.visible = false;
         controlsBase.visible = false;
@@ -212,6 +248,7 @@ momGame.prototype = {
     winOverlay.visible = false;
     winOverlay.inputEnabled = false;
     winOverlay.events.onInputUp.add(function() {
+      game.sound.stopAll();
       oranges_count = 0;
       paused = false;
       game.state.start("Splash");
@@ -223,6 +260,7 @@ momGame.prototype = {
     lossOverlay.visible = false;
     lossOverlay.inputEnabled = false;
     lossOverlay.events.onInputUp.add(function() {
+      game.sound.stopAll();
       oranges_count = 0;
       paused = false;
       game.state.start("Splash");
@@ -232,6 +270,7 @@ momGame.prototype = {
     
     //control
     cursors = game.input.keyboard.createCursorKeys();
+    cursors.up.onDown.add(function() {jumpSound.play();}, this);
     attack_Z = game.input.keyboard.addKey(Phaser.Keyboard.Z);
     attack_C = game.input.keyboard.addKey(Phaser.Keyboard.C);
     attack_X = game.input.keyboard.addKey(Phaser.Keyboard.X);
@@ -367,7 +406,8 @@ momGame.prototype = {
       cheatMenu();
     }
   }
-
+  
+  inGameMusic.play();
   },
 
   update: function () {
@@ -438,7 +478,12 @@ momGame.prototype = {
   wizardContact: function() {
 
     if (invincible != true && health >= 1) {
-        //TODO: this doesnt work yet. oops.
+        if (health > 1)
+          damagedSound.play();
+        else {
+          game.sound.stopAll();
+          damagedSound.play();
+        }
         if (game.player.body.touching.left) {
           DAMAGED_L = true;
         }
@@ -469,7 +514,6 @@ momGame.prototype = {
     }
 
     function changeTint() {
-      //console.log(game.player.tint);
       if (game.player.tint === 16777215)
         game.player.tint = 0x83ccf9;
       else
@@ -481,6 +525,7 @@ momGame.prototype = {
     //TODO: Make the wizard take damage
     attackObject.kill();
     if(attackObject.attacker_name === "Tzhara") {
+      hitSound.play();
       wizard.hitPoints--;
       console.log("Wizard hit! Wizard health: " + wizard.hitPoints);
     }
@@ -522,28 +567,36 @@ momGame.prototype = {
       console.log("Stop hitting yourself! (remove attack sprite from this projectile group)");
       return;
     }
+    else {
     console.log("Tzhara was attacked");
+    damagedSound.play();
+    }
   },
   
   fireAttack: function() {
 	  var attackSet = ["Default", "Flare", "Firefloom", "Electric Attack", "Electromagnetism", "Movement Spell", "Reverse Direction"];
+    attackSounds = ["default", flareSound, firefloomSound, zoltSound, electromagnetismSound, vectorSound, reverseTrajectorySound];
     if(game.time.elapsedSince(attack_Z.timeDown) <= 200 || attack_Z.isDown) { // Last 200ms (is this enough? too much?)
 		  attack.set_sprite(attackSet[f_attackIcon1]);
+      attackSounds[f_attackIcon1].play();
 	  }
 	  else if(game.time.elapsedSince(attack_X.timeDown) <= 200 || attack_X.isDown) {
 		  attack.set_sprite(attackSet[f_attackIcon2]);
+      attackSounds[f_attackIcon2].play();
 	  }
 	  else if(game.time.elapsedSince(attack_C.timeDown) <= 200 || attack_C.isDown) {
 		  attack.set_sprite(attackSet[f_attackIcon3]);
+      attackSounds[f_attackIcon3].play();
 	  }
 	  else {
 		  console.warn("Unknown attack key, using the default sprite");
 		  attack.set_sprite("default");
-	  }
+	  } 
 	  attack.launch(this.player);
   },
 
   collectOranges: function(player, orange) {
+    orangeSound.play();
     orange.kill();
     oranges_count++;
     orangesCounter.setText(""+oranges_count);
@@ -557,6 +610,12 @@ momGame.prototype = {
   },
 
   winLevel: function(player, gate) {
+    
+    if (gameWin === false) {
+      game.sound.stopAll();
+      winTheme.play();
+      gameWin = true;
+    }
     player.animations.stop();
     winOverlay.visible = true;
     winOverlay.inputEnabled = true;
@@ -572,6 +631,7 @@ momGame.prototype = {
   },
 
   loseLevel: function() {
+    lossTheme.play();
     game.time.events.repeat(Phaser.Timer.SECOND * 3, 1, _disable, this);
     
     function _disable () {
