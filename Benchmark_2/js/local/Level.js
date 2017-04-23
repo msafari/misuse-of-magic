@@ -56,6 +56,7 @@ Level.prototype = {
           f_attackIcon1 = attackIcon1.frame; f_attackIcon2 = attackIcon2.frame; f_attackIcon3 = attackIcon3.frame;
           game.sound.stopAll();
           menuClick.play();
+          menuTheme.mute = true;
           game.state.start("MomGame");
         }
         game.sameAttackText.fixedToCamera = true;

@@ -28,7 +28,7 @@ momLevelSelect.prototype = {
 
     backButton = game.add.sprite(50, 675, "backButton");
     backButton.inputEnabled = true;
-    backButton.events.onInputUp.add(function() {game.sound.stopAll(); menuClick.play(); game.state.start("GameMenu");});
+    backButton.events.onInputUp.add(function() {menuClick.play(); game.state.start("GameMenu");});
 
     attackSelectText = game.add.text(600, 525, "Select your skills!");
     attackSelectText.fixedToCamera = true;

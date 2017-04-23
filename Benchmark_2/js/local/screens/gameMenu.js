@@ -1,13 +1,27 @@
 var gameMenu = function() {};
+var menuTheme;
 
 gameMenu.prototype = {
   preload: function () {
   },
 
   create: function () {
-      menuTheme = game.add.audio("menuTheme");
-      menuTheme.loop = true;
-      menuTheme.play();
+    console.log(menuTheme);
+      if (menuTheme === undefined) {
+        menuTheme = game.add.audio("menuTheme");
+        menuTheme.onStop.add(function() {menuTheme.mute = true;});
+        menuTheme.loop = true;
+        menuTheme.volume -= .4;
+        menuTheme.play();
+      }
+      
+      //required to get the theme to play after a restart
+      if (menuTheme.mute === true) {
+        menuTheme.mute = false;
+        menuTheme.loop = true;
+        menuTheme.play();
+      } 
+      
       menuClick = game.add.audio("menuClick");
       
       game.add.sprite(0, 0, 'background');

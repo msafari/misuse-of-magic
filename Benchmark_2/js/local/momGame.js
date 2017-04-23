@@ -406,7 +406,7 @@ momGame.prototype = {
       cheatMenu();
     }
   }
-
+  
   inGameMusic.play();
   },
 
