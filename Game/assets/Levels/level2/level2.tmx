@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="60">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="64">
  <tileset firstgid="1" name="desert ground and platforms" tilewidth="32" tileheight="32" tilecount="36" columns="6">
   <image source="../Tiles/desert ground and platforms.png" width="192" height="192"/>
  </tileset>
@@ -334,6 +334,26 @@
     <property name="Sprite" value="Orange"/>
    </properties>
   </object>
+  <object id="60" gid="139" x="2847.43" y="2528.22" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Gate"/>
+   </properties>
+  </object>
+  <object id="61" gid="140" x="2879.78" y="2528.43" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Gate"/>
+   </properties>
+  </object>
+  <object id="62" gid="141" x="2846.43" y="2559.14" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Gate"/>
+   </properties>
+  </object>
+  <object id="63" gid="142" x="2880" y="2559.89" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Gate"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Wizards">
   <object id="7" gid="137" x="839" y="2602" width="32" height="32">
@@ -397,11 +417,5 @@
     <property name="Sprite" value="Player"/>
    </properties>
   </object>
- </objectgroup>
- <objectgroup name="gate">
-  <object id="55" gid="139" x="2847.43" y="2528.22" width="32" height="32"/>
-  <object id="57" gid="140" x="2879.78" y="2528.43" width="32" height="32"/>
-  <object id="58" gid="141" x="2846.43" y="2559.14" width="32" height="32"/>
-  <object id="59" gid="142" x="2880" y="2559.89" width="32" height="32"/>
  </objectgroup>
 </map>

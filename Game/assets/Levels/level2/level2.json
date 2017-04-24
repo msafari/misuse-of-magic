@@ -466,6 +466,86 @@
                  "width":32,
                  "x":126,
                  "y":514
+                }, 
+                {
+                 "gid":139,
+                 "height":32,
+                 "id":60,
+                 "name":"",
+                 "properties":
+                    {
+                     "Sprite":"Gate"
+                    },
+                 "propertytypes":
+                    {
+                     "Sprite":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2847.43,
+                 "y":2528.22
+                }, 
+                {
+                 "gid":140,
+                 "height":32,
+                 "id":61,
+                 "name":"",
+                 "properties":
+                    {
+                     "Sprite":"Gate"
+                    },
+                 "propertytypes":
+                    {
+                     "Sprite":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2879.78,
+                 "y":2528.43
+                }, 
+                {
+                 "gid":141,
+                 "height":32,
+                 "id":62,
+                 "name":"",
+                 "properties":
+                    {
+                     "Sprite":"Gate"
+                    },
+                 "propertytypes":
+                    {
+                     "Sprite":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2846.43,
+                 "y":2559.14
+                }, 
+                {
+                 "gid":142,
+                 "height":32,
+                 "id":63,
+                 "name":"",
+                 "properties":
+                    {
+                     "Sprite":"Gate"
+                    },
+                 "propertytypes":
+                    {
+                     "Sprite":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2880,
+                 "y":2559.89
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -715,68 +795,8 @@
          "width":0,
          "x":0,
          "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "height":0,
-         "name":"gate",
-         "objects":[
-                {
-                 "gid":139,
-                 "height":32,
-                 "id":55,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":2847.43038769424,
-                 "y":2528.21519384712
-                }, 
-                {
-                 "gid":140,
-                 "height":32,
-                 "id":57,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":2879.78480615288,
-                 "y":2528.43038769424
-                }, 
-                {
-                 "gid":141,
-                 "height":32,
-                 "id":58,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":2846.43038769424,
-                 "y":2559.13922461152
-                }, 
-                {
-                 "gid":142,
-                 "height":32,
-                 "id":59,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":2880,
-                 "y":2559.8860461466
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "width":0,
-         "x":0,
-         "y":0
         }],
- "nextobjectid":60,
+ "nextobjectid":64,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,
