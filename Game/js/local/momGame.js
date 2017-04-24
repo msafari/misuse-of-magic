@@ -405,14 +405,12 @@ momGame.prototype = {
     this.background.fixedToCamera = true;
 
     this.map = game.add.tilemap(game.current_level.name);
-
-    this.map.addTilesetImage("grass-rock platforms2", "grassRock");
-    this.map.addTilesetImage("space flora", "spaceFlora");
-    this.map.addTilesetImage("space flora2", "spaceFlora2");
-    this.map.addTilesetImage("gate", "gate");
-    this.map.addTilesetImage(game.current_level.name, game.current_level.bg_image_name);
+    game.map = this.map;
+    _.each(game.current_level.tileset_info, function (value, key) {
+      game.map.addTilesetImage(key, value);
+    });
+    this.map = game.map;
     
-    this.bg_layer = this.map.createLayer('bg');
     this.grass_layer = this.map.createLayer('grass');
     this.blocked_layer = this.map.createLayer('blocked-layer');
 
