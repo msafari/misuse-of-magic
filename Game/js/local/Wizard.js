@@ -18,14 +18,18 @@ Wizard.prototype.constructor = Wizard;
 
 _.extend(Wizard.prototype, {
   update : function () {
-    game.physics.arcade.collide(this, game.playerProjectiles, this.damage);
 
-    if (this.wizard_timer <= 160) {
-      this.wizard_timer++;
-    }
-    else {
-      this.pick_random_act();
-      this.wizard_timer = 0;
+    if (game.paused == false) {
+      game.physics.arcade.collide(this, game.playerProjectiles, this.damage);
+      //game.physics.arcade.collide(game.player, this, game.player.wizard_contact);
+
+      if (this.wizard_timer <= 160) {
+        this.wizard_timer++;
+      }
+      else {
+        this.pick_random_act();
+        this.wizard_timer = 0;
+      }
     }
 
   },
@@ -58,6 +62,7 @@ _.extend(Wizard.prototype, {
       sprite.animations.add(state, frameIndexes, 15, true);
     });
     _.extend(this, sprite);
+    game.add.existing(this);
   },
 
   attack_player: function () {

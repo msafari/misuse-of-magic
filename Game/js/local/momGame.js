@@ -10,10 +10,11 @@ pauseGame = function(pause) {
     if(!pause) {
       game.paused = false;
       pauseButton.loadTexture("pauseButton");
-    _.each(game.wizard_list, function (wizard) {
+      _.each(game.wizard_list, function (wizard) {
         if(!wizard.animations.currentAnim.isPlaying)
           wizard.animations.currentAnim.play();
       });
+      console.warn("PLAYYY AGAIN");
     }
     else {
       game.paused = true;
@@ -55,7 +56,6 @@ momGame.prototype = {
     // load player sprite animations
     var player_start = this.findObjectsBySprite("Player", "Player")[0];
     this.player = new Tzhara(player_start.x - 32, player_start.y + 32);
-    console.warn(this.player);
 
     this.load_wizards();   
 
@@ -73,6 +73,8 @@ momGame.prototype = {
         heart.fixedToCamera = true;
         heart.cameraOffset.setTo(150 + (i * 35), 35);
     }
+
+    game.hearts = hearts;
     
     orangesCounter = game.add.text(800, 48, "0");
     orangesCounter.fixedToCamera = true;
@@ -89,7 +91,7 @@ momGame.prototype = {
     xButton.fixedToCamera = true;
     xButton.cameraOffset.setTo(850, 35);
     xButton.inputEnabled = true;
-    xButton.events.onInputUp.add(function() {game.sound.stopAll(); this.sounds.menuClick.play(); game.camera.reset(); game.state.start("Splash");});
+    xButton.events.onInputUp.add(function() {game.sound.stopAll(); game.sound_effects.menuClick.play(); game.camera.reset(); game.state.start("Splash");});
 
     pauseButton = game.add.sprite(900, 35, "pauseButton");
     pauseButton.fixedToCamera = true;
@@ -97,12 +99,12 @@ momGame.prototype = {
     pauseButton.inputEnabled = true;
     pauseButton.events.onInputUp.add(function() {
       menuClick.play();
-      if (game.paused === false) {
-        this.sounds.inGameMusic.pause();
+      if (game.paused == false) {
+        game.sound_effects.inGameMusic.pause();
         pauseGame(true);
       }
       else {
-        this.sounds.inGameMusic.resume();
+        game.sound_effects.inGameMusic.resume();
         pauseGame(false);
       }
      });
@@ -164,7 +166,7 @@ momGame.prototype = {
     helpButton.cameraOffset.setTo(1000, 35);
     helpButton.inputEnabled = true;
     helpButton.events.onInputUp.add(function() {
-      this.sounds.menuClick.play();
+      game.sound_effects.menuClick.play();
       if (controlsBase.visible === true)
         backButton.visible = false;
         controlsBase.visible = false;

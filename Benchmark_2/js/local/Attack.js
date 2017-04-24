@@ -23,6 +23,7 @@ Attack.prototype = {
 		AtkSprite = game.world.create(0, 0, name, 0);
 		AtkSprite.animations.add("launch");
 		game.physics.arcade.enable(AtkSprite);
+		AtkSprite.enableBpdy = true;
 		AtkSprite.attacker_name = this.attacker_name;
 		attackList.get(name).sprite = AtkSprite;
 		game.time.events.add(2000, AtkSprite.kill, AtkSprite);

@@ -3,6 +3,7 @@ function Tzhara (x, y) {
 
   //set physics properties
   game.physics.arcade.enable(this);
+  this.enableBody = true;
   this.body.collideWorldBounds = true;
   this.body.allowGravity = true;
   this.body.bounce.y = 0.4;
@@ -30,13 +31,15 @@ Tzhara.prototype.constructor = Tzhara;
 
 _.extend(Tzhara.prototype, {
   update: function() {
-    game.physics.arcade.collide(this, game.wizardProjectiles, this.damage, null);
+   if (game.physics.arcade.collide(this, game.wizardProjectiles))
+    this.damage();
+
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
-    if (game.paused === false) {
+    if (game.paused == false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
-      game.physics.arcade.overlap(this.player, game.wizards, this.wizard_contact, null);
+      game.physics.arcade.overlap(this, game.wizards, this.wizard_contact, null, this);
 
 
       if (this.DAMAGED_R) {
@@ -105,7 +108,8 @@ _.extend(Tzhara.prototype, {
     }
     else {
       console.log("Tzhara was attacked");
-      gamme.sound_effects.damagedSound.play();
+      this.health--;
+      game.sound_effects.damagedSound.play();
     }
   },
 
@@ -197,11 +201,11 @@ _.extend(Tzhara.prototype, {
   wizard_contact: function() {
 
     if (this.invincible != true && this.health >= 1) {
-        if (health > 1)
-          this.sounds.damagedSound.play();
+        if (this.health > 1)
+          game.sound_effects.damagedSound.play();
         else {
           game.sound.stopAll();
-          this.sounds.damagedSound.play();
+          game.sound_effects.damagedSound.play();
         }
         if (this.body.touching.left) {
           this.DAMAGED_L = true;
@@ -214,10 +218,10 @@ _.extend(Tzhara.prototype, {
         this.tint = 0x0078ff;
         this.invincible = true;
         this.health--;
-        game.hearts.children[health].frame = 1;
+        game.hearts.children[this.health].frame = 1;
         game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, _invinFrameOver, this);
         game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, _stopDamage, this);
-        if (health != 0) {
+        if (this.health != 0) {
           game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, _changeTint, this);
         }
     }
