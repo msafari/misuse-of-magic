@@ -110,7 +110,7 @@ _.extend(Tzhara.prototype, {
 
     player_controls.attack_Z.onDown.add(function() { 
       if(!this.attack)
-        this.attack = new Attack('TZHARA', Infinity, "FIRE");
+        this.attack = new Attack('TZHARA', 10, "FIRE");
       if(!game.is_restoring) {
         if (player_controls.cursors.left.isDown) {
             this.animations.play('SPELL_L'); 
@@ -125,7 +125,7 @@ _.extend(Tzhara.prototype, {
     
     player_controls.attack_X.onDown.add(function() { 
       if(!this.attack)
-        this.attack = new Attack('TZHARA', Infinity, "ELECTRIC");
+        this.attack = new Attack('TZHARA', 10, "ELECTRIC");
       if(!game.is_restoring) {
         if (player_controls.cursors.left.isDown) {
             this.animations.play('SPELL_L'); 
@@ -140,7 +140,7 @@ _.extend(Tzhara.prototype, {
 
     player_controls.attack_C.onDown.add(function() { 
       if(!this.attack)
-        this.attack = new Attack('TZHARA', Infinity, "GRAVITY");
+        this.attack = new Attack('TZHARA', 10, "GRAVITY");
 
       if(!game.is_restoring) {
         if (player_controls.cursors.left.isDown) {
