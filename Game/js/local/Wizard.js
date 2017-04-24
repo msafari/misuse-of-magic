@@ -19,8 +19,8 @@ Wizard.prototype.constructor = Wizard;
 _.extend(Wizard.prototype, {
   update : function () {
 
-    if (game.paused == false) {
-      game.physics.arcade.collide(this, game.playerProjectiles, this.damage, null, this);
+    if (game.is_paused == false) {
+      game.physics.arcade.collide(this, game.playerProjectiles, this.damage);
 
       if (this.wizard_timer <= 160) {
         this.wizard_timer++;

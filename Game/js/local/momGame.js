@@ -5,10 +5,10 @@ var oranges_count = 0,
   gameWin;
 
 pauseGame = function(pause) {
-    if(game.paused == pause)
+    if(game.is_paused == pause)
       return; //Prevent useless iteration if something tries to set the same state twice 
     if(!pause) {
-      game.paused = false;
+      game.is_paused = false;
       pauseButton.loadTexture("pauseButton");
       _.each(game.wizard_list, function (wizard) {
         if(!wizard.animations.currentAnim.isPlaying)
@@ -17,7 +17,8 @@ pauseGame = function(pause) {
       console.warn("PLAYYY AGAIN");
     }
     else {
-      game.paused = true;
+      console.warn("PAUSED");
+      game.is_paused = true;
       pauseButton.loadTexture("playButton");
       _.each(game.wizard_list, function (wizard) {
         wizard.animations.stop();
@@ -35,9 +36,10 @@ momGame.prototype = {
   },
 
   create: function () { 
+    console.warn("Game started");
     gameWin = false;
     game.is_restoring = false;
-    game.paused = false;
+    game.is_paused = false;
 
     this.sounds = new Sounds();
 
@@ -91,19 +93,26 @@ momGame.prototype = {
     xButton.fixedToCamera = true;
     xButton.cameraOffset.setTo(850, 35);
     xButton.inputEnabled = true;
-    xButton.events.onInputUp.add(function() {game.sound.stopAll(); game.sound_effects.menuClick.play(); game.camera.reset(); game.state.start("Splash");});
+    xButton.events.onInputUp.add(function() {
+      game.sound.stopAll(); 
+      game.sound_effects.menuClick.play(); 
+      game.camera.reset(); 
+      game.state.start("Splash");
+    });
 
     pauseButton = game.add.sprite(900, 35, "pauseButton");
     pauseButton.fixedToCamera = true;
     pauseButton.cameraOffset.setTo(900, 35);
     pauseButton.inputEnabled = true;
     pauseButton.events.onInputUp.add(function() {
-      menuClick.play();
-      if (game.paused == false) {
+      game.sound_effects.menuClick.play();
+      if (!game.is_paused) {
+        game.sound_effects.inGameMusic.volume -= .45;
         game.sound_effects.inGameMusic.pause();
         pauseGame(true);
       }
       else {
+        game.sound_effects.inGameMusic.volume += .45;
         game.sound_effects.inGameMusic.resume();
         pauseGame(false);
       }
@@ -148,16 +157,18 @@ momGame.prototype = {
     controlsButton.cameraOffset.setTo(950, 35);
     controlsButton.inputEnabled = true;
     controlsButton.events.onInputUp.add(function() {
-      menuClick.play();
-      if (helpBase.visible === true)
+      game.sound_effects.menuClick.play();
+      if (helpBase.visible) {
         backButton.visible = false;
         helpBase.visible = false;
-      if (controlsBase.visible === true) {
+      }
+      if (controlsBase.visible) {
         controlsBase.visible = false;
       }
-      else
+      else {
         backButton.visible = true;
         controlsBase.visible = true;
+      }
     });
 
     //add help button functionality
@@ -202,7 +213,7 @@ momGame.prototype = {
     winOverlay.events.onInputUp.add(function() {
       game.sound.stopAll();
       oranges_count = 0;
-      game.paused = false;
+      game.is_paused = false;
       game.state.start("Splash");
     });
     winOverlay.fixedToCamera = true;
@@ -214,7 +225,7 @@ momGame.prototype = {
     lossOverlay.events.onInputUp.add(function() {
       game.sound.stopAll();
       oranges_count = 0;
-      game.paused = false;
+      game.is_paused = false;
       game.state.start("Splash");
     });
     lossOverlay.fixedToCamera = true;
@@ -332,9 +343,9 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     
-    if (game.paused === false) {
+    if (!game.is_paused) {
 
-      if (this.player.health === 0) {
+      if (this.player.health == 0) {
         this.loseLevel();
       }
     }
@@ -366,7 +377,7 @@ momGame.prototype = {
     winOverlay.inputEnabled = true;
     helpButton.inputEnabled = false;
     controlsButton.inputEnabled = false;
-    game.paused = true;
+    game.is_paused = true;
     var next_level = "level" + (game.current_level.number+1);
     next_level = _.find(game.levels, function(l) {
       if(l.name=== next_level)
@@ -380,7 +391,7 @@ momGame.prototype = {
     game.time.events.repeat(Phaser.Timer.SECOND * 3, 1, _disable, this);
     
     function _disable () {
-      game.paused = true;
+      game.is_paused = true;
       lossOverlay.visible = true;
       lossOverlay.inputEnabled = true;
       helpButton.inputEnabled = false;
