@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="45">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="60">
  <tileset firstgid="1" name="desert ground and platforms" tilewidth="32" tileheight="32" tilecount="36" columns="6">
   <image source="../Tiles/desert ground and platforms.png" width="192" height="192"/>
  </tileset>
@@ -119,7 +119,7 @@
 26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26
 </data>
  </layer>
- <layer name="sand" width="100" height="100">
+ <layer name="grass" width="100" height="100">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -224,47 +224,184 @@
 </data>
  </layer>
  <objectgroup name="object-layer">
-  <object id="17" gid="138" x="1382" y="2256" width="32" height="32"/>
-  <object id="18" gid="138" x="1266" y="2166" width="32" height="32"/>
-  <object id="19" gid="138" x="1152" y="2096" width="32" height="32"/>
-  <object id="20" gid="138" x="2822" y="2434" width="32" height="32"/>
-  <object id="21" gid="138" x="2908" y="2430" width="32" height="32"/>
-  <object id="22" gid="138" x="2858" y="2364" width="32" height="32"/>
-  <object id="23" gid="138" x="1368" y="1558" width="32" height="32"/>
-  <object id="24" gid="138" x="364" y="1554" width="32" height="32"/>
-  <object id="25" gid="138" x="466" y="1510" width="32" height="32"/>
-  <object id="26" gid="138" x="22" y="1702" width="32" height="32"/>
-  <object id="27" gid="138" x="14" y="1614" width="32" height="32"/>
-  <object id="28" gid="138" x="2510" y="1130" width="32" height="32"/>
-  <object id="29" gid="138" x="2560" y="1062" width="32" height="32"/>
-  <object id="30" gid="138" x="2642" y="1020" width="32" height="32"/>
-  <object id="31" gid="138" x="2718" y="1056" width="32" height="32"/>
-  <object id="32" gid="138" x="2786" y="1112" width="32" height="32"/>
-  <object id="33" gid="138" x="1340" y="928" width="32" height="32"/>
-  <object id="34" gid="138" x="1556" y="926" width="32" height="32"/>
-  <object id="36" gid="138" x="252" y="586" width="32" height="32"/>
-  <object id="37" gid="138" x="408" y="586" width="32" height="32"/>
-  <object id="38" gid="138" x="242" y="416" width="32" height="32"/>
-  <object id="39" gid="138" x="126" y="514" width="32" height="32"/>
+  <object id="17" gid="138" x="1382" y="2256" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="18" gid="138" x="1266" y="2166" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="19" gid="138" x="1152" y="2096" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="20" gid="138" x="2822" y="2434" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="21" gid="138" x="2908" y="2430" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="22" gid="138" x="2858" y="2364" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="23" gid="138" x="1368" y="1558" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="24" gid="138" x="364" y="1554" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="25" gid="138" x="466" y="1510" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="26" gid="138" x="22" y="1702" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="27" gid="138" x="14" y="1614" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="28" gid="138" x="2510" y="1130" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="29" gid="138" x="2560" y="1062" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="30" gid="138" x="2642" y="1020" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="31" gid="138" x="2718" y="1056" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="32" gid="138" x="2786" y="1112" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="33" gid="138" x="1340" y="928" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="34" gid="138" x="1556" y="926" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="36" gid="138" x="252" y="586" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="37" gid="138" x="408" y="586" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="38" gid="138" x="242" y="416" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="39" gid="138" x="126" y="514" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Wizards">
-  <object id="7" gid="137" x="839" y="2602" width="32" height="32"/>
-  <object id="8" gid="137" x="1089" y="2420" width="32" height="32"/>
-  <object id="9" gid="137" x="2659" y="2545" width="32" height="32"/>
-  <object id="10" gid="137" x="132.485" y="1731.15" width="32" height="32"/>
-  <object id="11" gid="137" x="2105.21" y="1355.39" width="32" height="32"/>
-  <object id="12" gid="137" x="1247.64" y="1388.73" width="32" height="32"/>
-  <object id="13" gid="137" x="87.0303" y="616" width="32" height="32"/>
-  <object id="14" gid="137" x="2471.88" y="488.727" width="32" height="32"/>
-  <object id="40" gid="137" x="2826" y="1358" width="32" height="32"/>
+  <object id="7" gid="137" x="839" y="2602" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="GRAVITY"/>
+   </properties>
+  </object>
+  <object id="8" gid="137" x="1089" y="2420" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ELECTRIC"/>
+   </properties>
+  </object>
+  <object id="9" gid="137" x="2659" y="2545" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="10" gid="137" x="132.485" y="1731.15" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ELECTRIC"/>
+   </properties>
+  </object>
+  <object id="11" gid="137" x="2105.21" y="1355.39" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="GRAVITY"/>
+   </properties>
+  </object>
+  <object id="12" gid="137" x="1247.64" y="1388.73" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="13" gid="137" x="87.0303" y="616" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="GRAVITY"/>
+   </properties>
+  </object>
+  <object id="14" gid="137" x="2471.88" y="488.727" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="40" gid="137" x="2826" y="1358" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ELECTRIC"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Player">
-  <object id="6" gid="137" x="1409" y="2570" width="32" height="32"/>
+  <object id="45" gid="137" x="300" y="452" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Player"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="gate">
-  <object id="41" gid="139" x="1280" y="319.5" width="32" height="32"/>
-  <object id="42" gid="140" x="1312.5" y="319.5" width="32" height="32"/>
-  <object id="43" gid="141" x="1280" y="352" width="32" height="32"/>
-  <object id="44" gid="142" x="1312.5" y="352" width="32" height="32"/>
+  <object id="55" gid="139" x="2847.43" y="2528.22" width="32" height="32"/>
+  <object id="57" gid="140" x="2879.78" y="2528.43" width="32" height="32"/>
+  <object id="58" gid="141" x="2846.43" y="2559.14" width="32" height="32"/>
+  <object id="59" gid="142" x="2880" y="2559.89" width="32" height="32"/>
  </objectgroup>
 </map>

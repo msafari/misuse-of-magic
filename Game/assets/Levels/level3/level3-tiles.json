@@ -1,6 +1,5 @@
 {
-  "grass-rock platforms2": "grassRock",
-  "space flora": "spaceFlora",
-  "space flora2" : "spaceFlora2",
-  "gate": "gate"  
+  "snow ice rock tiles": "snowFloor",
+  "trees snow objects": "snowFlora",
+  "gate3": "gate3"  
 }

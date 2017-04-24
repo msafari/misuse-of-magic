@@ -1,6 +1,5 @@
 {
-  "grass-rock platforms2": "grassRock",
-  "space flora": "spaceFlora",
-  "space flora2" : "spaceFlora2",
-  "gate": "gate"  
+  "desert ground and platforms": "desertGround",
+  "desert flora": "desertFlora",
+  "gate2": "gate2"  
 }

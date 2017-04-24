@@ -338,6 +338,7 @@ momGame.prototype = {
   
     game.physics.arcade.collide(this.player, this.blocked_layer);
     game.physics.arcade.collide(game.wizards, this.blocked_layer);
+    game.physics.arcade.collide(game.wizardProjectiles, this.blocked_layer);
     
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
