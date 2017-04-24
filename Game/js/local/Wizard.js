@@ -118,6 +118,7 @@ _.extend(Wizard.prototype, {
 
   damage: function(wizard, attackObject) {
     attackObject.kill();
+    wizard.animations.stop();
     if(attackObject.attacker_name === "TZHARA") {
       hitSound.play();
       wizard.hitPoints--;
