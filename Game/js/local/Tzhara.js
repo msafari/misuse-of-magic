@@ -31,12 +31,11 @@ Tzhara.prototype.constructor = Tzhara;
 
 _.extend(Tzhara.prototype, {
   update: function() {
-   
 
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
-    if (game.paused == false) {
+    if (game.is_paused == false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
       game.physics.arcade.overlap(this, game.wizards, this.damage, null, this);
 

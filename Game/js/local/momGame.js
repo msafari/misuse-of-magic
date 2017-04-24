@@ -246,11 +246,11 @@ momGame.prototype = {
 
     game.inputs.attack_Z.onDown.add(function() { 
       if (game.is_restoring) {
-        var prevUses = attack.uses;
+        var prevUses = game.player.attack.uses;
 
         //TODO: this is wrong it restores all attacks distinguish between counts for each
-        this.player.attack.uses++;
-        console.log("Added an extra use to the Z attack (" + prevUses + " -> " + attack.uses + ")");
+        game.player.attack.uses++;
+        console.log("Added an extra use to the Z attack (" + prevUses + " -> " + game.player.attack.uses + ")");
         game.is_restoring = false;
         pauseGame(false);
         spellRestorePopup.visible = false;
@@ -261,9 +261,9 @@ momGame.prototype = {
 
     game.inputs.attack_C.onDown.add(function() { 
       if(game.is_restoring) {
-          var prevUses = attack.uses;
-          attack.uses++;
-          console.log("Added an extra use to the C attack (" + prevUses + " -> " + attack.uses + ")");
+          var prevUses = game.player.attack.uses;
+          game.player.attack.uses++;
+          console.log("Added an extra use to the C attack (" + prevUses + " -> " + game.player.attack.uses + ")");
           game.is_restoring = false;
           pauseGame(false);
           spellRestorePopup.visible = false;
@@ -274,11 +274,11 @@ momGame.prototype = {
 
     game.inputs.attack_X.onDown.add(function() { 
       if(game.is_restoring) {
-          var prevUses = attack.uses;
-          this.attack.uses++;
-          console.log("Added an extra use to the X attack (" + prevUses + " -> " + attack.uses + ")");
+          var prevUses = game.player.attack.uses;
+          game.player.attack.uses++;
+          console.log("Added an extra use to the X attack (" + prevUses + " -> " + game.player.attack.uses + ")");
           game.is_restoring = false;
-          momGame.pauseGame(false);
+          pauseGame(false);
           spellRestorePopup.visible = false;
           oranges_count -= 10;
           updateOrangeText();
