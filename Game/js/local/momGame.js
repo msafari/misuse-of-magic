@@ -213,7 +213,7 @@ momGame.prototype = {
       oranges_count = 0;
       game.is_paused = false;
       game.world.removeAll()
-      game.state.start("Splash");
+      game.state.start("MomLevelSelect");
     });
     winOverlay.fixedToCamera = true;
     winOverlay.cameraOffset.setTo(375, 50);
@@ -226,7 +226,7 @@ momGame.prototype = {
       oranges_count = 0;
       game.is_paused = false;
       game.world.removeAll()
-      game.state.start("Splash");
+      game.state.start("MomLevelSelect");
     });
     lossOverlay.fixedToCamera = true;
     lossOverlay.cameraOffset.setTo(375, 50);
@@ -372,7 +372,7 @@ momGame.prototype = {
       game.sound_effects.winTheme.play();
       gameWin = true;
     }
-    this.player.animations.stop();
+    game.player.animations.stop();
     winOverlay.visible = true;
     winOverlay.inputEnabled = true;
     helpButton.inputEnabled = false;
