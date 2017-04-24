@@ -37,7 +37,7 @@ Attack.prototype = {
 		var atkTween;
 
 		//creates two different types of projectives: the player's and everyone else's
-		if (attacker.key === 'TZARHA') {
+		if (attacker.key === 'TZHARA') {
 			game.playerProjectiles.add(this.AtkSprite);
 
 			if(direction === "left") {

@@ -6,7 +6,6 @@ gameMenu.prototype = {
   },
 
   create: function () {
-    console.log(menuTheme);
       if (menuTheme === undefined) {
         menuTheme = game.add.audio("menuTheme");
         menuTheme.onStop.add(function() {menuTheme.mute = true;});

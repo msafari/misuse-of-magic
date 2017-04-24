@@ -1,25 +1,14 @@
 var momGame = function () {};
-var cursors,
-  oranges_count = 0,
+var oranges_count = 0,
   oranges_usable = false,
-  is_restoring = false,
-  health = 5,
-  invincible = false,
-  attack_Z,
-  attack_X,
-  attack_C,
-  paused = false,
-  DAMAGED_L = false,
-  DAMAGED_R = false,
-  attack,
   f_attackIcon1, f_attackIcon2, f_attackIcon3,
   gameWin;
 
 pauseGame = function(pause) {
-    if(paused == pause)
+    if(game.paused == pause)
       return; //Prevent useless iteration if something tries to set the same state twice 
     if(!pause) {
-      paused = false;
+      game.paused = false;
       pauseButton.loadTexture("pauseButton");
     _.each(game.wizard_list, function (wizard) {
         if(!wizard.animations.currentAnim.isPlaying)
@@ -27,7 +16,7 @@ pauseGame = function(pause) {
       });
     }
     else {
-      paused = true;
+      game.paused = true;
       pauseButton.loadTexture("playButton");
       _.each(game.wizard_list, function (wizard) {
         wizard.animations.stop();
@@ -46,32 +35,11 @@ momGame.prototype = {
 
   create: function () { 
     gameWin = false;
-    inGameMusic = game.add.audio("inGameMusic");
-    inGameMusic.loop = true; 
-    inGameMusic.volume -= .4;
-    menuClick = game.add.audio("menuClick");
-    winTheme = game.add.audio("winTheme");
-    lossTheme = game.add.audio("lossTheme");
-    lossTheme.loop = true;
-    lossTheme.volume -=.5;
-    flareSound = game.add.audio("a_flare");
-    firefloomSound = game.add.audio("a_firefloom");
-    zoltSound = game.add.audio("a_zolt");
-    electromagnetismSound = game.add.audio("a_electromagnetism");
-    vectorSound = game.add.audio("a_vector");
-    reverseTrajectorySound = game.add.audio("a_reverseTrajectory");
-    jumpSound = game.add.audio("jump");
-    jumpSound.volume -= .7;
-    hitSound = game.add.audio("hitSound");
-    hitSound.volume -= .5;
-    damagedSound = game.add.audio("damagedSound");
-    damagedSound.volume -= .6;
-    orangeSound = game.add.audio("orangeCollect");
-    orangeSound.volume -= .9;
-    attackSounds = [flareSound, firefloomSound, zoltSound, electromagnetismSound, vectorSound, reverseTrajectorySound];
-    for (var i = 2; i < 6; i++) {
-      attackSounds[i].volume -= .8;
-    }
+    game.is_restoring = false;
+    game.paused = false;
+
+    this.sounds = new Sounds();
+
     titleStyle = { 
         font: 'bold 25pt', 
         fill: '#673ab7', 
@@ -85,9 +53,9 @@ momGame.prototype = {
     this.loadLevelMap();
 
     // load player sprite animations
-    
     var player_start = this.findObjectsBySprite("Player", "Player")[0];
-    this.player = new Tzhara(player_start.x, player_start.y);
+    this.player = new Tzhara(player_start.x - 32, player_start.y + 32);
+    console.warn(this.player);
 
     this.load_wizards();   
 
@@ -121,7 +89,7 @@ momGame.prototype = {
     xButton.fixedToCamera = true;
     xButton.cameraOffset.setTo(850, 35);
     xButton.inputEnabled = true;
-    xButton.events.onInputUp.add(function() {game.sound.stopAll(); menuClick.play(); game.camera.reset(); game.state.start("Splash");});
+    xButton.events.onInputUp.add(function() {game.sound.stopAll(); this.sounds.menuClick.play(); game.camera.reset(); game.state.start("Splash");});
 
     pauseButton = game.add.sprite(900, 35, "pauseButton");
     pauseButton.fixedToCamera = true;
@@ -129,12 +97,12 @@ momGame.prototype = {
     pauseButton.inputEnabled = true;
     pauseButton.events.onInputUp.add(function() {
       menuClick.play();
-      if (paused === false) {
-        inGameMusic.pause();
+      if (game.paused === false) {
+        this.sounds.inGameMusic.pause();
         pauseGame(true);
       }
       else {
-        inGameMusic.resume();
+        this.sounds.inGameMusic.resume();
         pauseGame(false);
       }
      });
@@ -196,7 +164,7 @@ momGame.prototype = {
     helpButton.cameraOffset.setTo(1000, 35);
     helpButton.inputEnabled = true;
     helpButton.events.onInputUp.add(function() {
-      menuClick.play();
+      this.sounds.menuClick.play();
       if (controlsBase.visible === true)
         backButton.visible = false;
         controlsBase.visible = false;
@@ -232,7 +200,7 @@ momGame.prototype = {
     winOverlay.events.onInputUp.add(function() {
       game.sound.stopAll();
       oranges_count = 0;
-      paused = false;
+      game.paused = false;
       game.state.start("Splash");
     });
     winOverlay.fixedToCamera = true;
@@ -244,18 +212,13 @@ momGame.prototype = {
     lossOverlay.events.onInputUp.add(function() {
       game.sound.stopAll();
       oranges_count = 0;
-      paused = false;
+      game.paused = false;
       game.state.start("Splash");
     });
     lossOverlay.fixedToCamera = true;
     lossOverlay.cameraOffset.setTo(375, 50);
     
     //control
-    cursors = game.input.keyboard.createCursorKeys();
-    cursors.up.onDown.add(function() {jumpSound.play();}, this);
-    attack_Z = game.input.keyboard.addKey(Phaser.Keyboard.Z);
-    attack_C = game.input.keyboard.addKey(Phaser.Keyboard.C);
-    attack_X = game.input.keyboard.addKey(Phaser.Keyboard.X);
     use_orange = game.input.keyboard.addKey(Phaser.Keyboard.O);
     cheat_menu = game.input.keyboard.addKey(Phaser.Keyboard.M);
 
@@ -264,90 +227,55 @@ momGame.prototype = {
     game.wizardProjectiles = game.add.group();
     game.playerProjectiles = game.add.group();
 
-    attack_Z.onDown.add(function() { 
-      if(!attack)
-        attack = new Attack('Tzhara', Infinity, "FIRE");
-      if(!is_restoring) {
-        if (cursors.left.isDown) {
-            this.player.animations.play('SPELL_L'); 
-            this.fireAttack("left");
-        }
-        else if (cursors.right.isDown) {
-            this.player.animations.play('SPELL_R');
-            this.fireAttack("right");
-        }
-      }
-      else {
-          var prevUses = attack.uses;
-          attack.uses++;
-          console.log("Added an extra use to the Z attack (" + prevUses + " -> " + attack.uses + ")");
-          is_restoring = false;
-          pauseGame(false);
-          spellRestorePopup.visible = false;
-          oranges_count -= 10;
-          updateOrangeText();
-      }
-    }, this);
-    
-    attack_X.onDown.add(function() { 
-      if(!attack)
-        attack = new Attack('Tzhara', Infinity, "GRAVITY");
-      if(!is_restoring) {
-        if (cursors.left.isDown) {
-            this.player.animations.play('SPELL_L'); 
-            this.fireAttack("left");
-        }
-        else if (cursors.right.isDown) {
-            this.player.animations.play('SPELL_R');
-            this.fireAttack("right");
-        }
-      }
-      else {
-          var prevUses = attack.uses;
-          attack.uses++;
-          console.log("Added an extra use to the X attack (" + prevUses + " -> " + attack.uses + ")");
-          is_restoring = false;
-          pauseGame(false);
-          spellRestorePopup.visible = false;
-          oranges_count -= 10;
-          updateOrangeText();
-      }
-    }, this);
-
-    attack_C.onDown.add(function() { 
-      if(!attack)
-        attack = new Attack('Tzhara', Infinity, "ELECTRIC");
-
-      if(!is_restoring) {
-        if (cursors.left.isDown) {
-            this.player.animations.play('SPELL_L'); 
-            this.fireAttack("left");
-        }
-        else if (cursors.right.isDown) {
-            this.player.animations.play('SPELL_R');
-            this.fireAttack("right");
-        }
-      }
-      else {
-          var prevUses = attack.uses;
-          attack.uses++;
-          console.log("Added an extra use to the C attack (" + prevUses + " -> " + attack.uses + ")");
-          is_restoring = false;
-          pauseGame(false);
-          spellRestorePopup.visible = false;
-          oranges_count -= 10;
-          updateOrangeText();
-      }
-    }, this);
-
     cheat_menu.onDown.add(function() {
       _.attempt(showCheatMenu); //So much neater than try/catch, because we don't really need to handle the exception
     });
 
+    game.inputs.attack_Z.onDown.add(function() { 
+      if (game.is_restoring) {
+        var prevUses = attack.uses;
+
+        //TODO: this is wrong it restores all attacks distinguish between counts for each
+        this.player.attack.uses++;
+        console.log("Added an extra use to the Z attack (" + prevUses + " -> " + attack.uses + ")");
+        game.is_restoring = false;
+        pauseGame(false);
+        spellRestorePopup.visible = false;
+        oranges_count -= 10;
+        updateOrangeText();
+      }
+    }, this);
+
+    game.inputs.attack_C.onDown.add(function() { 
+      if(game.is_restoring) {
+          var prevUses = attack.uses;
+          attack.uses++;
+          console.log("Added an extra use to the C attack (" + prevUses + " -> " + attack.uses + ")");
+          game.is_restoring = false;
+          pauseGame(false);
+          spellRestorePopup.visible = false;
+          oranges_count -= 10;
+          updateOrangeText();
+      }
+    }, this);
+
+    game.inputs.attack_X.onDown.add(function() { 
+      if(game.is_restoring) {
+          var prevUses = attack.uses;
+          this.attack.uses++;
+          console.log("Added an extra use to the X attack (" + prevUses + " -> " + attack.uses + ")");
+          game.is_restoring = false;
+          momGame.pauseGame(false);
+          spellRestorePopup.visible = false;
+          oranges_count -= 10;
+          updateOrangeText();
+      }
+    }, this);
+
     use_orange.onDown.add(function() {
-      if(is_restoring) {
+      if(game.is_restoring) {
         console.log("Canceled spell restore");
-        is_restoring = false;
+        game.is_restoring = false;
         pauseGame(false);
         spellRestorePopup.visible = false;
         return;
@@ -379,7 +307,7 @@ momGame.prototype = {
   function restoreSpell() {
     this.pauseGame(true);
     spellRestorePopup.visible = true;
-    is_restoring = true;
+    game.is_restoring = true;
   }
 
   function showCheatMenu() {
@@ -390,7 +318,7 @@ momGame.prototype = {
     }
   }
   
-  inGameMusic.play();
+  this.sounds.inGameMusic.play();
   },
 
   update: function () {
@@ -401,128 +329,13 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
-
-    this.player.body.velocity.x = 0;
-    this.player.body.velocity.y = 0;
     
-    if (paused === false) {
-      //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
-      game.physics.arcade.overlap(this.player, game.wizards, this.wizardContact, null);
+    if (game.paused === false) {
 
-      if (health === 0) {
+      if (this.player.health === 0) {
         this.loseLevel();
       }
-
-      if (DAMAGED_R) {
-        this.player.animations.play("DAMAGE_R",15, false, false);
-      }
-      else if (DAMAGED_L) {
-        this.player.animations.play("DAMAGE_L", 15, false, false);
-      }
-      else if (health == 0) {
-        this.player.animations.play("DEATH", 10, false, true);
-      }
-      else if(cursors.left.isDown && !cursors.up.isDown) {
-        this.player.body.velocity.x = -200; 
-        this.player.animations.play("WALK_L");
-      }
-
-      else if (cursors.right.isDown && !cursors.up.isDown) {
-        this.player.body.velocity.x = 200;
-        this.player.animations.play("WALK_R");
-      }
-
-      else if (cursors.up.isDown && cursors.right.isDown) {
-        this.player.body.velocity.y = -550
-        this.player.body.velocity.x = 200;
-        this.player.animations.play("JUMP_R");
-      }
-
-      else if (cursors.up.isDown && cursors.left.isDown) {
-        this.player.body.velocity.y = -550;
-        this.player.body.velocity.x = -200;
-        this.player.animations.play("JUMP_L");
-      }
-
-      else if (cursors.up.isDown) {
-        this.player.body.velocity.y = -550;
-      }
-
-      else {
-        this.player.animations.play("IDLE");
-      }
-
     }
-    else {
-      this.player.animations.stop();
-    }
-  },
-
-  wizardContact: function() {
-
-    if (invincible != true && health >= 1) {
-        if (health > 1)
-          damagedSound.play();
-        else {
-          game.sound.stopAll();
-          damagedSound.play();
-        }
-        if (game.player.body.touching.left) {
-          DAMAGED_L = true;
-        }
-        else if (game.player.body.touching.right) {
-          DAMAGED_R = true;
-        } else {
-          DAMAGED_R = true;
-        }
-        game.player.tint = 0x0078ff;
-        invincible = true;
-        health--;
-        hearts.children[health].frame = 1;
-        game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, invinFrameOver, this);
-        game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, stopDamage, this);
-        if (health != 0) {
-          game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, changeTint, this);
-        }
-    }
-
-    function invinFrameOver() {
-        invincible = false;
-        game.player.tint = 0xffffff;
-    }
-
-    function stopDamage() {
-      DAMAGED_L = false;
-      DAMAGED_R = false;
-    }
-
-    function changeTint() {
-      if (game.player.tint === 16777215)
-        game.player.tint = 0x83ccf9;
-      else
-        game.player.tint = 0xffffff;
-    }
-  },
-  
-  fireAttack: function(direction) {
-	  var attackSet = ["Default", "Flare", "Firefloom", "ElectricAttack", "Electromagnetism", "MovementSpell", "ReverseDirection"];
-    attackSounds = ["default", flareSound, firefloomSound, zoltSound, electromagnetismSound, vectorSound, reverseTrajectorySound];
-    if(game.time.elapsedSince(attack_Z.timeDown) <= 200 || attack_Z.isDown) { // Last 200ms (is this enough? too much?)
-		  attack.set_sprite(attackSet[f_attackIcon1]);
-      attackSounds[f_attackIcon1].play();
-	  }
-	  else if(game.time.elapsedSince(attack_X.timeDown) <= 200 || attack_X.isDown) {
-		  attack.set_sprite(attackSet[f_attackIcon2]);
-      attackSounds[f_attackIcon2].play();
-	  }
-	  else if(game.time.elapsedSince(attack_C.timeDown) <= 200 || attack_C.isDown) {
-		  attack.set_sprite(attackSet[f_attackIcon3]);
-      attackSounds[f_attackIcon3].play();
-	  }
-	  else {
-		  attack.set_sprite("default");
-	  }
-	  attack.launch(this.player, direction); 
   },
 
   collectOranges: function(player, orange) {
@@ -543,7 +356,7 @@ momGame.prototype = {
     
     if (gameWin === false) {
       game.sound.stopAll();
-      winTheme.play();
+      game.sound_effects.winTheme.play();
       gameWin = true;
     }
     player.animations.stop();
@@ -551,7 +364,7 @@ momGame.prototype = {
     winOverlay.inputEnabled = true;
     helpButton.inputEnabled = false;
     controlsButton.inputEnabled = false;
-    paused = true;
+    game.paused = true;
     var next_level = "level" + (game.current_level.number+1);
     next_level = _.find(game.levels, function(l) {
       if(l.name=== next_level)
@@ -561,11 +374,11 @@ momGame.prototype = {
   },
 
   loseLevel: function() {
-    lossTheme.play();
+    game.sound_effects.lossTheme.play();
     game.time.events.repeat(Phaser.Timer.SECOND * 3, 1, _disable, this);
     
     function _disable () {
-      paused = true;
+      game.paused = true;
       lossOverlay.visible = true;
       lossOverlay.inputEnabled = true;
       helpButton.inputEnabled = false;
@@ -611,13 +424,12 @@ momGame.prototype = {
     game.wizards.enableBody = true;
     this.level_wizards = this.findObjectsBySprite("Wizard", "Wizards");
     _.each(this.level_wizards, function (wiz) {
-      var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y, game.wizards);
+      var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y);
     });
   },
 
   findObjectsBySprite: function(sprite, layer) {
     var result = [];
-    console.log(this.map);
     this.map.objects[layer].forEach(function(element) {
         if(element.visible && element.properties.Sprite === sprite) {
             element.y -= this.map.tileHeight;
