@@ -46,13 +46,13 @@ Cheats.CheatList = {
 				this.enabled = true;
 				console.log("Tzhara is now immune to damage");
 				game.player.tint = 0x83ccf9;
-				invincible = true;
+				game.player.invincible = true;
 			}
 			else {
 				this.enabled = false;
 				console.log("Invicibility disabled");
 				game.player.tint = 0xffffff;
-				invincible = false;
+				game.player.invincible = false;
 			}
 		} 
 	},
@@ -65,7 +65,7 @@ Cheats.CheatList = {
 				this.enabled = true;
 				console.log("Spells now have unlimited uses");
 				if(!attack) {
-           			attack = new Attack('Tzhara', Infinity);
+           attack = new Attack('Tzhara', Infinity);
 				}
 				else {
 					prevUses = attack.uses;
