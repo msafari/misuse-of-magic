@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="78">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="80">
  <tileset firstgid="1" name="snow ice rock tiles" tilewidth="32" tileheight="32" tilecount="100" columns="10">
   <image source="../Tiles/snow ice rock tiles.png" width="320" height="320"/>
  </tileset>
@@ -165,8 +165,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,41,42,43,44,0,0,0,0,44,45,41,42,43,75,42,42,43,45,41,42,43,44,45,45,41,42,43,44,75,75,75,75,75,75,75,75,75,75,75,75,75,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,42,42,43,45,41,42,43,44,45,45,41,42,43,44,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,31,32,33,34,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,75,75,75,75,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,41,42,43,44,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,41,42,43,75,41,42,43,44,45,41,42,43,44,45,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -185,7 +185,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,17,12,13,14,11,12,13,14,13,14,11,12,16,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,17,12,13,14,11,12,13,14,13,14,11,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,42,43,41,42,43,44,45,41,42,43,44,45,41,42,0,0,0,0,0,0,0,0,56,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,32,32,32,33,33,33,35,36,36,32,33,33,33,35,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -197,7 +197,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,75,75,75,75,75,75,75,75,75,75,75,75,32,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,32,33,33,33,35,36,36,32,33,33,33,35,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,75,75,75,75,75,75,75,75,75,75,75,75,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -213,8 +213,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,51,0,0,42,42,43,45,41,42,43,44,45,45,41,42,43,44,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,23,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,21,22,23,24,0,0,0,0,0,0,0,0,0,0,0,0,31,32,75,75,33,35,36,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,75,75,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,75,75,75,75,0,0,0,0,0,0,0,0,0,0,0,0,75,75,75,75,75,75,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,42,43,44,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,41,42,43,44,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,26,25,26,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,26,25,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,75,75,75,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,41,42,43,44,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,26,25,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,26,25,26,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,75,75,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,42,43,44,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,44,45,41,42,0,0,41,42,43,44,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,65,65,65,65,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,42,43,44,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,65,66,66,66,66,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -223,39 +223,169 @@
 75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75
 </data>
  </layer>
- <objectgroup name="Player"/>
+ <objectgroup name="Player">
+  <object id="78" gid="205" x="579" y="417" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Player"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup name="object-layer">
-  <object id="3" gid="206" x="90" y="208" width="32" height="32"/>
-  <object id="4" gid="206" x="306" y="302" width="32" height="32"/>
-  <object id="14" gid="206" x="944" y="292" width="32" height="32"/>
-  <object id="18" gid="206" x="172" y="1038" width="32" height="32"/>
-  <object id="19" gid="206" x="28" y="1038" width="32" height="32"/>
-  <object id="20" gid="206" x="642" y="1034" width="32" height="32"/>
-  <object id="21" gid="206" x="1046" y="1292" width="32" height="32"/>
-  <object id="22" gid="206" x="756" y="1288" width="32" height="32"/>
-  <object id="23" gid="206" x="1198" y="364" width="32" height="32"/>
-  <object id="24" gid="206" x="696" y="654" width="32" height="32"/>
-  <object id="25" gid="206" x="1247.64" y="885.697" width="32" height="32"/>
-  <object id="28" gid="206" x="1671.88" y="564.485" width="32" height="32"/>
-  <object id="30" gid="206" x="1093.09" y="1488.73" width="32" height="32"/>
-  <object id="31" gid="206" x="1044.61" y="1688.73" width="32" height="32"/>
-  <object id="33" gid="206" x="1664" y="1820" width="32" height="32"/>
-  <object id="36" gid="206" x="1698" y="1878" width="32" height="32"/>
-  <object id="37" gid="206" x="1634" y="1876" width="32" height="32"/>
-  <object id="44" gid="206" x="3166" y="664" width="32" height="32"/>
-  <object id="45" gid="206" x="3105" y="658" width="32" height="32"/>
-  <object id="48" gid="206" x="3137" y="621" width="32" height="32"/>
-  <object id="56" gid="206" x="1787.03" y="3025.09" width="32" height="32"/>
-  <object id="57" gid="206" x="17.3333" y="2773.58" width="32" height="32"/>
-  <object id="58" gid="206" x="80.9697" y="2773.58" width="32" height="32"/>
-  <object id="59" gid="206" x="877.939" y="2864.48" width="32" height="32"/>
-  <object id="63" gid="206" x="3138.55" y="2570.55" width="32" height="32"/>
-  <object id="64" gid="206" x="2702.18" y="2770.55" width="32" height="32"/>
-  <object id="65" gid="206" x="2765.82" y="2928.12" width="32" height="32"/>
-  <object id="66" gid="206" x="1947.64" y="2197.82" width="32" height="32"/>
-  <object id="67" gid="206" x="1432.48" y="2067.52" width="32" height="32"/>
-  <object id="69" gid="206" x="741.576" y="2028.12" width="32" height="32"/>
-  <object id="77" gid="206" x="2222" y="2746" width="32" height="32"/>
+  <object id="3" gid="206" x="90" y="208" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="4" gid="206" x="306" y="302" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="14" gid="206" x="944" y="292" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="18" gid="206" x="172" y="1038" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="19" gid="206" x="28" y="1038" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="20" gid="206" x="642" y="1034" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="21" gid="206" x="1046" y="1292" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="22" gid="206" x="756" y="1288" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="23" gid="206" x="1198" y="364" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="24" gid="206" x="696" y="654" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="25" gid="206" x="1247.64" y="885.697" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="28" gid="206" x="1671.88" y="564.485" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="30" gid="206" x="1093.09" y="1488.73" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="31" gid="206" x="1044.61" y="1688.73" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="33" gid="206" x="1664" y="1820" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="36" gid="206" x="1698" y="1878" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="37" gid="206" x="1634" y="1876" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="44" gid="206" x="3166" y="664" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="45" gid="206" x="3105" y="658" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="48" gid="206" x="3137" y="621" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="56" gid="206" x="1787.03" y="3025.09" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="57" gid="206" x="17.3333" y="2773.58" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="58" gid="206" x="80.9697" y="2773.58" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="59" gid="206" x="877.939" y="2864.48" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="63" gid="206" x="3138.55" y="2570.55" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="64" gid="206" x="2702.18" y="2770.55" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="65" gid="206" x="2765.82" y="2928.12" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="66" gid="206" x="1947.64" y="2197.82" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="67" gid="206" x="1432.48" y="2067.52" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="69" gid="206" x="741.576" y="2028.12" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="77" gid="206" x="2222" y="2746" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="gate">
   <object id="71" gid="101" x="1310" y="2753" width="32" height="32"/>
@@ -267,22 +397,92 @@
   <object id="10" gid="205" x="798" y="622" width="32" height="32">
    <properties>
     <property name="Sprite" value="Wizard"/>
-    <property name="Type" value="ICE"/>
+    <property name="Type" value="GRAVITY"/>
    </properties>
   </object>
-  <object id="12" gid="205" x="873.333" y="306.667" width="32" height="32"/>
-  <object id="15" gid="205" x="98" y="1034" width="32" height="32"/>
-  <object id="16" gid="205" x="252" y="1036" width="32" height="32"/>
-  <object id="29" gid="205" x="1987.03" y="652.364" width="32" height="32"/>
-  <object id="49" gid="205" x="2840" y="662" width="32" height="32"/>
-  <object id="50" gid="205" x="1081" y="2033" width="32" height="32"/>
-  <object id="51" gid="205" x="786" y="2033" width="32" height="32"/>
-  <object id="53" gid="205" x="2062" y="2198" width="32" height="32"/>
-  <object id="54" gid="205" x="2404" y="2288" width="32" height="32"/>
-  <object id="55" gid="205" x="3008" y="2776" width="32" height="32"/>
-  <object id="60" gid="205" x="1474.91" y="3122.06" width="32" height="32"/>
-  <object id="61" gid="205" x="205.212" y="3119.03" width="32" height="32"/>
-  <object id="62" gid="205" x="2993.09" y="3122.06" width="32" height="32"/>
-  <object id="76" gid="205" x="1065.82" y="2834.18" width="32" height="32"/>
+  <object id="12" gid="205" x="873.333" y="306.667" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ELECTRIC"/>
+   </properties>
+  </object>
+  <object id="15" gid="205" x="98" y="1034" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="16" gid="205" x="252" y="1036" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="GRAVITY"/>
+   </properties>
+  </object>
+  <object id="29" gid="205" x="1987.03" y="652.364" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ELECTRIC"/>
+   </properties>
+  </object>
+  <object id="49" gid="205" x="2840" y="662" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="50" gid="205" x="1081" y="2033" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="GRAVITY"/>
+   </properties>
+  </object>
+  <object id="51" gid="205" x="786" y="2033" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ELECTRIC"/>
+   </properties>
+  </object>
+  <object id="53" gid="205" x="2062" y="2198" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="54" gid="205" x="2404" y="2288" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="GRAVITY"/>
+   </properties>
+  </object>
+  <object id="55" gid="205" x="3008" y="2776" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ELECTRIC"/>
+   </properties>
+  </object>
+  <object id="60" gid="205" x="1474.91" y="3122.06" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
+  <object id="61" gid="205" x="205.212" y="3119.03" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="GRAVITY"/>
+   </properties>
+  </object>
+  <object id="62" gid="205" x="2993.09" y="3122.06" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="ELECTRIC"/>
+   </properties>
+  </object>
+  <object id="76" gid="205" x="1065.82" y="2834.18" width="32" height="32">
+   <properties>
+    <property name="Sprite" value="Wizard"/>
+    <property name="Type" value="FIRE"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
