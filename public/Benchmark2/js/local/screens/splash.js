@@ -70,6 +70,13 @@ splash.prototype = {
     game.load.spritesheet("reverseDirection", "Benchmark2/assets/Sprites/attacks/Reverse Direction.png", 16,16);
     game.load.spritesheet("attackIcons", "Benchmark2/assets/Sprites/attacks/attackIconList.png");
     //level icons
+    game.load.image("level1_bg", "Benchmark2/assets/Levels/level1/level1.png");
+    game.load.image("level2_bg", "Benchmark2/assets/Levels/level2/level2.png");
+    game.load.image("level3_bg", "Benchmark2/assets/Levels/level3/level3.png");
+    game.load.image("level4_bg", "Benchmark2/assets/Levels/level4/level4.png");
+    game.load.image("level5_bg", "Benchmark2/assets/Levels/level5/level5.png");
+    game.load.image("level6_bg", "Benchmark2/assets/Levels/level6/level6.png"); 
+    game.load.image("level7_bg", "Benchmark2/assets/Levels/level7/level7.png"); 
     game.load.image("level1_portal_ul", "Benchmark2/assets/Levels/level1/unlocked.png");
     game.load.image("level2_portal_l", "Benchmark2/assets/Levels/level2/locked.png");
     game.load.image("level2_portal_ul", "Benchmark2/assets/Levels/level2/unlocked.png");

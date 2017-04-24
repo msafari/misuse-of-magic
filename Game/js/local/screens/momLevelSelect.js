@@ -132,18 +132,29 @@ momLevelSelect.prototype = {
   },
 
   loadLevels: function() {
-    game.levels = [];
-    _.each(Array(7), function (a, index) {
-        var level = new Level(index + 1);
+    if (!game.levels) {
+        game.levels =  [];
+        _.each(Array(7), function (a, index) {
+            var level = new Level(index + 1);
 
-        var x = 90 + ((index%4) * 300);
-        var y = 200 + (Math.floor(index/4) * 150);
+            var x = 90 + ((index%4) * 300);
+            var y = 200 + (Math.floor(index/4) * 150);
 
-        var level_sprite = game.add.sprite(x, y, level.portal_name());
-        level.set_icon_sprite(level_sprite, game);
+            var level_sprite = game.add.sprite(x, y, level.portal_name());
+            level.set_icon_sprite(level_sprite, game);
 
-        game.levels.push(level);
-    });
+            game.levels.push(level);
+        });
+    } else {
+        _.each(game.levels, function (level, index) {
+
+            var x = 90 + ((index%4) * 300);
+            var y = 200 + (Math.floor(index/4) * 150);
+
+            var level_sprite = game.add.sprite(x, y, level.portal_name());
+            level.set_icon_sprite(level_sprite, game);
+        });
+    }
   }
 }
 
