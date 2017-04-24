@@ -33,7 +33,7 @@ _.extend(Wizard.prototype, {
 
   },
 
-  destroy : function () {
+  destroy_wizard : function () {
     this.isDead = true;
     _.remove(game.wizards_list, function(wizard) {
       if (wizard === this) {
@@ -134,7 +134,7 @@ _.extend(Wizard.prototype, {
       wizard.animations.currentAnim.onLoop.add(function() { 
         _.each(game.wizard_list, function (wiz) {
           if (wiz === wizard) {
-            wiz.destroy();
+            wiz.destroy_wizard();
           }
         });
       }, this); 

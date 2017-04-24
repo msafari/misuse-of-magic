@@ -14,10 +14,8 @@ pauseGame = function(pause) {
         if(!wizard.animations.currentAnim.isPlaying)
           wizard.animations.currentAnim.play();
       });
-      console.warn("PLAYYY AGAIN");
     }
     else {
-      console.warn("PAUSED");
       game.is_paused = true;
       pauseButton.loadTexture("playButton");
       _.each(game.wizard_list, function (wizard) {
@@ -214,6 +212,7 @@ momGame.prototype = {
       game.sound.stopAll();
       oranges_count = 0;
       game.is_paused = false;
+      game.world.removeAll()
       game.state.start("Splash");
     });
     winOverlay.fixedToCamera = true;
@@ -226,6 +225,7 @@ momGame.prototype = {
       game.sound.stopAll();
       oranges_count = 0;
       game.is_paused = false;
+      game.world.removeAll()
       game.state.start("Splash");
     });
     lossOverlay.fixedToCamera = true;
@@ -352,7 +352,7 @@ momGame.prototype = {
   },
 
   collectOranges: function(player, orange) {
-    orangeSound.play();
+    game.sound_effects.orangeSound.play();
     orange.kill();
     oranges_count++;
     orangesCounter.setText(""+oranges_count);
@@ -372,7 +372,7 @@ momGame.prototype = {
       game.sound_effects.winTheme.play();
       gameWin = true;
     }
-    player.animations.stop();
+    this.player.animations.stop();
     winOverlay.visible = true;
     winOverlay.inputEnabled = true;
     helpButton.inputEnabled = false;

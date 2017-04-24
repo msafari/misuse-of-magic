@@ -27,6 +27,7 @@ _.extend(Attack.prototype , {
 		Phaser.Sprite.call(this, game, 0, 0, name);
 		this.animations.add("launch");
 		game.physics.arcade.enable(this);
+		this.enableBody = true;
 		this.attacker_name = this.attacker_name;
 		Attack.Types[name].sprite = this;
 		game.time.events.add(2000, this.kill, this);
