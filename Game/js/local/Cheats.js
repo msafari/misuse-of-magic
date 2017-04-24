@@ -64,18 +64,17 @@ Cheats.CheatList = {
 			if(!this.enabled) {
 				this.enabled = true;
 				console.log("Spells now have unlimited uses");
-				if(!attack) {
-           attack = new Attack('Tzhara', Infinity);
-				}
-				else {
-					prevUses = attack.uses;
-					attack.uses = Infinity;
-				}
+				prevUses = [game.player.spell_1_usage, game.player.spell_2_usage, game.player.spell_3_usage];
+				game.player.spell_1_usage = Infinity;
+				game.player.spell_2_usage = Infinity;
+				game.player.spell_3_usage = Infinity;
 			}
 			else {
 				this.enabled = false;
 				console.log("Infinite uses disabled");
-				attack.uses = prevUses;
+				game.player.spell_1_usage = prevUses[0];
+				game.player.spell_2_usage = prevUses[1];
+				game.player.spell_3_usage = prevUses[2];
 			}
 		} 
 	},
