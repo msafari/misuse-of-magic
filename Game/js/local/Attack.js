@@ -12,23 +12,16 @@ Attack.prototype.constructor = Attack;
 
 _.extend(Attack.prototype , {
 	update: function () {
-		game.physics.arcade.collide(game.player, this, game.player.damage, null, this);
+		
 	},
 
 	set_sprite: function(name) {
 		if(!Attack.Types[name])
 			name = "Default";
-		if(Attack.Types[name].sprite) {
-			_.assign(this, Attack.Types[name].sprite);
-			game.time.events.add(2000, this.kill, this);
-			this.attack_type = Attack.Types[name].type;
-			return this;
-		}
 		Phaser.Sprite.call(this, game, 0, 0, name);
 		this.animations.add("launch");
 		game.physics.arcade.enable(this);
 		this.enableBody = true;
-		this.attacker_name = this.attacker_name;
 		Attack.Types[name].sprite = this;
 		game.time.events.add(2000, this.kill, this);
 		return this; //return the created sprite in case we need to do something with it later
@@ -44,7 +37,7 @@ _.extend(Attack.prototype , {
 		var atkTween;
 
 		//creates two different types of projectives: the player's and everyone else's
-		if (attacker.key === 'TZHARA') {
+		if (this.attacker_name === 'TZHARA') {
 			game.playerProjectiles.add(this);
 
 			if(direction === "left") {
@@ -61,21 +54,24 @@ _.extend(Attack.prototype , {
 
 			if(direction === "left") {
 				this.position.x = attacker.position.x - 15;
-				atkTween = game.add.tween(this).to({x: attacker.position.x - 250 });
+				atkTween = game.add.tween(this).to({x: game.player.position.x - 250 });
 			}
 			else {
 				this.position.x = attacker.position.x + 15;
 				atkTween = game.add.tween(this).to({x: game.player.position.x });
 			}
 		}
-
 		this.visible = true;
-		
-		atkTween.onStart.addOnce(function() {
-			this.animations.play('launch', 16, true);
-		}, this)
+
+		this.animations.play('launch', 16, true);
 		atkTween.start().onComplete.addOnce(function() {
 			this.kill();
+			if (this.attacker_name === "TZHARA" && attacker.attack === this) {
+				attacker.attack = null;
+			}
+			else {
+				attacker.attack_obj = null;
+			}
 		}, this);
 	},
 

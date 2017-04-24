@@ -110,7 +110,7 @@ _.extend(Tzhara.prototype, {
 
     player_controls.attack_Z.onDown.add(function() { 
       if(!this.attack)
-        this.attack = new Attack('Tzhara', Infinity, "FIRE");
+        this.attack = new Attack('TZHARA', Infinity, "FIRE");
       if(!game.is_restoring) {
         if (player_controls.cursors.left.isDown) {
             this.animations.play('SPELL_L'); 
@@ -125,7 +125,7 @@ _.extend(Tzhara.prototype, {
     
     player_controls.attack_X.onDown.add(function() { 
       if(!this.attack)
-        this.attack = new Attack('Tzhara', Infinity, "GRAVITY");
+        this.attack = new Attack('TZHARA', Infinity, "ELECTRIC");
       if(!game.is_restoring) {
         if (player_controls.cursors.left.isDown) {
             this.animations.play('SPELL_L'); 
@@ -140,7 +140,7 @@ _.extend(Tzhara.prototype, {
 
     player_controls.attack_C.onDown.add(function() { 
       if(!this.attack)
-        this.attack = new Attack('Tzhara', Infinity, "ELECTRIC");
+        this.attack = new Attack('TZHARA', Infinity, "GRAVITY");
 
       if(!game.is_restoring) {
         if (player_controls.cursors.left.isDown) {
@@ -182,48 +182,48 @@ _.extend(Tzhara.prototype, {
 
   damage: function(player, attackObject) {
 
-    if (this.invincible != true && this.health >= 1 && attackObject.attacker_name !== "TZHARA") {
-      this.animations.stop();
-      if (this.health > 1)
+    if (player.invincible != true && player.health >= 1 && attackObject.attacker_name !== "TZHARA") {
+      player.animations.stop();
+      if (player.health > 1)
         game.sound_effects.damagedSound.play();
       else {
         game.sound.stopAll();
         game.sound_effects.damagedSound.play();
       }
-      if (this.body.touching.left) {
-        this.DAMAGED_L = true;
+      if (player.body.touching.left) {
+        player.DAMAGED_L = true;
       }
-      else if (this.body.touching.right) {
-        this.DAMAGED_R = true;
+      else if (player.body.touching.right) {
+        player.DAMAGED_R = true;
       } else {
-        this.DAMAGED_R = true;
+        player.DAMAGED_R = true;
       }
-      this.tint = 0x0078ff;
-      this.invincible = true;
-      this.health--;
-      game.hearts.children[this.health].frame = 1;
+      player.tint = 0x0078ff;
+      player.invincible = true;
+      player.health--;
+      game.hearts.children[player.health].frame = 1;
       game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, _invinFrameOver, this);
       game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, _stopDamage, this);
-      if (this.health != 0) {
+      if (player.health != 0) {
         game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, _changeTint, this);
       }
     }
 
     function _invinFrameOver() {
-        this.invincible = false;
-        this.tint = 0xffffff;
+        player.invincible = false;
+        player.tint = 0xffffff;
     }
 
     function _stopDamage() {
-      this.DAMAGED_L = false;
-      this.DAMAGED_R = false;
+      player.DAMAGED_L = false;
+      player.DAMAGED_R = false;
     }
 
     function _changeTint() {
-      if (this.tint === 16777215)
-        this.tint = 0x83ccf9;
+      if (player.tint === 16777215)
+        player.tint = 0x83ccf9;
       else
-        this.tint = 0xffffff;
+        player.tint = 0xffffff;
     }
   },
 });

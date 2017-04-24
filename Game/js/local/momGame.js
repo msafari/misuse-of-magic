@@ -342,6 +342,7 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
+    game.physics.arcade.collide(game.player, game.wizardProjectiles, game.player.damage, null);
     
     if (!game.is_paused) {
 
