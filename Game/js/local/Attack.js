@@ -1,75 +1,80 @@
 function Attack(attacker_name, uses, type) {
 	//TODO: Uses should be unique to each attack.
 	this.attacker_name = attacker_name;
-	this.type = type;
-	this.AtkSprite = null;
+	this.attack_type = type;
 	this.uses = (attacker_name.includes("WIZARD")) ? Infinity : uses;
 	// we assume it's unsuccesful
 	this.success = false;
 } 
 
-Attack.prototype = {
+Attack.prototype = Object.create(Phaser.Sprite.prototype);
+Attack.prototype.constructor = Attack;
+
+_.extend(Attack.prototype , {
+	update: function () {
+		game.physics.arcade.collide(game.player, this, game.player.damage, null, this);
+	},
+
 	set_sprite: function(name) {
 		if(!Attack.Types[name])
 			name = "Default";
 		if(Attack.Types[name].sprite) {
-			this.AtkSprite = Attack.Types[name].sprite;
-			game.time.events.add(2000, this.AtkSprite.kill, this.AtkSprite);
-			this.type = Attack.Types[name].type;
-			return this.AtkSprite;
+			_.assign(this, Attack.Types[name].sprite);
+			game.time.events.add(2000, this.kill, this);
+			this.attack_type = Attack.Types[name].type;
+			return this;
 		}
-		this.AtkSprite = game.world.create(0, 0, name, 0);
-		this.AtkSprite.animations.add("launch");
-		game.physics.arcade.enable(this.AtkSprite);
-		this.AtkSprite.attacker_name = this.attacker_name;
-		Attack.Types[name].sprite = this.AtkSprite;
-		game.time.events.add(2000, this.AtkSprite.kill, this.AtkSprite);
-		return this.AtkSprite; //return the created sprite in case we need to do something with it later
+		Phaser.Sprite.call(this, game, 0, 0, name);
+		this.animations.add("launch");
+		game.physics.arcade.enable(this);
+		this.attacker_name = this.attacker_name;
+		Attack.Types[name].sprite = this;
+		game.time.events.add(2000, this.kill, this);
+		return this; //return the created sprite in case we need to do something with it later
 	},
 
 	launch: function(attacker, direction) {
 		if(this.uses <= 0)
 			return;
 		this.uses--;
-		this.AtkSprite.position.y = attacker.position.y;
-		this.AtkSprite.direction = direction;
-		game.world.add(this.AtkSprite);
+		this.position.y = attacker.position.y;
+		this.direction = direction;
+		game.add.existing(this);
 		var atkTween;
 
 		//creates two different types of projectives: the player's and everyone else's
 		if (attacker.key === 'TZHARA') {
-			game.playerProjectiles.add(this.AtkSprite);
+			game.playerProjectiles.add(this);
 
 			if(direction === "left") {
-				this.AtkSprite.position.x = attacker.position.x - 15;
-				atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x - 250});
+				this.position.x = attacker.position.x - 15;
+				atkTween = game.add.tween(this).to({x: attacker.position.x - 250});
 			}
 			else {
-				this.AtkSprite.position.x = attacker.position.x + 15;
-				atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x + 250});
+				this.position.x = attacker.position.x + 15;
+				atkTween = game.add.tween(this).to({x: attacker.position.x + 250});
 			}
 		}
 		else {
-			game.wizardProjectiles.add(this.AtkSprite);
+			game.wizardProjectiles.add(this);
 
 			if(direction === "left") {
-				this.AtkSprite.position.x = attacker.position.x - 15;
-				this.AtkSprite.visible = true;
-				atkTween = game.add.tween(this.AtkSprite).to({x: attacker.position.x - 250 });
+				this.position.x = attacker.position.x - 15;
+				atkTween = game.add.tween(this).to({x: attacker.position.x - 250 });
 			}
 			else {
-				this.AtkSprite.position.x = attacker.position.x + 15;
-				atkTween = game.add.tween(this.AtkSprite).to({x: game.player.position.x });
+				this.position.x = attacker.position.x + 15;
+				atkTween = game.add.tween(this).to({x: game.player.position.x });
 			}
 		}
 
-		this.AtkSprite.visible = true;
+		this.visible = true;
 		
-		// atkTween.onStart.addOnce(function() {
-			this.AtkSprite.animations.play('launch', 16, true);
-		// }, this)
+		atkTween.onStart.addOnce(function() {
+			this.animations.play('launch', 16, true);
+		}, this)
 		atkTween.start().onComplete.addOnce(function() {
-			this.AtkSprite.kill();
+			this.kill();
 		}, this);
 	},
 
@@ -83,7 +88,7 @@ Attack.prototype = {
 	 		game.load.image(key + "_icon", attack.icon, 48, 48);
 	 	});
 	},
-};
+});
 
 //It's time to move this bit elsewhere. And the name 'images' no longer applies
 Attack.Types = {

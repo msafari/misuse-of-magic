@@ -31,16 +31,14 @@ Tzhara.prototype.constructor = Tzhara;
 
 _.extend(Tzhara.prototype, {
   update: function() {
-   if (game.physics.arcade.collide(this, game.wizardProjectiles))
-    this.damage();
+   
 
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
     if (game.paused == false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
-      game.physics.arcade.overlap(this, game.wizards, this.wizard_contact, null, this);
-
+      game.physics.arcade.overlap(this, game.wizards, this.damage, null, this);
 
       if (this.DAMAGED_R) {
         this.animations.play("DAMAGE_R",15, false, false);
@@ -96,21 +94,6 @@ _.extend(Tzhara.prototype, {
         player.animations.add(state, frameIndexes, 10, true);
     });
     _.extend(this, player);
-  },
-
-  damage: function(player, attackObject) {
-    //Make sure Tzhara does cannot take damage from her own attacks. This only looks at the first sprite that collided which 
-    //may be a problem later if many attacks are going back and forth.
-    if(attackObject.attacker_name === "Tzhara") {
-      console.log("Stop hitting yourself! (remove attack sprite from projectile group)");
-      //game.time.events.add(2000, restoreAttackCollision, attackObject); //wait 2 seconds
-      return;
-    }
-    else {
-      console.log("Tzhara was attacked");
-      this.health--;
-      game.sound_effects.damagedSound.play();
-    }
   },
 
   set_input_controls: function () {
@@ -198,32 +181,33 @@ _.extend(Tzhara.prototype, {
     this.attack.launch(this, direction); 
   },
 
-  wizard_contact: function() {
+  damage: function(player, attackObject) {
 
-    if (this.invincible != true && this.health >= 1) {
-        if (this.health > 1)
-          game.sound_effects.damagedSound.play();
-        else {
-          game.sound.stopAll();
-          game.sound_effects.damagedSound.play();
-        }
-        if (this.body.touching.left) {
-          this.DAMAGED_L = true;
-        }
-        else if (this.body.touching.right) {
-          this.DAMAGED_R = true;
-        } else {
-          this.DAMAGED_R = true;
-        }
-        this.tint = 0x0078ff;
-        this.invincible = true;
-        this.health--;
-        game.hearts.children[this.health].frame = 1;
-        game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, _invinFrameOver, this);
-        game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, _stopDamage, this);
-        if (this.health != 0) {
-          game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, _changeTint, this);
-        }
+    if (this.invincible != true && this.health >= 1 && attackObject.attacker_name !== "TZHARA") {
+      this.animations.stop();
+      if (this.health > 1)
+        game.sound_effects.damagedSound.play();
+      else {
+        game.sound.stopAll();
+        game.sound_effects.damagedSound.play();
+      }
+      if (this.body.touching.left) {
+        this.DAMAGED_L = true;
+      }
+      else if (this.body.touching.right) {
+        this.DAMAGED_R = true;
+      } else {
+        this.DAMAGED_R = true;
+      }
+      this.tint = 0x0078ff;
+      this.invincible = true;
+      this.health--;
+      game.hearts.children[this.health].frame = 1;
+      game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, _invinFrameOver, this);
+      game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, _stopDamage, this);
+      if (this.health != 0) {
+        game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, _changeTint, this);
+      }
     }
 
     function _invinFrameOver() {

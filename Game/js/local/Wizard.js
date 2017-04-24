@@ -20,8 +20,7 @@ _.extend(Wizard.prototype, {
   update : function () {
 
     if (game.paused == false) {
-      game.physics.arcade.collide(this, game.playerProjectiles, this.damage);
-      //game.physics.arcade.collide(game.player, this, game.player.wizard_contact);
+      game.physics.arcade.collide(this, game.playerProjectiles, this.damage, null, this);
 
       if (this.wizard_timer <= 160) {
         this.wizard_timer++;
@@ -122,10 +121,9 @@ _.extend(Wizard.prototype, {
     //TODO: Make the wizard take damage
     attackObject.kill();
     if(attackObject.attacker_name === "Tzhara") {
-      wizards.animations.stop();
       hitSound.play();
       wizard.hitPoints--;
-      w_damage_anim = (attack.AtkSprite.direction === "left") ? "DAMAGE_R" : "DAMAGE_L"
+      w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L"
       wizard.animations.play(w_damage_anim, 8);
       console.log("losing wizard health");
     }
