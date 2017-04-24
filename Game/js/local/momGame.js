@@ -384,7 +384,7 @@ momGame.prototype = {
     next_level = _.find(game.levels, function(l) {
       if(l.name=== next_level)
         return l;
-    })
+    });
     next_level.set_playable();
   },
 
