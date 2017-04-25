@@ -4,7 +4,10 @@ function Level (number) {
   this.available = (this.number == 1) ? true : false;
   this.gen_path = "assets/Levels/level";
   this.tile_map = this.get_map();
+  this.tile_info_name = this.name + "_tile_info";
   this.set_background();
+  this.level_music = "inGameMusic" + this.number;
+  this.tileset_info = this.load_tileset_info();
 }
 
 Level.prototype = {
@@ -71,4 +74,8 @@ Level.prototype = {
     this.bg_image_name = this.name + "_bg";
   },
 
+  load_tileset_info: function () {
+    tileData = JSON.parse(game.cache.getText(this.tile_info_name));
+    return tileData;
+  } 
 };

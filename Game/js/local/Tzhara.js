@@ -15,6 +15,10 @@ function Tzhara (x, y) {
   this.DAMAGED_R = false,
   this.invincible = false;
 
+  this.spell_1_usage = 5;
+  this.spell_2_usage = 5;
+  this.spell_3_usage = 5;
+
   // set anchor point for player
   this.anchor.setTo(0.5, 0.5);
 
@@ -111,7 +115,8 @@ _.extend(Tzhara.prototype, {
     player_controls.attack_Z.onDown.add(function() { 
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "FIRE");
-      if(!game.is_restoring) {
+      if(!game.is_restoring && this.spell_1_usage > 0) {
+        this.spell_1_usage--;
         if (player_controls.cursors.left.isDown) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
@@ -126,7 +131,8 @@ _.extend(Tzhara.prototype, {
     player_controls.attack_X.onDown.add(function() { 
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "ELECTRIC");
-      if(!game.is_restoring) {
+      if(!game.is_restoring && this.spell_2_usage > 0) {
+        this.spell_2_usage --;
         if (player_controls.cursors.left.isDown) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
@@ -142,7 +148,8 @@ _.extend(Tzhara.prototype, {
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "GRAVITY");
 
-      if(!game.is_restoring) {
+      if(!game.is_restoring && this.spell_3_usage > 0) {
+        this.spell_3_usage--;
         if (player_controls.cursors.left.isDown) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");

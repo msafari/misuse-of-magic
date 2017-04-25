@@ -21,6 +21,7 @@ _.extend(Wizard.prototype, {
 
     if (game.is_paused == false) {
       game.physics.arcade.collide(this, game.playerProjectiles, this.damage, null, this);
+      game.physics.arcade.collide(game.wizards, this);
 
       if (this.wizard_timer <= 160) {
         this.wizard_timer++;

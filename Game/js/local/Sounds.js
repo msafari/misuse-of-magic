@@ -16,7 +16,7 @@ function Sounds() {
 
 Sounds.prototype = {
   set_in_game_music : function() {
-    inGameMusic = game.add.audio("inGameMusic");
+    inGameMusic = game.add.audio(game.current_level.level_music);
     inGameMusic.loop = true; 
     inGameMusic.volume -= .4;
     return inGameMusic;
