@@ -97,11 +97,21 @@ splash.prototype = {
     game.load.image("level7_portal_l", "assets/Levels/level7/locked.png");
     game.load.image("level7_portal_ul", "assets/Levels/level7/unlocked.png");
 
+    game.load.text("level1_tile_info", "assets/Levels/level1/level1-tiles.json");
+    game.load.text("level2_tile_info", "assets/Levels/level2/level2-tiles.json");
+    game.load.text("level3_tile_info", "assets/Levels/level3/level3-tiles.json");
+
     //load tilemap 
     game.load.image("grassRock", "assets/Levels/Tiles/grass-rock platforms2.png");
     game.load.image("spaceFlora", "assets/Levels/Tiles/space flora.png");
     game.load.image("spaceFlora2", "assets/Levels/Tiles/space flora2.png");
     game.load.image("Gate", "assets/Levels/Tiles/gate.png");
+    game.load.image("desertGround", "assets/Levels/Tiles/desert ground and platforms.png");
+    game.load.image("desertFlora", "assets/Levels/Tiles/desert flora.png");
+    game.load.image("gate2", "assets/Levels/Tiles/gate2.png");
+    game.load.image("snowFloor", "assets/Levels/Tiles/snow ice rock tiles.png");
+    game.load.image("snowFlora", "assets/Levels/Tiles/trees snow objects.png");
+    game.load.image("gate3", "assets/Levels/Tiles/gate3.png");
     game.load.image("Orange", "assets/images/orange.png");
 
     //load sprites
