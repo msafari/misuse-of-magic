@@ -136,7 +136,10 @@ splash.prototype = {
     game.load.audio("orangeCollect", "assets/audio/orangeCollect3.mp3");
     game.load.audio("lossTheme", "assets/audio/lossTheme.mp3");
     game.load.audio("winTheme", "assets/audio/winTheme.mp3");
-    game.load.audio("inGameMusic", "assets/audio/inGameMusic1.mp3");
+    game.load.audio("inGameMusic1", "assets/audio/inGameMusic1.mp3");
+    game.load.audio("inGameMusic2", "assets/audio/inGameMusic2.mp3");
+    game.load.audio("inGameMusic3", "assets/audio/inGameMusic3.mp3");
+
   },
 
   create: function() {

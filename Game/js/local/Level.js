@@ -6,6 +6,7 @@ function Level (number) {
   this.tile_map = this.get_map();
   this.tile_info_name = this.name + "_tile_info";
   this.set_background();
+  this.level_music = "inGameMusic" + this.number;
   this.tileset_info = this.load_tileset_info();
 }
 
