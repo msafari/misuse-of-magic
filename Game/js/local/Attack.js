@@ -108,9 +108,13 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Firefloom.png",
 		icon: "assets/Sprites/attacks/firefloomIcon.png",
 		sprite: null,
-		effect: function(target) {
+		effect: /*async*/ function(target) {
 			console.warn("We used firefloom!");
-			console.log(target);
+			target.canAttack = false;
+			target.tint = 0xdedede;
+			target.hitPoints++; //firefloom should not cause damage
+			console.log(target.hitPoints);
+			console.log(target.canAttack);
 		},
 		type: "FIRE"
 	},
