@@ -76,11 +76,11 @@ momGame.prototype = {
 
     game.hearts = hearts;
     
-    orangesCounter = game.add.text(800, 48, "0");
+    orangesCounter = game.add.text(798, 48, "0");
     orangesCounter.fixedToCamera = true;
-    orangesCounter.cameraOffset.setTo(800, 48);
+    orangesCounter.cameraOffset.setTo(798, 48);
     orangesCounter.setStyle({
-    fill: "#ff2d2d"
+      fill: "#ff2d2d"
     });
   
     orangeUnavailable = game.add.sprite(784, 24, "noOrange");
@@ -192,6 +192,7 @@ momGame.prototype = {
     spellRestorePopup.fixedToCamera = true;
     spellRestorePopup.cameraOffset.setTo(125, 75);
 
+    //Attack Icons and counters -- there may be a better way to do this
     mom_AttackIcon1 = game.add.sprite(500, 27, "attackIcons");
     mom_AttackIcon1.fixedToCamera = true;
     mom_AttackIcon1.cameraOffset.setTo(500, 27);
@@ -204,6 +205,31 @@ momGame.prototype = {
     mom_AttackIcon3.fixedToCamera = true;
     mom_AttackIcon3.cameraOffset.setTo(630, 27);
     mom_AttackIcon3.frame = f_attackIcon3;
+
+    zAttackCounter = game.add.text(542, 48, game.player.spell_1_usage);
+    zAttackCounter.fixedToCamera = true;
+    zAttackCounter.cameraOffset.setTo(542, 48);
+    xAttackCounter = game.add.text(607, 48, game.player.spell_2_usage);
+    xAttackCounter.fixedToCamera = true;
+    xAttackCounter.cameraOffset.setTo(607, 48);
+    cAttackCounter = game.add.text(672, 48, game.player.spell_3_usage);
+    cAttackCounter.fixedToCamera = true;
+    cAttackCounter.cameraOffset.setTo(672, 48);
+
+    zAttackUnavailable = game.add.sprite(530, 24, "noOrange"); //Stretching that filename a bit here
+    zAttackUnavailable.fixedToCamera = true;
+    zAttackUnavailable.cameraOffset.setTo(530, 24);
+    zAttackUnavailable.visible = false;
+
+    xAttackUnavailable = game.add.sprite(595, 24, "noOrange");
+    xAttackUnavailable.fixedToCamera = true;
+    xAttackUnavailable.cameraOffset.setTo(595, 24);
+    xAttackUnavailable.visible = false;
+
+    cAttackUnavailable = game.add.sprite(660, 24, "noOrange"); 
+    cAttackUnavailable.fixedToCamera = true;
+    cAttackUnavailable.cameraOffset.setTo(660, 24);
+    cAttackUnavailable.visible = false;
 
     winOverlay = game.add.sprite(375, 50, "winOverlay");
     winOverlay.visible = false;
@@ -231,7 +257,7 @@ momGame.prototype = {
     lossOverlay.fixedToCamera = true;
     lossOverlay.cameraOffset.setTo(375, 50);
     
-    //control
+    //controls
     use_orange = game.input.keyboard.addKey(Phaser.Keyboard.O);
     cheat_menu = game.input.keyboard.addKey(Phaser.Keyboard.M);
 
@@ -246,43 +272,48 @@ momGame.prototype = {
 
     game.inputs.attack_Z.onDown.add(function() { 
       if (game.is_restoring) {
-        var prevUses = game.player.attack.uses;
-
+        var prevUses = game.player.spell_1_usage;
         //TODO: this is wrong it restores all attacks distinguish between counts for each
-        game.player.attack.uses++;
-        console.log("Added an extra use to the Z attack (" + prevUses + " -> " + game.player.attack.uses + ")");
+        game.player.spell_1_usage++;
+        console.log("Added an extra use to the Z attack (" + prevUses + " -> " + game.player.spell_1_usage + ")");
         game.is_restoring = false;
         pauseGame(false);
         spellRestorePopup.visible = false;
         oranges_count -= 10;
-        updateOrangeText();
+        zAttackUnavailable.visible = false;
+        zAttackCounter.setStyle({ fill: "#000000" });
       }
+      updateCounterText();
     }, this);
 
     game.inputs.attack_C.onDown.add(function() { 
       if(game.is_restoring) {
-          var prevUses = game.player.attack.uses;
-          game.player.attack.uses++;
-          console.log("Added an extra use to the C attack (" + prevUses + " -> " + game.player.attack.uses + ")");
+          var prevUses = game.player.spell_3_usage
+          game.player.spell_3_usage++;
+          console.log("Added an extra use to the C attack (" + prevUses + " -> " + game.player.spell_3_usage + ")");
           game.is_restoring = false;
           pauseGame(false);
           spellRestorePopup.visible = false;
           oranges_count -= 10;
-          updateOrangeText();
+          cAttackUnavailable.visible = false;
+          cAttackCounter.setStyle({ fill: "#000000" });
       }
+      updateCounterText();
     }, this);
 
     game.inputs.attack_X.onDown.add(function() { 
       if(game.is_restoring) {
-          var prevUses = game.player.attack.uses;
-          game.player.attack.uses++;
-          console.log("Added an extra use to the X attack (" + prevUses + " -> " + game.player.attack.uses + ")");
+          var prevUses = game.player.spell_2_usage;
+          game.player.spell_2_usage++;
+          console.log("Added an extra use to the X attack (" + prevUses + " -> " + game.player.spell_2_usage + ")");
           game.is_restoring = false;
           pauseGame(false);
           spellRestorePopup.visible = false;
           oranges_count -= 10;
-          updateOrangeText();
+          xAttackUnavailable.visible = false;
+          xAttackCounter.setStyle({ fill: "#000000" });
       }
+      updateCounterText();
     }, this);
 
     use_orange.onDown.add(function() {
@@ -300,11 +331,11 @@ momGame.prototype = {
         return;
       }
         restoreSpell();
-        updateOrangeText();
+        updateCounterText();
     }, this);
   
-  function updateOrangeText() {
-    if(oranges_count === Infinity) //the ornage cheat is enabled then so show inifity symbol
+  function updateCounterText() {
+    if(oranges_count === Infinity) //the orange cheat is enabled then so show inifity symbol
       orangesCounter.setText(String.fromCharCode(0x221E));
     else {
       orangesCounter.setText(""+oranges_count);
@@ -314,6 +345,21 @@ momGame.prototype = {
         });
         orangeUnavailable.visible = true;
       }
+    }
+    zAttackCounter.setText(game.player.spell_1_usage);
+    xAttackCounter.setText(game.player.spell_2_usage);
+    cAttackCounter.setText(game.player.spell_3_usage);
+    if(game.player.spell_1_usage <= 0) {
+      zAttackUnavailable.visible = true;
+      zAttackCounter.setStyle({ fill: "#ff2d2d" });
+    }
+    if(game.player.spell_2_usage <= 0) {
+      xAttackUnavailable.visible = true;
+      xAttackCounter.setStyle({ fill: "#ff2d2d" });
+    }
+    if(game.player.spell_3_usage <= 0) {
+      cAttackUnavailable.visible = true;
+      cAttackCounter.setStyle({ fill: "#ff2d2d" });
     }
   }
   
@@ -346,10 +392,10 @@ momGame.prototype = {
     game.physics.arcade.collide(game.player, game.wizardProjectiles, game.player.damage, null);
     
     if (!game.is_paused) {
-
       if (this.player.health == 0) {
         this.loseLevel();
       }
+
     }
   },
 
@@ -363,6 +409,8 @@ momGame.prototype = {
       orangesCounter.setStyle({
       fill: "#000000"
      });
+      if(oranges_count === Infinity)
+        orangesCounter.setText(String.fromCharCode(0x221E)); //infinity symbol... again
     orangeUnavailable.visible = false;
    }
   },
