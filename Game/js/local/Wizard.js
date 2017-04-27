@@ -6,6 +6,7 @@ function Wizard (type, x, y) {
   this.y = y;
   this.wizard_timer = 0;
   this.isDead = false;
+  this.canAttack = true;
   this.init_sprite();
   this.hitPoints = 2;
   this.attack_obj = null;
@@ -67,6 +68,8 @@ _.extend(Wizard.prototype, {
 
   attack_player: function () {
     //attack randomly in left or right direction
+    if(!this.canAttack)
+      return;
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
     var attack_left = (game.player.position.x - this.x < 0) ? true : false;
@@ -118,6 +121,7 @@ _.extend(Wizard.prototype, {
   },
 
   damage: function(wizard, attackObject) {
+    var impact = attackObject.type.effect;
     attackObject.kill();
     wizard.animations.stop();
     if(attackObject.attacker_name === "TZHARA") {
@@ -126,6 +130,9 @@ _.extend(Wizard.prototype, {
       w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L"
       wizard.animations.play(w_damage_anim, 8);
       console.log("losing wizard health");
+      if(impact != null) {
+        impact(wizard);
+      }
     }
     if (wizard.hitPoints == 0) {
       direction = wizard.animations.currentAnim.name;
@@ -140,6 +147,5 @@ _.extend(Wizard.prototype, {
       }, this); 
     }
   },
-
 
 });
