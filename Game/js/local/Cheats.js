@@ -100,4 +100,10 @@ Cheats.CheatList = {
 			
 		}  
 	},
+	helpText: {
+		enabled: false,
+		text: "Note: Press M to update the cheats.",
+		action: function() {
+		}  
+	},
 };

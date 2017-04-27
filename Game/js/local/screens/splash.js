@@ -51,7 +51,13 @@ splash.prototype = {
     game.load.image("playButton", "assets/images/playButton.png");
     game.load.image("controlsButton", "assets/images/controlsButton.png");
     game.load.image("helpButton", "assets/images/helpButton.png");
+    game.load.image("helpBar", "assets/images/HelpBar.png");
+    game.load.image("selectBar", "assets/images/selectBar.png");
+    game.load.image("controlsBar", "assets/images/controlsBar.png");
     game.load.spritesheet("heartbreak", "assets/images/heartbreak.png", 25, 25);
+    game.load.image("menuPlay", "assets/images/menuPlay.png");
+    game.load.image("menuControls", "assets/images/menuControls.png");
+    game.load.image("menuHelp", "assets/images/menuHelp.png");
     game.load.image("winOverlay", "assets/images/winOverlay.png");
     game.load.image("lossOverlay", "assets/images/lossOverlay.png");
     game.load.image("backButton", "assets/images/backButton.png");
@@ -74,6 +80,13 @@ splash.prototype = {
     game.load.spritesheet("attackIcons", "assets/Sprites/attacks/attackIconList.png", 48, 48);
     game.load.image("attackUp", "assets/images/attackChangeUp.png");
     game.load.image("attackDown", "assets/images/attackChangeDown.png");
+    game.load.image("flareInfo", "assets/images/flareInfo.png");
+    game.load.image("firefloomInfo", "assets/images/firefloomInfo.png");
+    game.load.image("zoltInfo", "assets/images/zoltInfo.png");
+    game.load.image("electromagnetismInfo", "assets/images/electromagnetismInfo.png");
+    game.load.image("vectorInfo", "assets/images/vectorInfo.png");
+    game.load.image("reverseTrajectoryInfo", "assets/images/reverseTrajectoryInfo.png");
+
 
     //level icons
     game.load.image("level1_bg", "assets/Levels/level1/level1.png");

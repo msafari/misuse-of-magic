@@ -17,11 +17,7 @@ momLevelSelect.prototype = {
         font: 'bold 20pt', 
         fill: '#FF0000'
     };
-    headerBase = game.add.sprite(game.world.centerX, 50, 'headerBase');
-    headerBase.fixedToCamera = true;
-    headerBase.anchor.setTo(0.5);
-    headerBase.cameraOffset.setTo(600, 50);
-    header = game.add.text(game.world.centerX, 50, '-- LEVEL SELECT --', titleStyle);
+    header = game.add.image(game.world.centerX, 50, "selectBar");
     header.fixedToCamera = true;
     header.cameraOffset.setTo(600, 50);
     header.anchor.setTo(0.5);
@@ -34,7 +30,39 @@ momLevelSelect.prototype = {
     attackSelectText.fixedToCamera = true;
     attackSelectText.cameraOffset.setTo(600,525);
     attackSelectText.anchor.setTo(0.5);
+    cheatSelectText = game.add.text(600, 150, "Note: Press '2' or '3' to unlock later levels!");
+    cheatSelectText.fixedToCamera = true;
+    cheatSelectText.cameraOffset.setTo(600,150);
+    cheatSelectText.anchor.setTo(0.5);
     game.sameAttackText = game.add.text(0,0,"");
+    
+    flareInfo = game.add.sprite(352, 630, "flareInfo");
+    flareInfo.fixedToCamera = true;
+    flareInfo.cameraOffset.setTo(352,630);
+    flareInfo.visible = false;
+    firefloomInfo = game.add.sprite(352, 630, "firefloomInfo");
+    firefloomInfo.fixedToCamera = true;
+    firefloomInfo.cameraOffset.setTo(352,630);
+    firefloomInfo.visible = false;
+    zoltInfo = game.add.sprite(352, 630, "zoltInfo");
+    zoltInfo.fixedToCamera = true;
+    zoltInfo.cameraOffset.setTo(352,630);
+    zoltInfo.visible = false;
+    electromagnetismInfo = game.add.sprite(352, 630, "electromagnetismInfo");
+    electromagnetismInfo.fixedToCamera = true;
+    electromagnetismInfo.cameraOffset.setTo(352,630);
+    electromagnetismInfo.visible = false;
+    vectorInfo = game.add.sprite(352, 630, "vectorInfo");
+    vectorInfo.fixedToCamera = true;
+    vectorInfo.cameraOffset.setTo(352,630);
+    vectorInfo.visible = false;
+    reverseTrajectoryInfo = game.add.sprite(352, 630, "reverseTrajectoryInfo");
+    reverseTrajectoryInfo.fixedToCamera = true;
+    reverseTrajectoryInfo.cameraOffset.setTo(352,630);
+    reverseTrajectoryInfo.visible = false;
+
+    attackInfoBoxes = ["default", flareInfo, firefloomInfo, zoltInfo, electromagnetismInfo, vectorInfo, reverseTrajectoryInfo];
+
     attackUp1 = game.add.sprite(540, 555, "attackUp");
     attackUp2 = game.add.sprite(600, 555, "attackUp");
     attackUp3 = game.add.sprite(660, 555, "attackUp");
@@ -76,6 +104,33 @@ momLevelSelect.prototype = {
     attackIcon1.anchor.setTo(0.5);
     attackIcon2.anchor.setTo(0.5);
     attackIcon3.anchor.setTo(0.5);
+
+    attackIcon1.inputEnabled = true;
+    attackIcon1.events.onInputOver.add(function() {
+        attackInfoBoxes[attackIcon1.frame].visible = true;
+    }, this);
+    attackIcon1.events.onInputOut.add(function() {
+        attackInfoBoxes[attackIcon1.frame].visible = false;
+    }, this);
+
+    attackIcon2.inputEnabled = true;
+    attackIcon2.events.onInputOver.add(function() {
+        attackInfoBoxes[attackIcon2.frame].visible = true;
+    }, this);
+    attackIcon2.events.onInputOut.add(function() {
+        attackInfoBoxes[attackIcon2.frame].visible = false;
+    }, this);
+
+    attackIcon3.inputEnabled = true;
+    attackIcon3.events.onInputOver.add(function() {
+        attackInfoBoxes[attackIcon3.frame].visible = true;
+    }, this);
+    attackIcon3.events.onInputOut.add(function() {
+        attackInfoBoxes[attackIcon3.frame].visible = false;
+    }, this);
+
+
+
 
     attackUp1.inputEnabled = true;
     attackUp1.events.onInputUp.add(function() {

@@ -66,6 +66,9 @@ Level.prototype = {
         game.sameAttackText.cameraOffset.setTo(600,665);
         game.sameAttackText.anchor.setTo(0.5);
       }, this);
+      this.icon_sprite.events.onInputOut.add(function() {
+        game.time.events.repeat(Phaser.Timer.SECOND, 1, function() {game.sameAttackText.destroy();}, this);
+      }, this);
     }
   },
 
