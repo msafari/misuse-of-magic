@@ -80,6 +80,13 @@ splash.prototype = {
     game.load.spritesheet("attackIcons", "assets/Sprites/attacks/attackIconList.png", 48, 48);
     game.load.image("attackUp", "assets/images/attackChangeUp.png");
     game.load.image("attackDown", "assets/images/attackChangeDown.png");
+    game.load.image("flareInfo", "assets/images/flareInfo.png");
+    game.load.image("firefloomInfo", "assets/images/firefloomInfo.png");
+    game.load.image("zoltInfo", "assets/images/zoltInfo.png");
+    game.load.image("electromagnetismInfo", "assets/images/electromagnetismInfo.png");
+    game.load.image("vectorInfo", "assets/images/vectorInfo.png");
+    game.load.image("reverseTrajectoryInfo", "assets/images/reverseTrajectoryInfo.png");
+
 
     //level icons
     game.load.image("level1_bg", "assets/Levels/level1/level1.png");
