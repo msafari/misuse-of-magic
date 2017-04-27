@@ -202,15 +202,15 @@ momGame.prototype = {
     mom_AttackIcon3.cameraOffset.setTo(595, 26);
     mom_AttackIcon3.frame = f_attackIcon3;
 
-    zAttackCounter = game.add.text(542, 48, game.player.spell_1_usage);
+    zAttackCounter = game.add.text(505, 48, game.player.spell_1_usage);
     zAttackCounter.fixedToCamera = true;
-    zAttackCounter.cameraOffset.setTo(542, 48);
-    xAttackCounter = game.add.text(607, 48, game.player.spell_2_usage);
+    zAttackCounter.cameraOffset.setTo(505, 48);
+    xAttackCounter = game.add.text(570, 48, game.player.spell_2_usage);
     xAttackCounter.fixedToCamera = true;
-    xAttackCounter.cameraOffset.setTo(607, 48);
-    cAttackCounter = game.add.text(672, 48, game.player.spell_3_usage);
+    xAttackCounter.cameraOffset.setTo(570, 48);
+    cAttackCounter = game.add.text(635, 48, game.player.spell_3_usage);
     cAttackCounter.fixedToCamera = true;
-    cAttackCounter.cameraOffset.setTo(672, 48);
+    cAttackCounter.cameraOffset.setTo(635, 48);
 
     zAttackUnavailable = game.add.sprite(530, 24, "noOrange"); //Stretching that filename a bit here
     zAttackUnavailable.fixedToCamera = true;

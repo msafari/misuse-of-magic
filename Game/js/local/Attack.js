@@ -139,7 +139,15 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Reverse Direction.png",
 		icon: "assets/Sprites/attacks/reverseTrajectoryIcon.png",
 		sprite: null,
-		effect: null,
+		effect: function(target) {
+			target.backwards = true;
+			target.tint = 0xff0000;
+			target.hitPoints++; //firefloom should not cause damage so undo the decrease from spell collision
+			game.time.events.add(5000, function() {
+				target.backwards = false;
+				target.tint = 0xffffff;
+			}, this);
+		},
 		type: "GRAVITY"
 	},
 	Default: {

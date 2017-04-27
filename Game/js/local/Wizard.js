@@ -7,6 +7,7 @@ function Wizard (type, x, y) {
   this.wizard_timer = 0;
   this.isDead = false;
   this.canAttack = true;
+  this.backwards = true;
   this.init_sprite();
   this.hitPoints = 2;
   this.attack_obj = null;
@@ -84,6 +85,9 @@ _.extend(Wizard.prototype, {
     this.attack_obj.set_sprite(this.get_attack_ID());
 
     var attack_dir = attack_left ? "left" : "right";
+    if (this.backwards) {
+      var attack_dir = attack_left ? "right" : "left";
+    }
     this.attack_obj.launch(this, attack_dir); 
   },
 
