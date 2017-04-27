@@ -54,11 +54,11 @@ _.extend(Attack.prototype , {
 
 			if(direction === "left") {
 				this.position.x = attacker.position.x - 15;
-				atkTween = game.add.tween(this).to({x: game.player.position.x - 250 });
+				atkTween = game.add.tween(this).to({x: attacker.position.x - 450});
 			}
 			else {
 				this.position.x = attacker.position.x + 15;
-				atkTween = game.add.tween(this).to({x: game.player.position.x });
+				atkTween = game.add.tween(this).to({x: attacker.position.x + 450 });
 			}
 		}
 		this.visible = true;

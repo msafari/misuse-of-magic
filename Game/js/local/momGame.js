@@ -59,37 +59,34 @@ momGame.prototype = {
 
     this.load_wizards();   
 
-    gameUI = game.add.sprite(50, 25, "gameUI");
+    gameUI = game.add.sprite(45, 20, "gameUI");
     gameUI.fixedToCamera = true;
-    gameUI.cameraOffset.setTo(50, 25);
-    healthText = game.add.text(55, 31, "Health:");
-    healthText.fixedToCamera = true;
-    healthText.cameraOffset.setTo(55, 31);
+    gameUI.cameraOffset.setTo(45, 20);
     hearts = game.add.group();
     
-    for (var i = 0; i < 5; i++) {
-        var heart = hearts.create(150 + (i * 35), 35, 'heartbreak');
+    for (var i = 0; i < 6; i++) {
+        var heart = hearts.create(180 + (i * 35), 35, 'heartbreak');
         heart.frame = 0;
         heart.fixedToCamera = true;
-        heart.cameraOffset.setTo(150 + (i * 35), 35);
+        heart.cameraOffset.setTo(180 + (i * 35), 35);
     }
 
     game.hearts = hearts;
     
-    orangesCounter = game.add.text(800, 48, "0");
+    orangesCounter = game.add.text(734,48, "0");
     orangesCounter.fixedToCamera = true;
-    orangesCounter.cameraOffset.setTo(800, 48);
+    orangesCounter.cameraOffset.setTo(734, 48);
     orangesCounter.setStyle({
     fill: "#ff2d2d"
     });
   
-    orangeUnavailable = game.add.sprite(784, 24, "noOrange");
+    orangeUnavailable = game.add.sprite(720, 24, "noOrange");
     orangeUnavailable.fixedToCamera = true;
-    orangeUnavailable.cameraOffset.setTo(784, 24);
+    orangeUnavailable.cameraOffset.setTo(720, 24);
 
-    xButton = game.add.sprite(850, 35, "xButton");
+    xButton = game.add.sprite(870, 35, "xButton");
     xButton.fixedToCamera = true;
-    xButton.cameraOffset.setTo(850, 35);
+    xButton.cameraOffset.setTo(870, 35);
     xButton.inputEnabled = true;
     xButton.events.onInputUp.add(function() {
       game.sound.stopAll(); 
@@ -98,9 +95,9 @@ momGame.prototype = {
       game.state.start("Splash");
     });
 
-    pauseButton = game.add.sprite(900, 35, "pauseButton");
+    pauseButton = game.add.sprite(920, 35, "pauseButton");
     pauseButton.fixedToCamera = true;
-    pauseButton.cameraOffset.setTo(900, 35);
+    pauseButton.cameraOffset.setTo(920, 35);
     pauseButton.inputEnabled = true;
     pauseButton.events.onInputUp.add(function() {
       game.sound_effects.menuClick.play();
@@ -131,11 +128,11 @@ momGame.prototype = {
     infoBase.fixedToCamera = true;
     infoBase.cameraOffset.setTo(100, 75);
 
-    backButton = game.add.sprite(900, 80, "backButton");
+    backButton = game.add.sprite(920, 80, "backButton");
     backButton.visible = false;
     backButton.inputEnabled = true;
     backButton.fixedToCamera = true;
-    backButton.cameraOffset.setTo(900, 80);
+    backButton.cameraOffset.setTo(920, 80);
     backEvent = backButton.events.onInputUp.add(function() {
         backButton.visible = false;
         helpBase.visible = false;
@@ -150,9 +147,9 @@ momGame.prototype = {
     });
 
     //add controls button functionality
-    controlsButton = game.add.sprite(950, 35, "controlsButton");
+    controlsButton = game.add.sprite(970, 35, "controlsButton");
     controlsButton.fixedToCamera = true;
-    controlsButton.cameraOffset.setTo(950, 35);
+    controlsButton.cameraOffset.setTo(970, 35);
     controlsButton.inputEnabled = true;
     controlsButton.events.onInputUp.add(function() {
       game.sound_effects.menuClick.play();
@@ -170,9 +167,9 @@ momGame.prototype = {
     });
 
     //add help button functionality
-    helpButton = game.add.sprite(1000, 35, "helpButton");
+    helpButton = game.add.sprite(1020, 35, "helpButton");
     helpButton.fixedToCamera = true;
-    helpButton.cameraOffset.setTo(1000, 35);
+    helpButton.cameraOffset.setTo(1020, 35);
     helpButton.inputEnabled = true;
     helpButton.events.onInputUp.add(function() {
       game.sound_effects.menuClick.play();
@@ -192,17 +189,17 @@ momGame.prototype = {
     spellRestorePopup.fixedToCamera = true;
     spellRestorePopup.cameraOffset.setTo(125, 75);
 
-    mom_AttackIcon1 = game.add.sprite(500, 27, "attackIcons");
+    mom_AttackIcon1 = game.add.sprite(465, 26, "attackIcons");
     mom_AttackIcon1.fixedToCamera = true;
-    mom_AttackIcon1.cameraOffset.setTo(500, 27);
+    mom_AttackIcon1.cameraOffset.setTo(465, 26);
     mom_AttackIcon1.frame = f_attackIcon1;
-    mom_AttackIcon2 = game.add.sprite(565, 27, "attackIcons"); //This one is a tad off center, so -5px to make up for that
+    mom_AttackIcon2 = game.add.sprite(530, 26, "attackIcons"); //This one is a tad off center, so -5px to make up for that
     mom_AttackIcon2.fixedToCamera = true;
-    mom_AttackIcon2.cameraOffset.setTo(565, 27);
+    mom_AttackIcon2.cameraOffset.setTo(530, 26);
     mom_AttackIcon2.frame = f_attackIcon2;
-    mom_AttackIcon3 = game.add.sprite(630, 27, "attackIcons");
+    mom_AttackIcon3 = game.add.sprite(595, 26, "attackIcons");
     mom_AttackIcon3.fixedToCamera = true;
-    mom_AttackIcon3.cameraOffset.setTo(630, 27);
+    mom_AttackIcon3.cameraOffset.setTo(595, 26);
     mom_AttackIcon3.frame = f_attackIcon3;
 
     winOverlay = game.add.sprite(375, 50, "winOverlay");

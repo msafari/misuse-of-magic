@@ -17,11 +17,7 @@ momLevelSelect.prototype = {
         font: 'bold 20pt', 
         fill: '#FF0000'
     };
-    headerBase = game.add.sprite(game.world.centerX, 50, 'headerBase');
-    headerBase.fixedToCamera = true;
-    headerBase.anchor.setTo(0.5);
-    headerBase.cameraOffset.setTo(600, 50);
-    header = game.add.text(game.world.centerX, 50, '-- LEVEL SELECT --', titleStyle);
+    header = game.add.image(game.world.centerX, 50, "selectBar");
     header.fixedToCamera = true;
     header.cameraOffset.setTo(600, 50);
     header.anchor.setTo(0.5);

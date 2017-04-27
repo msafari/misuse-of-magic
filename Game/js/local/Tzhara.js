@@ -10,7 +10,7 @@ function Tzhara (x, y) {
   this.body.gravity.y = 15000;
 
   this.attack = null;
-  this.health = 5;
+  this.health = 6;
   this.DAMAGED_L = false,
   this.DAMAGED_R = false,
   this.invincible = false;

@@ -51,7 +51,13 @@ splash.prototype = {
     game.load.image("playButton", "assets/images/playButton.png");
     game.load.image("controlsButton", "assets/images/controlsButton.png");
     game.load.image("helpButton", "assets/images/helpButton.png");
+    game.load.image("helpBar", "assets/images/HelpBar.png");
+    game.load.image("selectBar", "assets/images/selectBar.png");
+    game.load.image("controlsBar", "assets/images/controlsBar.png");
     game.load.spritesheet("heartbreak", "assets/images/heartbreak.png", 25, 25);
+    game.load.image("menuPlay", "assets/images/menuPlay.png");
+    game.load.image("menuControls", "assets/images/menuControls.png");
+    game.load.image("menuHelp", "assets/images/menuHelp.png");
     game.load.image("winOverlay", "assets/images/winOverlay.png");
     game.load.image("lossOverlay", "assets/images/lossOverlay.png");
     game.load.image("backButton", "assets/images/backButton.png");
