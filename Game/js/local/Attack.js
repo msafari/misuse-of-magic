@@ -19,6 +19,7 @@ _.extend(Attack.prototype , {
 		if(!Attack.Types[name])
 			name = "Default";
 		Phaser.Sprite.call(this, game, 0, 0, name);
+		this.type = Attack.Types[name];
 		this.animations.add("launch");
 		game.physics.arcade.enable(this);
 		this.enableBody = true;
@@ -87,49 +88,65 @@ _.extend(Attack.prototype , {
 	},
 });
 
-//It's time to move this bit elsewhere. And the name 'images' no longer applies
 Attack.Types = {
 	//Sprites cannot be created during preload beacuse the world doesn't exist yet, we populate that field when needed
 	ElectricAttack: {
 		image: "assets/Sprites/attacks/Electric Attack Prototype.png",
 		icon: "assets/Sprites/attacks/zoltIcon.png",
 		sprite: null,
+		effect: null,
 		type: "ELECTRIC"
 	},
 	Electromagnetism:{
 		image: "assets/Sprites/attacks/Electromagnetism.png",
 		icon: "assets/Sprites/attacks/electromagnetismIcon.png",
 		sprite: null,
+		effect: null,
 		type: "GRAVITY"
 	},
 	Firefloom: {
 		image: "assets/Sprites/attacks/Firefloom.png",
 		icon: "assets/Sprites/attacks/firefloomIcon.png",
 		sprite: null,
+		effect: function(target) {
+			//console.warn("We used firefloom!");
+			target.canAttack = false;
+			target.tint = 0x4f4e58;
+			target.hitPoints++; //firefloom should not cause damage so undo the decrease from spell collision
+			game.time.events.add(2500, function() {
+				//console.log("Firefloom effect ended.");
+				target.canAttack = true;
+				target.tint = 0xffffff;
+			}, this);
+		},
 		type: "FIRE"
 	},
 	Flare:{
 		image: "assets/Sprites/attacks/Flare.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
+		effect: null,
 		type: "FIRE"
 	},
 	MovementSpell: {
 		image: "assets/Sprites/attacks/Movement Spell.png",
 		icon: "assets/Sprites/attacks/movementIcon.png",
 		sprite: null,
+		effect: null, //This effect is complex enough that it may need it's own file
 		type: "GRAVITY"
 	},
 	ReverseDirection: {
 		image: "assets/Sprites/attacks/Reverse Direction.png",
 		icon: "assets/Sprites/attacks/reverseTrajectoryIcon.png",
 		sprite: null,
+		effect: null,
 		type: "GRAVITY"
 	},
 	Default: {
 		image: "assets/Sprites/attacks/Debug attack.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
+		effect: null,
 		type: "Err..."
 	},
 };
