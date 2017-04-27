@@ -120,7 +120,7 @@ _.extend(Wizard.prototype, {
       return "MovementSpell";
   },
 
-  damage: /*async*/ function(wizard, attackObject) {
+  damage: function(wizard, attackObject) {
     var impact = attackObject.type.effect;
     attackObject.kill();
     wizard.animations.stop();
@@ -132,7 +132,6 @@ _.extend(Wizard.prototype, {
       console.log("losing wizard health");
       if(impact != null) {
         impact(wizard);
-        //await impact(wizard);
       }
     }
     if (wizard.hitPoints == 0) {

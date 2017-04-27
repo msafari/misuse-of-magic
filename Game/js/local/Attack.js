@@ -108,13 +108,16 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Firefloom.png",
 		icon: "assets/Sprites/attacks/firefloomIcon.png",
 		sprite: null,
-		effect: /*async*/ function(target) {
+		effect: function(target) {
 			console.warn("We used firefloom!");
 			target.canAttack = false;
-			target.tint = 0xdedede;
-			target.hitPoints++; //firefloom should not cause damage
-			console.log(target.hitPoints);
-			console.log(target.canAttack);
+			target.tint = 0x4f4e58;
+			target.hitPoints++; //firefloom should not cause damage so undo the decrease from spell collision
+			game.time.events.add(2500, function() {
+				console.log("Firefloom effect ended.");
+				target.canAttack = true;
+				target.tint = 0xffffff;
+			}, this);
 		},
 		type: "FIRE"
 	},
