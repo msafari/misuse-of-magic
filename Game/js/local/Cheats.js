@@ -60,11 +60,10 @@ Cheats.CheatList = {
 		enabled: false,
 		text: "Infinite spell uses: ",
 		action: function(){
-			var prevUses = 10;
 			if(!this.enabled) {
 				this.enabled = true;
 				console.log("Spells now have unlimited uses");
-				prevUses = [game.player.spell_1_usage, game.player.spell_2_usage, game.player.spell_3_usage];
+				this.prevUses = [game.player.spell_1_usage, game.player.spell_2_usage, game.player.spell_3_usage];
 				game.player.spell_1_usage = Infinity;
 				game.player.spell_2_usage = Infinity;
 				game.player.spell_3_usage = Infinity;
@@ -72,11 +71,12 @@ Cheats.CheatList = {
 			else {
 				this.enabled = false;
 				console.log("Infinite uses disabled");
-				game.player.spell_1_usage = prevUses[0];
-				game.player.spell_2_usage = prevUses[1];
-				game.player.spell_3_usage = prevUses[2];
+				game.player.spell_1_usage = this.prevUses[0];
+				game.player.spell_2_usage = this.prevUses[1];
+				game.player.spell_3_usage = this.prevUses[2];
 			}
-		} 
+		},
+		prevUses: [], 
 	},
 	infiniteOranges: {
 		enabled: false,

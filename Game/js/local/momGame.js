@@ -342,6 +342,12 @@ momGame.prototype = {
         orangeUnavailable.visible = true;
       }
     }
+    if(game.player.spell_1_usage === Infinity) {
+      zAttackCounter.setText(String.fromCharCode(0x221E));
+      xAttackCounter.setText(String.fromCharCode(0x221E));
+      cAttackCounter.setText(String.fromCharCode(0x221E));
+      return;
+    }
     zAttackCounter.setText(game.player.spell_1_usage);
     xAttackCounter.setText(game.player.spell_2_usage);
     cAttackCounter.setText(game.player.spell_3_usage);
