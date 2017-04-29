@@ -73,16 +73,16 @@ momGame.prototype = {
 
     game.hearts = hearts;
     
-    orangesCounter = game.add.text(734,48, "0");
+    orangesCounter = game.add.text(720,48, "0");
     orangesCounter.fixedToCamera = true;
-    orangesCounter.cameraOffset.setTo(734, 48);
+    orangesCounter.cameraOffset.setTo(720, 48);
     orangesCounter.setStyle({
       fill: "#ff2d2d"
     });
   
-    orangeUnavailable = game.add.sprite(720, 24, "noOrange");
+    orangeUnavailable = game.add.sprite(715, 24, "noOrange");
     orangeUnavailable.fixedToCamera = true;
-    orangeUnavailable.cameraOffset.setTo(720, 24);
+    orangeUnavailable.cameraOffset.setTo(715, 24);
 
     xButton = game.add.sprite(870, 35, "xButton");
     xButton.fixedToCamera = true;
@@ -212,19 +212,19 @@ momGame.prototype = {
     cAttackCounter.fixedToCamera = true;
     cAttackCounter.cameraOffset.setTo(635, 48);
 
-    zAttackUnavailable = game.add.sprite(530, 24, "noOrange"); //Stretching that filename a bit here
+    zAttackUnavailable = game.add.sprite(500, 24, "noOrange"); //Stretching that filename a bit here
     zAttackUnavailable.fixedToCamera = true;
-    zAttackUnavailable.cameraOffset.setTo(530, 24);
+    zAttackUnavailable.cameraOffset.setTo(500, 24);
     zAttackUnavailable.visible = false;
 
-    xAttackUnavailable = game.add.sprite(595, 24, "noOrange");
+    xAttackUnavailable = game.add.sprite(565, 24, "noOrange");
     xAttackUnavailable.fixedToCamera = true;
-    xAttackUnavailable.cameraOffset.setTo(595, 24);
+    xAttackUnavailable.cameraOffset.setTo(565, 24);
     xAttackUnavailable.visible = false;
 
-    cAttackUnavailable = game.add.sprite(660, 24, "noOrange"); 
+    cAttackUnavailable = game.add.sprite(630, 24, "noOrange"); 
     cAttackUnavailable.fixedToCamera = true;
-    cAttackUnavailable.cameraOffset.setTo(660, 24);
+    cAttackUnavailable.cameraOffset.setTo(630, 24);
     cAttackUnavailable.visible = false;
 
     winOverlay = game.add.sprite(375, 50, "winOverlay");
