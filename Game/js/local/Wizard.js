@@ -140,14 +140,14 @@ _.extend(Wizard.prototype, {
       if(impact != null) {
         impact(wizard, attackObject);
       }
-      var damageLoop = game.time.events.loop(800, function() {
-        damage_anim = (wizard.animations.currentAnim.name.includes("_L")) ? "DAMAGE_L" : "DAMAGE_R";
-        wizard.animations.play(damage_anim, 8);
-      }, this);
+      // var damageLoop = game.time.events.loop(800, function() {
+      //   damage_anim = (wizard.animations.currentAnim.name.includes("_L")) ? "DAMAGE_L" : "DAMAGE_R";
+      //   wizard.animations.play(damage_anim, 8);
+      // }, this);
     }
     if (wizard.hitPoints == 0) {
-      damageLoop.timer.stop(true);
-      damageLoop.timer.destroy();
+      //damageLoop.timer.stop(true);//Yeeaah... that gives a reference to the main game timer. Stopping that stops everything. Don't do that.
+      //damageLoop.timer.destroy();
       direction = wizard.animations.currentAnim.name;
       animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
       wizard.animations.play(animation_name, 8);
