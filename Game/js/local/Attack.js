@@ -140,10 +140,8 @@ Attack.Types = {
 			
 			function moveTarget(v) {
 				//For a bonus, let this wizard take damage if it is flung into another one
-
-				//game.physics.arcade.collide(game.wizards, target, injure, null, this);
 				target.body.onCollide = new Phaser.Signal();
-				var tempCollision = target.body.onCollide.add(function(sprite1, sprite2) { //sp1 is the target, sp2 is the 'victim'
+				var tempCollision = target.body.onCollide.add(function(sprite1, sprite2) {
 					if(sprite2.key.includes("WIZARD"))
 						injure(sprite1, sprite2);
 				}, this);
@@ -164,11 +162,9 @@ Attack.Types = {
 				game.time.events.add(1800, function() {
 					target.body.velocity.x = 0;
 					target.body.acceleration.x = 0;
-					//game.physics.arcade.collide(target, game.wizards, null);
 					target.body.onCollide.remove(tempCollision.getListener(), this);
 					target.body.onCollide = null;
 					//onCollide triggers on every collision, ground included so for performance reasons set this back to null at the end
-					//tempCollision.detach();
 					console.log("Gravity effect done");
 				}, this);
 			}

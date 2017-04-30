@@ -42,6 +42,7 @@ _.extend(Tzhara.prototype, {
     if (game.is_paused == false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
       game.physics.arcade.overlap(this, game.wizards, this.damage, null, this);
+      var facingLeft = this.animations.currentAnim.name.includes("_L"); 
 
       if (this.DAMAGED_R) {
         this.animations.play("DAMAGE_R",15, false, false);
@@ -79,7 +80,10 @@ _.extend(Tzhara.prototype, {
       }
 
       else {
-        this.animations.play("IDLE");
+        if(facingLeft)
+          this.animations.play("IDLE_L");
+        else
+          this.animations.play("IDLE_R");
       }
 
     }
@@ -90,7 +94,8 @@ _.extend(Tzhara.prototype, {
 
 
   load_animations: function() {
-    var states = ["IDLE", "SPELL_L", "SPELL_R", "DEATH", "DAMAGE_L", "DAMAGE_R", "JUMP_L", "JUMP_R", "WALK_L", "WALK_R"],
+    var states = ["IDLE", "SPELL_L", "SPELL_R", "DEATH", "DAMAGE_L", "DAMAGE_R", 
+                  "JUMP_L", "JUMP_R", "WALK_L", "WALK_R", "IDLE_L", "IDLE_R"],
         player = this;
     _.each(states, function (state, i) {
         var frameIndexes = _.range(i*6, i*6 + 6);

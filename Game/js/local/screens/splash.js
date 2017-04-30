@@ -128,7 +128,7 @@ splash.prototype = {
     game.load.image("Orange", "assets/images/orange.png");
 
     //load sprites
-    game.load.spritesheet("TZHARA", 'assets/Sprites/Tzarha/spritesheet.png', 64, 96);
+    game.load.spritesheet("TZHARA", 'assets/Sprites/Tzarha/tzhara full.png', 64, 96);
     game.load.spritesheet("ELECTRIC_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 64, 96);
     game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 64, 96);
     game.load.spritesheet("GRAVITY_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 64, 96);
