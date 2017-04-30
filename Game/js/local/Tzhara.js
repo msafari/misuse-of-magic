@@ -208,8 +208,6 @@ _.extend(Tzhara.prototype, {
       }
       else if (player.body.touching.right) {
         player.DAMAGED_R = true;
-      } else {
-        player.DAMAGED_R = true;
       }
       // if(impact != null) {
       //   impact(player, attackObject);
@@ -219,7 +217,7 @@ _.extend(Tzhara.prototype, {
       player.health--;
       game.hearts.children[player.health].frame = 1;
       game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, _invinFrameOver, this);
-      game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, _stopDamage, this);
+      game.time.events.repeat(Phaser.Timer.SECOND * 0.25, 1, _stopDamage, this);
       if (player.health != 0) {
         game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, _changeTint, this);
       }
