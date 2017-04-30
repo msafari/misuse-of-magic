@@ -92,7 +92,7 @@ _.extend(Wizard.prototype, {
   },
 
   random_move_x: function () {
-    var rand = (Math.random() * 100) + 1;
+    var rand = (this.hitPoints >= 2)? (Math.random() * 100) + 1 : (Math.random() * 60) + 1;
     var is_left = Math.random() < 0.5 ? true : false;
 
     if (is_left) {
@@ -113,6 +113,9 @@ _.extend(Wizard.prototype, {
         this.attack_player();
 
     }
+    else if (this.hitPoints == 1) {
+      this.random_move_x();
+    }
   },
 
   get_attack_ID: function() {
@@ -131,14 +134,20 @@ _.extend(Wizard.prototype, {
     if(attackObject.attacker_name === "TZHARA") {
       hitSound.play();
       wizard.hitPoints--;
-      w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L"
+      w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L";
       wizard.animations.play(w_damage_anim, 8);
       console.log("losing wizard health");
       if(impact != null) {
         impact(wizard, attackObject);
       }
+      var damageLoop = game.time.events.loop(800, function() {
+        damage_anim = (wizard.animations.currentAnim.name.includes("_L")) ? "DAMAGE_L" : "DAMAGE_R";
+        wizard.animations.play(damage_anim, 8);
+      }, this);
     }
     if (wizard.hitPoints == 0) {
+      damageLoop.timer.stop(true);
+      damageLoop.timer.destroy();
       direction = wizard.animations.currentAnim.name;
       animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
       wizard.animations.play(animation_name, 8);
