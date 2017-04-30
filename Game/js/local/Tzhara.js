@@ -14,6 +14,7 @@ function Tzhara (x, y) {
   this.DAMAGED_L = false,
   this.DAMAGED_R = false,
   this.invincible = false;
+  this.facingLeft = false;
 
   this.spell_1_usage = 5;
   this.spell_2_usage = 5;
@@ -42,7 +43,7 @@ _.extend(Tzhara.prototype, {
     if (game.is_paused == false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
       game.physics.arcade.overlap(this, game.wizards, this.damage, null, this);
-      var facingLeft = this.animations.currentAnim.name.includes("_L"); 
+      this.facingLeft = this.animations.currentAnim.name.includes("_L"); 
 
       if (this.DAMAGED_R) {
         this.animations.play("DAMAGE_R",15, false, false);
@@ -80,7 +81,7 @@ _.extend(Tzhara.prototype, {
       }
 
       else {
-        if(facingLeft)
+        if(this.facingLeft)
           this.animations.play("IDLE_L");
         else
           this.animations.play("IDLE_R");
@@ -122,11 +123,11 @@ _.extend(Tzhara.prototype, {
         this.attack = new Attack('TZHARA', 10, "FIRE");
       if(!game.is_restoring && this.spell_1_usage > 0) {
         this.spell_1_usage--;
-        if (player_controls.cursors.left.isDown) {
+        if (player_controls.cursors.left.isDown || this.facingLeft) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
         }
-        else if (player_controls.cursors.right.isDown) {
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
             this.animations.play('SPELL_R');
             this.fireAttack("right");
         }
@@ -138,11 +139,11 @@ _.extend(Tzhara.prototype, {
         this.attack = new Attack('TZHARA', 10, "ELECTRIC");
       if(!game.is_restoring && this.spell_2_usage > 0) {
         this.spell_2_usage --;
-        if (player_controls.cursors.left.isDown) {
+        if (player_controls.cursors.left.isDown || this.facingLeft) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
         }
-        else if (player_controls.cursors.right.isDown) {
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
             this.animations.play('SPELL_R');
             this.fireAttack("right");
         }
@@ -155,11 +156,11 @@ _.extend(Tzhara.prototype, {
 
       if(!game.is_restoring && this.spell_3_usage > 0) {
         this.spell_3_usage--;
-        if (player_controls.cursors.left.isDown) {
+        if (player_controls.cursors.left.isDown || this.facingLeft) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
         }
-        else if (player_controls.cursors.right.isDown) {
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
             this.animations.play('SPELL_R');
             this.fireAttack("right");
         }
@@ -217,7 +218,7 @@ _.extend(Tzhara.prototype, {
       player.health--;
       game.hearts.children[player.health].frame = 1;
       game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, _invinFrameOver, this);
-      game.time.events.repeat(Phaser.Timer.SECOND * 0.25, 1, _stopDamage, this);
+      game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, _stopDamage, this);
       if (player.health != 0) {
         game.time.events.repeat(Phaser.Timer.SECOND * 0.1, 20, _changeTint, this);
       }
