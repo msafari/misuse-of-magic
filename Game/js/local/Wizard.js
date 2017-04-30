@@ -135,7 +135,7 @@ _.extend(Wizard.prototype, {
       wizard.animations.play(w_damage_anim, 8);
       console.log("losing wizard health");
       if(impact != null) {
-        impact(wizard);
+        impact(wizard, attackObject);
       }
     }
     if (wizard.hitPoints == 0) {

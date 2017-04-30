@@ -101,9 +101,8 @@ Cheats.CheatList = {
 		}  
 	},
 	helpText: {
-		enabled: false,
+		enabled: '',
 		text: "Note: Press M to update the cheats.",
-		action: function() {
-		}  
+		action: function() {}  
 	},
 };

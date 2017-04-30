@@ -190,6 +190,7 @@ _.extend(Tzhara.prototype, {
   damage: function(player, attackObject) {
 
     if (player.invincible != true && player.health >= 1 && attackObject.attacker_name !== "TZHARA") {
+      //var impact = attackObject.type.effect;
       player.animations.stop();
       if (player.health > 1)
         game.sound_effects.damagedSound.play();
@@ -205,6 +206,9 @@ _.extend(Tzhara.prototype, {
       } else {
         player.DAMAGED_R = true;
       }
+      // if(impact != null) {
+      //   impact(player, attackObject);
+      // }
       player.tint = 0x0078ff;
       player.invincible = true;
       player.health--;

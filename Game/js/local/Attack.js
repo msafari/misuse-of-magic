@@ -29,6 +29,7 @@ _.extend(Attack.prototype , {
 	},
 
 	launch: function(attacker, direction) {
+		this.attacker = attacker;
 		if(this.uses <= 0)
 			return;
 		this.uses--;
@@ -102,7 +103,7 @@ Attack.Types = {
 		icon: "assets/Sprites/attacks/electromagnetismIcon.png",
 		sprite: null,
 		effect: null,
-		type: "GRAVITY"
+		type: "ELECTRIC"
 	},
 	Firefloom: {
 		image: "assets/Sprites/attacks/Firefloom.png",
@@ -132,7 +133,52 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Movement Spell.png",
 		icon: "assets/Sprites/attacks/movementIcon.png",
 		sprite: null,
-		effect: null, //This effect is complex enough that it may need it's own file
+		effect: function(target, attackObject) {
+			target.hitPoints++;
+			var vector = [(Math.random() * 200) + 10, Math.random() <= 0.85 ? "RIGHT_WAY" : "WRONG"];
+			moveTarget(vector);
+			
+			function moveTarget(v) {
+				//For a bonus, let this wizard take damage if it is flung into another one
+
+				//game.physics.arcade.collide(game.wizards, target, injure, null, this);
+				target.body.onCollide = new Phaser.Signal();
+				var tempCollision = target.body.onCollide.add(function(sprite1, sprite2) { //sp1 is the target, sp2 is the 'victim'
+					if(sprite2.key.includes("WIZARD"))
+						injure(sprite1, sprite2);
+				}, this);
+				
+				console.log(attackObject.direction);
+
+				var multiplier = (attackObject.direction === "left"?  -1 : 1); 
+				if(v[1] === "RIGHT_WAY" || attackObject.attacker_name.includes("WIZARD")) {
+					console.log("Pushing the right way (hopefully) " + multiplier + ", " + v[0]);
+					target.body.velocity.x = multiplier * v[0]; //Should be opposite to player
+					target.body.acceleration.x = -40;
+				}
+				else {
+					console.log("Going the other way " + multiplier + ", " + v[0]);
+					target.body.velocity.x = -1 * multiplier * v[0];
+					target.body.acceleration.x = 40;
+				}
+				game.time.events.add(1800, function() {
+					target.body.velocity.x = 0;
+					target.body.acceleration.x = 0;
+					//game.physics.arcade.collide(target, game.wizards, null);
+					target.body.onCollide.remove(tempCollision.getListener(), this);
+					target.body.onCollide = null;
+					//onCollide triggers on every collision, ground included so for performance reasons set this back to null at the end
+					//tempCollision.detach();
+					console.log("Gravity effect done");
+				}, this);
+			}
+			function injure(t1, t2) {
+				t1.hitPoints--;
+				t2.hitPoints--;
+				hitSound.play();
+				console.log("We hit another wizard!");
+			}
+		},
 		type: "GRAVITY"
 	},
 	ReverseDirection: {
@@ -142,7 +188,7 @@ Attack.Types = {
 		effect: function(target) {
 			target.backwards = true;
 			target.tint = 0xff0000;
-			target.hitPoints++; //firefloom should not cause damage so undo the decrease from spell collision
+			target.hitPoints++; 
 			game.time.events.add(5000, function() {
 				target.backwards = false;
 				target.tint = 0xffffff;
