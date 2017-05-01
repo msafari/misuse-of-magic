@@ -131,12 +131,24 @@ _.extend(Tzhara.prototype, {
       if(!game.is_restoring && this.spell_1_usage > 0 && this.canAttack) {
         this.spell_1_usage--;
         if (player_controls.cursors.left.isDown || this.facingLeft) {
+          if(!this.backwards) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
-        }
-        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          }
+          else{
             this.animations.play('SPELL_R');
             this.fireAttack("right");
+          }
+        }
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          if(!this.backwards) {
+            this.animations.play('SPELL_R');
+            this.fireAttack("right");
+          }
+          else {
+            this.animations.play('SPELL_L'); 
+            this.fireAttack("left"); 
+          }
         }
       }
     }, this);
@@ -147,14 +159,26 @@ _.extend(Tzhara.prototype, {
       if(!game.is_restoring && this.spell_2_usage > 0 && this.canAttack) {
         this.spell_2_usage --;
         if (player_controls.cursors.left.isDown || this.facingLeft) {
+          if(!this.backwards) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
-        }
-        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          }
+          else{
             this.animations.play('SPELL_R');
             this.fireAttack("right");
+          }
         }
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          if(!this.backwards) {
+            this.animations.play('SPELL_R');
+            this.fireAttack("right");
+          }
+          else {
+            this.animations.play('SPELL_L'); 
+            this.fireAttack("left"); 
+          }
       }
+    }
     }, this);
 
     player_controls.attack_C.onDown.add(function() { 
@@ -164,16 +188,27 @@ _.extend(Tzhara.prototype, {
       if(!game.is_restoring && this.spell_3_usage > 0 && this.canAttack) {
         this.spell_3_usage--;
         if (player_controls.cursors.left.isDown || this.facingLeft) {
+          if(!this.backwards) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
-        }
-        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          }
+          else{
             this.animations.play('SPELL_R');
             this.fireAttack("right");
+          }
         }
-      }
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          if(!this.backwards) {
+            this.animations.play('SPELL_R');
+            this.fireAttack("right");
+          }
+          else {
+            this.animations.play('SPELL_L'); 
+            this.fireAttack("left"); 
+          }
+        }
+     } 
     }, this);
-
     game.inputs = _.extend(game.inputs, player_controls);
   },
 

@@ -150,7 +150,7 @@ _.extend(Wizard.prototype, {
 
   get_attack_ID: function() {
     if (this.attack_type === "FIRE") 
-      return "Firefloom";
+      return "Flare";
     else if (this.attack_type === "ELECTRIC")
       return "ElectricAttack";
     else if (this.attack_type === "GRAVITY")

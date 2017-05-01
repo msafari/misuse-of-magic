@@ -507,7 +507,7 @@ momGame.prototype = {
     this.objects.enableBody = true;
     var obj;    
     result = this.findObjectsBySprite(sprite, layer);
-    result.forEach(function(element){
+    result.forEach(function(element) {
       this.objects.create(element.x, element.y, sprite);
     }, this);
     return this.objects;
