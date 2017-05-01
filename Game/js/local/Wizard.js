@@ -74,6 +74,7 @@ _.extend(Wizard.prototype, {
       this.animations.play(anim, 8);
 
       this.animations.currentAnim.onLoop.add(function() { 
+        //console.log(wizard);
         if (!wizard)
             wizard = this;
         if (wizard.length) { //is this an array?

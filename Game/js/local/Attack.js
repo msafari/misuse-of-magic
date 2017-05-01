@@ -138,14 +138,14 @@ Attack.Types = {
 		sprite: null,
 		doesDamage: false,
 		effect: function(target, attackObject) {
-			var vector = [(Math.random() * 200) + 10, Math.random() <= 0.85 ? "RIGHT_WAY" : "WRONG"];
+			var tempCollision;
+			var vector = [(Math.random() * 200) + 10, Math.random() <= 0.95 ? "RIGHT_WAY" : "WRONG"];
 			moveTarget(vector);
 			
 			function moveTarget(v) {
 				//For a bonus, let this wizard take damage if it is flung into another one
 				target.body.onCollide = new Phaser.Signal();
-				//console.log(attackObject.direction);
-
+		
 				var multiplier = (attackObject.direction === "left"?  -1 : 1); 
 				if(v[1] === "RIGHT_WAY" || attackObject.attacker_name.includes("WIZARD")) {
 					//console.log("Pushing the right way (hopefully) " + multiplier + ", " + v[0]);
@@ -157,23 +157,14 @@ Attack.Types = {
 					target.body.velocity.x = -1 * multiplier * v[0];
 					target.body.acceleration.x = 60;
 				}
-				var tempCollision = target.body.onCollide.add(function(sprite1, sprite2) {
+				tempCollision = target.body.onCollide.add(function(sprite1, sprite2) {
 					if(sprite2.key.includes("WIZARD"))
 						injure(sprite1, sprite2);
 				}, this);
-				game.time.events.add(1600, function() {
-					target.body.velocity.x = 0;
-					target.body.acceleration.x = 0;
-					if(target.body.onCollide) {
-						//This is null sometimes if the attack has been launched multiple times so we must double-check
-						target.body.onCollide.remove(tempCollision.getListener(), this);
-						target.body.onCollide = null;
-					//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
-					}
-					console.log("Gravity effect done");
-				}, this);
+				game.time.events.add(1600, endCollision, this);
 			}
 			function injure(t1, t2) {
+				endCollision();
 				var t1health = t1.hitPoints;
 				var t2health = t2.hitPoints;
 				t1.hitPoints--;
@@ -181,6 +172,17 @@ Attack.Types = {
 				hitSound.play();
 				console.log("We hit another wizard! (t1: " + t1health + " -> " + t1.hitPoints +
 					" t2: " + t2health + " -> " + t2.hitPoints + ")");
+			}
+			function endCollision() {
+				target.body.velocity.x = 0;
+				target.body.acceleration.x = 0;
+				if(target.body.onCollide) {
+				//This is null sometimes if the attack has been launched multiple times so we must double-check
+				target.body.onCollide.remove(tempCollision.getListener(), this);
+				target.body.onCollide = null;
+				//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
+				}
+				console.log("Gravity effect done");
 			}
 		},
 		type: "GRAVITY"
