@@ -46,6 +46,7 @@ splash.prototype = {
 
     //load in images related to gameplay
     game.load.image("gameUI", "assets/images/gameUI.png");
+    game.load.image("uiBlock", "assets/images/uiBlock.png");
     game.load.image("xButton", "assets/images/xButton.png");
     game.load.image("pauseButton", "assets/images/pauseButton.png");
     game.load.image("playButton", "assets/images/playButton.png");
