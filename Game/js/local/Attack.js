@@ -95,6 +95,7 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Electric Attack Prototype.png",
 		icon: "assets/Sprites/attacks/zoltIcon.png",
 		sprite: null,
+		doesDamage: true,
 		effect: null,
 		type: "ELECTRIC"
 	},
@@ -102,6 +103,7 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Electromagnetism.png",
 		icon: "assets/Sprites/attacks/electromagnetismIcon.png",
 		sprite: null,
+		doesDamage: true,
 		effect: null,
 		type: "ELECTRIC"
 	},
@@ -109,11 +111,11 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Firefloom.png",
 		icon: "assets/Sprites/attacks/firefloomIcon.png",
 		sprite: null,
+		doesDamage: false,
 		effect: function(target) {
 			//console.warn("We used firefloom!");
 			target.canAttack = false;
 			target.tint = 0x4f4e58;
-			target.hitPoints++; //firefloom should not cause damage so undo the decrease from spell collision
 			game.time.events.add(2500, function() {
 				//console.log("Firefloom effect ended.");
 				target.canAttack = true;
@@ -126,6 +128,7 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Flare.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
+		doesDamage: true,
 		effect: null,
 		type: "FIRE"
 	},
@@ -133,46 +136,51 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Movement Spell.png",
 		icon: "assets/Sprites/attacks/movementIcon.png",
 		sprite: null,
+		doesDamage: false,
 		effect: function(target, attackObject) {
-			target.hitPoints++;
 			var vector = [(Math.random() * 200) + 10, Math.random() <= 0.85 ? "RIGHT_WAY" : "WRONG"];
 			moveTarget(vector);
 			
 			function moveTarget(v) {
 				//For a bonus, let this wizard take damage if it is flung into another one
 				target.body.onCollide = new Phaser.Signal();
+				//console.log(attackObject.direction);
+
+				var multiplier = (attackObject.direction === "left"?  -1 : 1); 
+				if(v[1] === "RIGHT_WAY" || attackObject.attacker_name.includes("WIZARD")) {
+					//console.log("Pushing the right way (hopefully) " + multiplier + ", " + v[0]);
+					target.body.velocity.x = multiplier * v[0];
+					target.body.acceleration.x = -60;
+				}
+				else {
+					//console.log("Going the other way " + multiplier + ", " + v[0]);
+					target.body.velocity.x = -1 * multiplier * v[0];
+					target.body.acceleration.x = 60;
+				}
 				var tempCollision = target.body.onCollide.add(function(sprite1, sprite2) {
 					if(sprite2.key.includes("WIZARD"))
 						injure(sprite1, sprite2);
 				}, this);
-				
-				console.log(attackObject.direction);
-
-				var multiplier = (attackObject.direction === "left"?  -1 : 1); 
-				if(v[1] === "RIGHT_WAY" || attackObject.attacker_name.includes("WIZARD")) {
-					console.log("Pushing the right way (hopefully) " + multiplier + ", " + v[0]);
-					target.body.velocity.x = multiplier * v[0]; //Should be opposite to player
-					target.body.acceleration.x = -40;
-				}
-				else {
-					console.log("Going the other way " + multiplier + ", " + v[0]);
-					target.body.velocity.x = -1 * multiplier * v[0];
-					target.body.acceleration.x = 40;
-				}
-				game.time.events.add(1800, function() {
+				game.time.events.add(1600, function() {
 					target.body.velocity.x = 0;
 					target.body.acceleration.x = 0;
-					target.body.onCollide.remove(tempCollision.getListener(), this);
-					target.body.onCollide = null;
-					//onCollide triggers on every collision, ground included so for performance reasons set this back to null at the end
+					if(target.body.onCollide) {
+						//This is null sometimes if the attack has been launched multiple times so we must double-check
+						target.body.onCollide.remove(tempCollision.getListener(), this);
+						target.body.onCollide = null;
+					//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
+					}
 					console.log("Gravity effect done");
 				}, this);
 			}
 			function injure(t1, t2) {
+				var t1health = t1.hitPoints;
+				var t2health = t2.hitPoints;
 				t1.hitPoints--;
 				t2.hitPoints--;
 				hitSound.play();
-				console.log("We hit another wizard!");
+				console.log("We hit another wizard! (t1: " + t1health + " -> " + t1.hitPoints +
+					" t2: " + t2health + " -> " + t2.hitPoints + ")");
 			}
 		},
 		type: "GRAVITY"
@@ -181,6 +189,7 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Reverse Direction.png",
 		icon: "assets/Sprites/attacks/reverseTrajectoryIcon.png",
 		sprite: null,
+		doesDamage: false,
 		effect: function(target) {
 			target.backwards = true;
 			target.tint = 0xff0000;
@@ -196,6 +205,7 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Debug attack.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
+		doesDamage: false,
 		effect: null,
 		type: "Err..."
 	},

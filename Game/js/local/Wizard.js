@@ -11,6 +11,7 @@ function Wizard (type, x, y) {
   this.init_sprite();
   this.hitPoints = 2;
   this.attack_obj = null;
+  //this.killed = null;
   game.wizards.add(this);
   game.wizard_list.push(this);
 }
@@ -24,6 +25,9 @@ _.extend(Wizard.prototype, {
     if (game.is_paused == false) {
       game.physics.arcade.collide(this, game.playerProjectiles, this.damage, null, this);
       game.physics.arcade.collide(game.wizards, this);
+
+      if(this.hitPoints <= 0)
+        this.killed.dispatch(); 
 
       if (this.wizard_timer <= 160) {
         this.wizard_timer++;
@@ -63,6 +67,28 @@ _.extend(Wizard.prototype, {
       var frameIndexes = _.range(index * 9, index * 9 + 9);
       sprite.animations.add(state, frameIndexes, 15, true);
     });
+    this.killed = new Phaser.Signal();
+
+    this.killed.add(function(wizard) {
+      anim = (this.animations.currentAnim.name.includes("_L")? 'DEAD_L' : 'DEAD_R');
+      this.animations.play(anim, 8);
+
+      this.animations.currentAnim.onLoop.add(function() { 
+        if (!wizard)
+            wizard = this;
+        if (wizard.length) { //is this an array?
+          var wizards = _.intersection(game.wizard_list, wizard);
+        }
+        else
+          wizards = game.wizard_list;
+        _.each(wizards, function (wiz) {
+          if (wiz === wizard) {
+            wiz.destroy_wizard();
+          }
+        });
+      }, this); 
+    }, this);
+
     _.extend(this, sprite);
     game.add.existing(this);
   },
@@ -133,31 +159,29 @@ _.extend(Wizard.prototype, {
     wizard.animations.stop();
     if(attackObject.attacker_name === "TZHARA") {
       hitSound.play();
-      wizard.hitPoints--;
+      var prev = wizard.hitPoints;
+      if(attackObject.type.doesDamage)
+        wizard.hitPoints--;
       w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L";
       wizard.animations.play(w_damage_anim, 8);
-      console.log("losing wizard health");
+      console.log("losing wizard health (prev: " + prev + " -> " + wizard.hitPoints + ")");
       if(impact != null) {
         impact(wizard, attackObject);
       }
-      // var damageLoop = game.time.events.loop(800, function() {
-      //   damage_anim = (wizard.animations.currentAnim.name.includes("_L")) ? "DAMAGE_L" : "DAMAGE_R";
-      //   wizard.animations.play(damage_anim, 8);
-      // }, this);
     }
-    if (wizard.hitPoints == 0) {
+    if (wizard.hitPoints <= 0) {
+      this.killed.dispatch(wizard);
       //damageLoop.timer.stop(true);//Yeeaah... that gives a reference to the main game timer. Stopping that stops everything. Don't do that.
-      //damageLoop.timer.destroy();
-      direction = wizard.animations.currentAnim.name;
-      animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
-      wizard.animations.play(animation_name, 8);
-      wizard.animations.currentAnim.onLoop.add(function() { 
-        _.each(game.wizard_list, function (wiz) {
-          if (wiz === wizard) {
-            wiz.destroy_wizard();
-          }
-        });
-      }, this); 
+    //   direction = wizard.animations.currentAnim.name;
+    //   animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
+    //   wizard.animations.play(animation_name, 8);
+    //   wizard.animations.currentAnim.onLoop.add(function() { 
+    //     _.each(game.wizard_list, function (wiz) {
+    //       if (wiz === wizard) {
+    //         wiz.destroy_wizard();
+    //       }
+    //     });
+    //   }, this); 
     }
   },
 

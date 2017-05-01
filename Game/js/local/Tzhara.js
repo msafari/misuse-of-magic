@@ -175,7 +175,7 @@ _.extend(Tzhara.prototype, {
     var attackSet = ["Default", "Flare", "Firefloom", "ElectricAttack", "Electromagnetism", "MovementSpell", "ReverseDirection"];
     attackSounds = game.sound_effects.attack_sounds;
 
-    if(game.time.elapsedSince(game.inputs.attack_Z.timeDown) <= 200 || game.inputs.attack_Z.isDown) { // Last 200ms (is this enough? too much?)
+    if(game.time.elapsedSince(game.inputs.attack_Z.timeDown) <= 200 || game.inputs.attack_Z.isDown) {// Last 200ms (is this enough? too much?)
       this.attack.set_sprite(attackSet[f_attackIcon1]);
       attackSounds[f_attackIcon1].play();
     }
