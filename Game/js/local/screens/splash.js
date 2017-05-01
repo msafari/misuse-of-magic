@@ -129,9 +129,9 @@ splash.prototype = {
 
     //load sprites
     game.load.spritesheet("TZHARA", 'assets/Sprites/Tzarha/spritesheet.png', 64, 96);
-    game.load.spritesheet("ELECTRIC_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 64, 96);
-    game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 64, 96);
-    game.load.spritesheet("GRAVITY_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 64, 96);
+    game.load.spritesheet("ELECTRIC_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 42, 73);
+    game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 42, 73);
+    game.load.spritesheet("GRAVITY_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 42, 73);
 
     //load audio
     game.load.audio("menuClick", "assets/audio/menuClick.mp3");

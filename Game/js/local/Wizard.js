@@ -58,7 +58,7 @@ _.extend(Wizard.prototype, {
     this.body.gravity.y = 500;
     this.anchor.setTo(0.5, 0.5);
 
-    var states = ["ATTACK_L", "ATTACK_R", "DAMAGE_L","DAMAGE_R", "DEAD_L", "DEAD_R", "WALK_L", "WALK_R"];
+    var states = ["ATTACK_L", "ATTACK_R", "DAMAGE_L","DAMAGE_R", "DEAD_L", "DEAD_R", "WALK_L", "WALK_R", "ATTACK_UPL", "ATTACK_UPR"];
     _.each(states, function(state, index) {
       var frameIndexes = _.range(index * 9, index * 9 + 9);
       sprite.animations.add(state, frameIndexes, 15, true);
