@@ -75,6 +75,7 @@ _.extend(Attack.prototype , {
 				attacker.attack_obj = null;
 			}
 		}, this);
+		//return Promise.resolve(); //This will allow wizards to append extra effects after attacking
 	},
 
 	was_successful: function() {
@@ -140,22 +141,25 @@ Attack.Types = {
 		effect: function(target, attackObject) {
 			var tempCollision;
 			var vector = [(Math.random() * 200) + 10, Math.random() <= 0.95 ? "RIGHT_WAY" : "WRONG"];
+			if(target.key === "TZHARA") {
+				target.movementSpell = true;
+			}
 			moveTarget(vector);
 			
 			function moveTarget(v) {
 				//For a bonus, let this wizard take damage if it is flung into another one
 				target.body.onCollide = new Phaser.Signal();
 		
-				var multiplier = (attackObject.direction === "left"?  -1 : 1); 
-				if(v[1] === "RIGHT_WAY" || attackObject.attacker_name.includes("WIZARD")) {
-					//console.log("Pushing the right way (hopefully) " + multiplier + ", " + v[0]);
+				var multiplier = (attackObject.direction === "left"?  -1 : 1);
+				var accel = (attackObject.attacker_name.includes("WIZARD")? 90 : 60);
+
+ 				if(v[1] === "RIGHT_WAY" || attackObject.attacker_name.includes("WIZARD")) {
 					target.body.velocity.x = multiplier * v[0];
-					target.body.acceleration.x = -60;
+					target.body.acceleration.x = multiplier * accel;
 				}
 				else {
-					//console.log("Going the other way " + multiplier + ", " + v[0]);
 					target.body.velocity.x = -1 * multiplier * v[0];
-					target.body.acceleration.x = 60;
+					target.body.acceleration.x = -1 * multiplier * accel;
 				}
 				tempCollision = target.body.onCollide.add(function(sprite1, sprite2) {
 					if(sprite2.key.includes("WIZARD"))
@@ -174,13 +178,14 @@ Attack.Types = {
 					" t2: " + t2health + " -> " + t2.hitPoints + ")");
 			}
 			function endCollision() {
+				target.movementSpell = false;
 				target.body.velocity.x = 0;
 				target.body.acceleration.x = 0;
 				if(target.body.onCollide) {
-				//This is null sometimes if the attack has been launched multiple times so we must double-check
-				target.body.onCollide.remove(tempCollision.getListener(), this);
-				target.body.onCollide = null;
-				//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
+					//This is null sometimes if the attack has been launched multiple times so we must double-check
+					target.body.onCollide.remove(tempCollision.getListener(), this);
+					target.body.onCollide = null;
+					//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
 				}
 				console.log("Gravity effect done");
 			}

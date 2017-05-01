@@ -11,10 +11,15 @@ function Tzhara (x, y) {
 
   this.attack = null;
   this.health = 6;
+
+  //Status/effects
   this.DAMAGED_L = false,
   this.DAMAGED_R = false,
   this.invincible = false;
   this.facingLeft = false;
+  this.canAttack = true;
+  this.MovementSpell = false;
+  this.backwards = false;
 
   this.spell_1_usage = 5;
   this.spell_2_usage = 5;
@@ -25,7 +30,7 @@ function Tzhara (x, y) {
 
   this.load_animations();
   this.set_input_controls();
-
+  
   game.player = this;
   game.add.existing(this);
   game.camera.follow(this); 
@@ -37,8 +42,10 @@ Tzhara.prototype.constructor = Tzhara;
 _.extend(Tzhara.prototype, {
   update: function() {
 
-    this.body.velocity.x = 0;
-    this.body.velocity.y = 0;
+    if (!this.movementSpell) {
+      this.body.velocity.x = 0;
+      this.body.velocity.y = 0;
+    }
 
     if (game.is_paused == false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
@@ -93,7 +100,6 @@ _.extend(Tzhara.prototype, {
     }
   },
 
-
   load_animations: function() {
     var states = ["IDLE", "SPELL_L", "SPELL_R", "DEATH", "DAMAGE_L", "DAMAGE_R", 
                   "JUMP_L", "JUMP_R", "WALK_L", "WALK_R", "IDLE_L", "IDLE_R"],
@@ -121,7 +127,8 @@ _.extend(Tzhara.prototype, {
     player_controls.attack_Z.onDown.add(function() { 
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "FIRE");
-      if(!game.is_restoring && this.spell_1_usage > 0) {
+
+      if(!game.is_restoring && this.spell_1_usage > 0 && this.canAttack) {
         this.spell_1_usage--;
         if (player_controls.cursors.left.isDown || this.facingLeft) {
             this.animations.play('SPELL_L'); 
@@ -137,7 +144,7 @@ _.extend(Tzhara.prototype, {
     player_controls.attack_X.onDown.add(function() { 
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "ELECTRIC");
-      if(!game.is_restoring && this.spell_2_usage > 0) {
+      if(!game.is_restoring && this.spell_2_usage > 0 && this.canAttack) {
         this.spell_2_usage --;
         if (player_controls.cursors.left.isDown || this.facingLeft) {
             this.animations.play('SPELL_L'); 
@@ -154,7 +161,7 @@ _.extend(Tzhara.prototype, {
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "GRAVITY");
 
-      if(!game.is_restoring && this.spell_3_usage > 0) {
+      if(!game.is_restoring && this.spell_3_usage > 0 && this.canAttack) {
         this.spell_3_usage--;
         if (player_controls.cursors.left.isDown || this.facingLeft) {
             this.animations.play('SPELL_L'); 
@@ -196,7 +203,7 @@ _.extend(Tzhara.prototype, {
   damage: function(player, attackObject) {
 
     if (player.invincible != true && player.health >= 1 && attackObject.attacker_name !== "TZHARA") {
-      //var impact = attackObject.type.effect;
+      var impact = attackObject.type.effect;
       player.animations.stop();
       if (player.health > 1)
         game.sound_effects.damagedSound.play();
@@ -210,12 +217,12 @@ _.extend(Tzhara.prototype, {
       else if (player.body.touching.right) {
         player.DAMAGED_R = true;
       }
-      // if(impact != null) {
-      //   impact(player, attackObject);
-      // }
+       if(impact != null) {
+         impact(player, attackObject);
+       }
       player.tint = 0x0078ff;
       player.invincible = true;
-      player.health--;
+      player.health--; 
       game.hearts.children[player.health].frame = 1;
       game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, _invinFrameOver, this);
       game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, _stopDamage, this);

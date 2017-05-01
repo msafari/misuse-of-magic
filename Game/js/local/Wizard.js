@@ -11,7 +11,6 @@ function Wizard (type, x, y) {
   this.init_sprite();
   this.hitPoints = 2;
   this.attack_obj = null;
-  //this.killed = null;
   game.wizards.add(this);
   game.wizard_list.push(this);
 }
@@ -67,9 +66,9 @@ _.extend(Wizard.prototype, {
       var frameIndexes = _.range(index * 9, index * 9 + 9);
       sprite.animations.add(state, frameIndexes, 15, true);
     });
+	
     this.killed = new Phaser.Signal();
-
-    this.killed.add(function(wizard) {
+    this.killed.add(function (wizard) {
       anim = (this.animations.currentAnim.name.includes("_L")? 'DEAD_L' : 'DEAD_R');
       this.animations.play(anim, 8);
 
@@ -77,16 +76,20 @@ _.extend(Wizard.prototype, {
         //console.log(wizard);
         if (!wizard)
             wizard = this;
-        if (wizard.length) { //is this an array?
+        if (wizard.length) { //is this an array? (If we ever need to kill multiple wizards)
           var wizards = _.intersection(game.wizard_list, wizard);
+		      _.each(wizards, function(wiz) {
+			     wiz.destroy_wizard();
+		      });	
         }
-        else
+        else {
           wizards = game.wizard_list;
-        _.each(wizards, function (wiz) {
-          if (wiz === wizard) {
-            wiz.destroy_wizard();
-          }
-        });
+          _.each(wizards, function (wiz) {
+			       if (wiz === wizard) {
+				      wiz.destroy_wizard();
+			       }
+		      });
+		    }
       }, this); 
     }, this);
 
@@ -147,7 +150,7 @@ _.extend(Wizard.prototype, {
 
   get_attack_ID: function() {
     if (this.attack_type === "FIRE") 
-      return "Flare";
+      return "Firefloom";
     else if (this.attack_type === "ELECTRIC")
       return "ElectricAttack";
     else if (this.attack_type === "GRAVITY")
@@ -173,17 +176,11 @@ _.extend(Wizard.prototype, {
     if (wizard.hitPoints <= 0) {
       this.killed.dispatch(wizard);
       //damageLoop.timer.stop(true);//Yeeaah... that gives a reference to the main game timer. Stopping that stops everything. Don't do that.
-    //   direction = wizard.animations.currentAnim.name;
-    //   animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
-    //   wizard.animations.play(animation_name, 8);
-    //   wizard.animations.currentAnim.onLoop.add(function() { 
-    //     _.each(game.wizard_list, function (wiz) {
-    //       if (wiz === wizard) {
-    //         wiz.destroy_wizard();
-    //       }
-    //     });
-    //   }, this); 
     }
   },
+
+  doBonus: function(attackID) {
+
+  }
 
 });
