@@ -400,7 +400,7 @@ momGame.prototype = {
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     game.physics.arcade.collide(game.player, game.wizardProjectiles, game.player.damage, null);
-    game.physics.arcade.collide(game.player, game.momUI, function() {console.log("yes it is colliding");}, null);
+    game.physics.arcade.collide(game.player, game.momUI, function() {}, null);
     
     if (!game.is_paused) {
       if (this.player.health == 0) {

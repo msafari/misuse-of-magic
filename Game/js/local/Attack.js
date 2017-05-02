@@ -57,6 +57,11 @@ _.extend(Attack.prototype , {
 				this.position.x = attacker.position.x - 15;
 				atkTween = game.add.tween(this).to({x: attacker.position.x - 450});
 			}
+			else if (direction === "up") {
+				this.position.x = attacker.position.x - 20;
+				this.position.y = attacker.position.y - 10;
+				atkTween = game.add.tween(this).to({y: attacker.position.y - 400});
+			}
 			else {
 				this.position.x = attacker.position.x + 15;
 				atkTween = game.add.tween(this).to({x: attacker.position.x + 450 });

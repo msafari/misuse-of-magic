@@ -25,7 +25,7 @@ _.extend(Wizard.prototype, {
       game.physics.arcade.collide(this, game.playerProjectiles, this.damage, null, this);
       game.physics.arcade.collide(game.wizards, this);
 
-      if (this.wizard_timer <= 160) {
+      if (this.wizard_timer <= 125) {
         this.wizard_timer++;
       }
       else {
@@ -74,10 +74,21 @@ _.extend(Wizard.prototype, {
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
     var attack_left = (game.player.position.x - this.x < 0) ? true : false;
+    var attack_up = (Math.abs(game.player.position.x - this.x) < 200 && this.y - game.player.position.y > 150 && this.y - game.player.position.y < 400) ? true : false
     if (attack_left) {
-      this.animations.play("ATTACK_L");
+      if (attack_up) {
+        this.animations.play("ATTACK_UPL")
+      }
+      else {
+        this.animations.play("ATTACK_L");
+      }
     } else {
-      this.animations.play("ATTACK_R");
+      if (attack_up) {
+        this.animations.play("ATTACK_UPR")
+      }
+      else {
+        this.animations.play("ATTACK_R");
+      }
     }
 
     //launch attack sprite
@@ -85,6 +96,9 @@ _.extend(Wizard.prototype, {
     this.attack_obj.set_sprite(this.get_attack_ID());
 
     var attack_dir = attack_left ? "left" : "right";
+    if (attack_up) {
+      attack_dir = "up";
+    }
     if (this.backwards) {
       var attack_dir = attack_left ? "right" : "left";
     }
