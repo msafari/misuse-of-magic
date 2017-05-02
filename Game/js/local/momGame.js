@@ -276,7 +276,6 @@ momGame.prototype = {
     game.inputs.attack_Z.onDown.add(function() { 
       if (game.is_restoring) {
         var prevUses = game.player.spell_1_usage;
-        //TODO: this is wrong it restores all attacks distinguish between counts for each
         game.player.spell_1_usage++;
         console.log("Added an extra use to the Z attack (" + prevUses + " -> " + game.player.spell_1_usage + ")");
         game.is_restoring = false;
@@ -390,7 +389,6 @@ momGame.prototype = {
   },
 
   update: function () {
-  
     game.physics.arcade.collide(this.player, this.blocked_layer);
     game.physics.arcade.collide(game.wizards, this.blocked_layer);
     game.physics.arcade.collide(game.wizardProjectiles, this.blocked_layer);
@@ -404,7 +402,7 @@ momGame.prototype = {
     
     if (!game.is_paused) {
       if (this.player.health == 0) {
-        this.loseLevel();
+			this.loseLevel();
       }
 
     }
@@ -420,7 +418,7 @@ momGame.prototype = {
       orangesCounter.setStyle({
       fill: "#000000"
      });
-      if(oranges_count === Infinity)
+    if(oranges_count === Infinity)
         orangesCounter.setText(String.fromCharCode(0x221E)); //infinity symbol... again
     orangeUnavailable.visible = false;
    }
@@ -456,7 +454,7 @@ momGame.prototype = {
       lossOverlay.visible = true;
       lossOverlay.inputEnabled = true;
       helpButton.inputEnabled = false;
-      controlsButton.inputEnabled = false;      
+      controlsButton.inputEnabled = false;
     }
   },
 
@@ -517,7 +515,7 @@ momGame.prototype = {
     this.objects.enableBody = true;
     var obj;    
     result = this.findObjectsBySprite(sprite, layer);
-    result.forEach(function(element){
+    result.forEach(function(element) {
       this.objects.create(element.x, element.y, sprite);
     }, this);
     return this.objects;
