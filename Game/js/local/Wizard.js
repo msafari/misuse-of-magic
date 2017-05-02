@@ -28,7 +28,7 @@ _.extend(Wizard.prototype, {
       if(this.hitPoints <= 0)
         this.killed.dispatch(); 
 
-      if (this.wizard_timer <= 160) {
+      if (this.wizard_timer <= 125) {
         this.wizard_timer++;
       }
       else {
@@ -61,7 +61,7 @@ _.extend(Wizard.prototype, {
     this.body.gravity.y = 500;
     this.anchor.setTo(0.5, 0.5);
 
-    var states = ["ATTACK_L", "ATTACK_R", "DAMAGE_L","DAMAGE_R", "DEAD_L", "DEAD_R", "WALK_L", "WALK_R"];
+    var states = ["ATTACK_L", "ATTACK_R", "DAMAGE_L","DAMAGE_R", "DEAD_L", "DEAD_R", "WALK_L", "WALK_R", "ATTACK_UPL", "ATTACK_UPR"];
     _.each(states, function(state, index) {
       var frameIndexes = _.range(index * 9, index * 9 + 9);
       sprite.animations.add(state, frameIndexes, 15, true);
@@ -106,10 +106,21 @@ _.extend(Wizard.prototype, {
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
     var attack_left = (game.player.position.x - this.x < 0) ? true : false;
+    var attack_up = (Math.abs(game.player.position.x - this.x) < 200 && this.y - game.player.position.y > 150 && this.y - game.player.position.y < 400) ? true : false
     if (attack_left) {
-      this.animations.play("ATTACK_L");
+      if (attack_up) {
+        this.animations.play("ATTACK_UPL")
+      }
+      else {
+        this.animations.play("ATTACK_L");
+      }
     } else {
-      this.animations.play("ATTACK_R");
+      if (attack_up) {
+        this.animations.play("ATTACK_UPR")
+      }
+      else {
+        this.animations.play("ATTACK_R");
+      }
     }
 
     //launch attack sprite
@@ -117,6 +128,9 @@ _.extend(Wizard.prototype, {
     this.attack_obj.set_sprite(this.get_attack_ID());
 
     var attack_dir = attack_left ? "left" : "right";
+    if (attack_up) {
+      attack_dir = "up";
+    }
     if (this.backwards) {
       var attack_dir = attack_left ? "right" : "left";
     }

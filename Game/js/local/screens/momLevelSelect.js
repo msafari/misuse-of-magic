@@ -26,78 +26,77 @@ momLevelSelect.prototype = {
     backButton.inputEnabled = true;
     backButton.events.onInputUp.add(function() {menuClick.play(); game.state.start("GameMenu");});
 
-    attackSelectText = game.add.text(600, 525, "Select your skills!");
+    attackSelectText = game.add.text(600, 110, "Select your skills!");
     attackSelectText.fixedToCamera = true;
-    attackSelectText.cameraOffset.setTo(600,525);
+    attackSelectText.cameraOffset.setTo(600,110);
     attackSelectText.anchor.setTo(0.5);
-    cheatSelectText = game.add.text(600, 150, "Note: Press '2' or '3' to unlock later levels!");
+    cheatSelectText = game.add.text(600, 630, "Note: Press '2' or '3' to unlock later levels!");
     cheatSelectText.fixedToCamera = true;
-    cheatSelectText.cameraOffset.setTo(600,150);
+    cheatSelectText.cameraOffset.setTo(600,630);
     cheatSelectText.anchor.setTo(0.5);
     game.sameAttackText = game.add.text(0,0,"");
     
-    flareInfo = game.add.sprite(352, 630, "flareInfo");
+    flareInfo = game.add.sprite(352, 225, "flareInfo");
     flareInfo.fixedToCamera = true;
-    flareInfo.cameraOffset.setTo(352,630);
+    flareInfo.cameraOffset.setTo(352,225);
     flareInfo.visible = false;
-    firefloomInfo = game.add.sprite(352, 630, "firefloomInfo");
+    firefloomInfo = game.add.sprite(352, 225, "firefloomInfo");
     firefloomInfo.fixedToCamera = true;
-    firefloomInfo.cameraOffset.setTo(352,630);
+    firefloomInfo.cameraOffset.setTo(352,225);
     firefloomInfo.visible = false;
-    zoltInfo = game.add.sprite(352, 630, "zoltInfo");
+    zoltInfo = game.add.sprite(352, 225, "zoltInfo");
     zoltInfo.fixedToCamera = true;
-    zoltInfo.cameraOffset.setTo(352,630);
+    zoltInfo.cameraOffset.setTo(352,225);
     zoltInfo.visible = false;
-    electromagnetismInfo = game.add.sprite(352, 630, "electromagnetismInfo");
+    electromagnetismInfo = game.add.sprite(352, 225, "electromagnetismInfo");
     electromagnetismInfo.fixedToCamera = true;
-    electromagnetismInfo.cameraOffset.setTo(352,630);
+    electromagnetismInfo.cameraOffset.setTo(352,225);
     electromagnetismInfo.visible = false;
-    vectorInfo = game.add.sprite(352, 630, "vectorInfo");
+    vectorInfo = game.add.sprite(352, 225, "vectorInfo");
     vectorInfo.fixedToCamera = true;
-    vectorInfo.cameraOffset.setTo(352,630);
+    vectorInfo.cameraOffset.setTo(352,225);
     vectorInfo.visible = false;
-    reverseTrajectoryInfo = game.add.sprite(352, 630, "reverseTrajectoryInfo");
+    reverseTrajectoryInfo = game.add.sprite(352, 225, "reverseTrajectoryInfo");
     reverseTrajectoryInfo.fixedToCamera = true;
-    reverseTrajectoryInfo.cameraOffset.setTo(352,630);
+    reverseTrajectoryInfo.cameraOffset.setTo(352,225);
     reverseTrajectoryInfo.visible = false;
 
     attackInfoBoxes = ["default", flareInfo, firefloomInfo, zoltInfo, electromagnetismInfo, vectorInfo, reverseTrajectoryInfo];
 
-    attackUp1 = game.add.sprite(540, 555, "attackUp");
-    attackUp2 = game.add.sprite(600, 555, "attackUp");
-    attackUp3 = game.add.sprite(660, 555, "attackUp");
+    attackUp1 = game.add.sprite(540, 140, "attackUp");
+    attackUp2 = game.add.sprite(600, 140, "attackUp");
+    attackUp3 = game.add.sprite(660, 140, "attackUp");
     attackUp1.fixedToCamera = true;
-    attackUp1.cameraOffset.setTo(540,555);
+    attackUp1.cameraOffset.setTo(540,140);
     attackUp1.anchor.setTo(0.5);
     attackUp2.fixedToCamera = true;
-    attackUp2.cameraOffset.setTo(600,555);
+    attackUp2.cameraOffset.setTo(600,140);
     attackUp2.anchor.setTo(0.5);
     attackUp3.fixedToCamera = true;
-    attackUp3.cameraOffset.setTo(660,555);
+    attackUp3.cameraOffset.setTo(660,140);
     attackUp3.anchor.setTo(0.5);
 
-    attackDown1 = game.add.sprite(540, 625, "attackDown");
-    attackDown2 = game.add.sprite(600, 625, "attackDown");
-    attackDown3 = game.add.sprite(660, 625, "attackDown");
+    attackDown1 = game.add.sprite(540, 210, "attackDown");
+    attackDown2 = game.add.sprite(600, 210, "attackDown");
+    attackDown3 = game.add.sprite(660, 210, "attackDown");
     attackDown1.fixedToCamera = true;
-    attackDown1.cameraOffset.setTo(540,625);
+    attackDown1.cameraOffset.setTo(540,210);
     attackDown1.anchor.setTo(0.5);
     attackDown2.fixedToCamera = true;
-    attackDown2.cameraOffset.setTo(600,625);
+    attackDown2.cameraOffset.setTo(600,210);
     attackDown2.anchor.setTo(0.5);
     attackDown3.fixedToCamera = true;
-    attackDown3.cameraOffset.setTo(660,625);
+    attackDown3.cameraOffset.setTo(660,210);
     attackDown3.anchor.setTo(0.5);
 
-    attackIcon1 = game.add.sprite(540, 590, "attackIcons");
-    attackIcon1.cameraOffset.setTo(600,630);
+    attackIcon1 = game.add.sprite(540, 175, "attackIcons");
+    attackIcon1.cameraOffset.setTo(600,175);
     attackIcon1.anchor.setTo(0.5);
-    attackIcon2 = game.add.sprite(600, 590, "attackIcons");
-    attackIcon2.cameraOffset.setTo(600,630);
+    attackIcon2 = game.add.sprite(600, 175, "attackIcons");
+    attackIcon2.cameraOffset.setTo(600,175);
     attackIcon2.anchor.setTo(0.5);
-    attackIcon3 = game.add.sprite(660, 590, "attackIcons");
-    attackIcon3.cameraOffset.setTo(600,630);
-    attackIcon3.anchor.setTo(0.5);
+    attackIcon3 = game.add.sprite(660, 175, "attackIcons");
+    attackIcon3.cameraOffset.setTo(600,175);
     attackIcon1.frame = 1; //set the default attacks
     attackIcon2.frame = 3;
     attackIcon3.frame = 5;
@@ -226,7 +225,7 @@ momLevelSelect.prototype = {
             var level = new Level(index + 1);
 
             var x = 90 + ((index%4) * 300);
-            var y = 200 + (Math.floor(index/4) * 150);
+            var y = 340 + (Math.floor(index/4) * 150);
 
             var level_sprite = game.add.sprite(x, y, level.portal_name());
             level.set_icon_sprite(level_sprite, game);
@@ -237,7 +236,7 @@ momLevelSelect.prototype = {
         _.each(game.levels, function (level, index) {
 
             var x = 90 + ((index%4) * 300);
-            var y = 200 + (Math.floor(index/4) * 150);
+            var y = 340 + (Math.floor(index/4) * 150);
 
             var level_sprite = game.add.sprite(x, y, level.portal_name());
             level.set_icon_sprite(level_sprite, game);

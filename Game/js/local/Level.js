@@ -44,13 +44,13 @@ Level.prototype = {
       this.icon_sprite.events.onInputUp.add(function() { 
         game.sameAttackText.destroy();
         if (attackIcon1.frame === attackIcon2.frame && attackIcon2.frame === attackIcon3.frame)
-          game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 1, 2, and 3. Try again!");
+          game.sameAttackText = game.add.text(game.camera.width/2, 190, "You cannot have the same skill in slots 1, 2, and 3. Try again!");
         else if (attackIcon1.frame === attackIcon2.frame) 
-          game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 1 and 2. Try again!");
+          game.sameAttackText = game.add.text(game.camera.width/2, 190, "You cannot have the same skill in slots 1 and 2. Try again!");
         else if (attackIcon1.frame === attackIcon3.frame)
-          game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 1 and 3. Try again!");
+          game.sameAttackText = game.add.text(game.camera.width/2, 190, "You cannot have the same skill in slots 1 and 3. Try again!");
         else if (attackIcon2.frame === attackIcon3.frame)
-          game.sameAttackText = game.add.text(game.camera.width/2, 665, "You cannot have the same skill in slots 2 and 3. Try again!");
+          game.sameAttackText = game.add.text(game.camera.width/2, 190, "You cannot have the same skill in slots 2 and 3. Try again!");
         else {
           menuClick = game.add.audio("menuClick");
           menuClick.play();

@@ -2,7 +2,7 @@ var momGame = function () {};
 var oranges_count = 0,
   oranges_usable = false,
   f_attackIcon1, f_attackIcon2, f_attackIcon3,
-  gameWin;
+  gameWin, gameUI;
 
 pauseGame = function(pause) {
     if(game.is_paused == pause)
@@ -59,9 +59,16 @@ momGame.prototype = {
 
     this.load_wizards();   
 
-    gameUI = game.add.sprite(45, 20, "gameUI");
+    mom_UI = game.add.group();
+    gameUI = mom_UI.create(45, 20, "gameUI");
     gameUI.fixedToCamera = true;
     gameUI.cameraOffset.setTo(45, 20);
+    game.physics.arcade.enable(gameUI);
+    gameUI.enableBody = true;
+    gameUI.immovable = true;
+    gameUI.body.collideWorldBounds = true;
+    gameUI.body.allowGravity = true;
+    game.momUI = mom_UI;
     hearts = game.add.group();
     
     for (var i = 0; i < 6; i++) {
@@ -386,10 +393,12 @@ momGame.prototype = {
     game.physics.arcade.collide(game.wizards, this.blocked_layer);
     game.physics.arcade.collide(game.wizardProjectiles, this.blocked_layer);
     
+    
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     game.physics.arcade.collide(game.player, game.wizardProjectiles, game.player.damage, null);
+    game.physics.arcade.collide(game.player, game.momUI, function() {}, null);
     
     if (!game.is_paused) {
       if (this.player.health == 0) {

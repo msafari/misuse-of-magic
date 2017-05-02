@@ -46,6 +46,7 @@ splash.prototype = {
 
     //load in images related to gameplay
     game.load.image("gameUI", "assets/images/gameUI.png");
+    game.load.image("uiBlock", "assets/images/uiBlock.png");
     game.load.image("xButton", "assets/images/xButton.png");
     game.load.image("pauseButton", "assets/images/pauseButton.png");
     game.load.image("playButton", "assets/images/playButton.png");
@@ -129,9 +130,9 @@ splash.prototype = {
 
     //load sprites
     game.load.spritesheet("TZHARA", 'assets/Sprites/Tzarha/spritesheet.png', 64, 96);
-    game.load.spritesheet("ELECTRIC_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 64, 96);
-    game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 64, 96);
-    game.load.spritesheet("GRAVITY_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 64, 96);
+    game.load.spritesheet("ELECTRIC_WIZARD", "assets/Sprites/Wizards/Lightning/spritesheet.png", 42, 73);
+    game.load.spritesheet("FIRE_WIZARD", "assets/Sprites/Wizards/Fire/spritesheet.png", 42, 73);
+    game.load.spritesheet("GRAVITY_WIZARD", "assets/Sprites/Wizards/Ice/spritesheet.png", 42, 73);
 
     //load audio
     game.load.audio("menuClick", "assets/audio/menuClick.mp3");
