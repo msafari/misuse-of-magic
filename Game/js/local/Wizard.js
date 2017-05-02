@@ -76,7 +76,7 @@ _.extend(Wizard.prototype, {
         //console.log(wizard);
         if (!wizard)
             wizard = this;
-        if (wizard.length) { //is this an array? (If we ever need to kill multiple wizards)
+        if (wizard.length) { //Check if this is an array (If we ever need to kill multiple wizards)
           var wizards = _.intersection(game.wizard_list, wizard);
 		      _.each(wizards, function(wiz) {
 			     wiz.destroy_wizard();
@@ -92,6 +92,8 @@ _.extend(Wizard.prototype, {
 		    }
       }, this); 
     }, this);
+
+    //this.isHighLevel = game.current_level.number > 1; //TODO: Figure out what to do with "stronger" wizards
 
     _.extend(this, sprite);
     game.add.existing(this);
@@ -118,7 +120,9 @@ _.extend(Wizard.prototype, {
     if (this.backwards) {
       var attack_dir = attack_left ? "right" : "left";
     }
-    this.attack_obj.launch(this, attack_dir); 
+    //var result = this.attack_obj.launch(this, attack_dir).then(this.doBonus);
+    //console.log(result); 
+    this.attack_obj.launch(this, attack_dir);
   },
 
   random_move_x: function () {
@@ -179,8 +183,18 @@ _.extend(Wizard.prototype, {
     }
   },
 
-  doBonus: function(attackID) {
-
-  }
+  doBonus: function(wiz) {
+    //var shouldAttack = Math.random() < 0.5 ? true : false;
+    var shouldAttack = true;
+    if(wiz.isHighLevel && !wiz.hasAttacked && shouldAttack) {
+      game.time.events.add(200, function() {
+        wiz.attack_player();
+        wiz.hasAttacked = true;
+      }, wiz);
+      game.time.events.add(8000, function() {
+        wiz.hasAttacked = false;
+      }, wiz);
+    }
+  },
 
 });

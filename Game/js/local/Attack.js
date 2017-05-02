@@ -75,7 +75,7 @@ _.extend(Attack.prototype , {
 				attacker.attack_obj = null;
 			}
 		}, this);
-		//return Promise.resolve(); //This will allow wizards to append extra effects after attacking
+		//return Promise.resolve(attacker); //This will allow wizards to append extra effects immediately after attacking
 	},
 
 	was_successful: function() {
@@ -169,20 +169,16 @@ Attack.Types = {
 			}
 			function injure(t1, t2) {
 				endCollision();
-				var t1health = t1.hitPoints;
-				var t2health = t2.hitPoints;
 				t1.hitPoints--;
 				t2.hitPoints--;
 				hitSound.play();
-				console.log("We hit another wizard! (t1: " + t1health + " -> " + t1.hitPoints +
-					" t2: " + t2health + " -> " + t2.hitPoints + ")");
 			}
 			function endCollision() {
 				target.movementSpell = false;
 				target.body.velocity.x = 0;
 				target.body.acceleration.x = 0;
 				if(target.body.onCollide) {
-					//This is null sometimes if the attack has been launched multiple times so we must double-check
+					 //This is null sometimes if the attack has been launched multiple times so we must double-check
 					target.body.onCollide.remove(tempCollision.getListener(), this);
 					target.body.onCollide = null;
 					//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
