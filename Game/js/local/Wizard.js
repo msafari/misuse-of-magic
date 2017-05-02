@@ -25,6 +25,9 @@ _.extend(Wizard.prototype, {
       game.physics.arcade.collide(this, game.playerProjectiles, this.damage, null, this);
       game.physics.arcade.collide(game.wizards, this);
 
+      if(this.hitPoints <= 0)
+        this.killed.dispatch(); 
+
       if (this.wizard_timer <= 160) {
         this.wizard_timer++;
       }
@@ -63,6 +66,35 @@ _.extend(Wizard.prototype, {
       var frameIndexes = _.range(index * 9, index * 9 + 9);
       sprite.animations.add(state, frameIndexes, 15, true);
     });
+	
+    this.killed = new Phaser.Signal();
+    this.killed.add(function (wizard) {
+      anim = (this.animations.currentAnim.name.includes("_L")? 'DEAD_L' : 'DEAD_R');
+      this.animations.play(anim, 8);
+
+      this.animations.currentAnim.onLoop.add(function() { 
+        //console.log(wizard);
+        if (!wizard)
+            wizard = this;
+        if (wizard.length) { //Check if this is an array (If we ever need to kill multiple wizards)
+          var wizards = _.intersection(game.wizard_list, wizard);
+		      _.each(wizards, function(wiz) {
+			     wiz.destroy_wizard();
+		      });	
+        }
+        else {
+          wizards = game.wizard_list;
+          _.each(wizards, function (wiz) {
+			       if (wiz === wizard) {
+				      wiz.destroy_wizard();
+			       }
+		      });
+		    }
+      }, this); 
+    }, this);
+
+    //this.isHighLevel = game.current_level.number > 1; //TODO: Figure out what to do with "stronger" wizards
+
     _.extend(this, sprite);
     game.add.existing(this);
   },
@@ -88,11 +120,13 @@ _.extend(Wizard.prototype, {
     if (this.backwards) {
       var attack_dir = attack_left ? "right" : "left";
     }
-    this.attack_obj.launch(this, attack_dir); 
+    //var result = this.attack_obj.launch(this, attack_dir).then(this.doBonus);
+    //console.log(result); 
+    this.attack_obj.launch(this, attack_dir);
   },
 
   random_move_x: function () {
-    var rand = (Math.random() * 100) + 1;
+    var rand = (this.hitPoints >= 2)? (Math.random() * 100) + 1 : (Math.random() * 60) + 1;
     var is_left = Math.random() < 0.5 ? true : false;
 
     if (is_left) {
@@ -113,6 +147,9 @@ _.extend(Wizard.prototype, {
         this.attack_player();
 
     }
+    else if (this.hitPoints == 1) {
+      this.random_move_x();
+    }
   },
 
   get_attack_ID: function() {
@@ -130,25 +167,33 @@ _.extend(Wizard.prototype, {
     wizard.animations.stop();
     if(attackObject.attacker_name === "TZHARA") {
       hitSound.play();
-      wizard.hitPoints--;
-      w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L"
+      var prev = wizard.hitPoints;
+      if(attackObject.type.doesDamage)
+        wizard.hitPoints--;
+      w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L";
       wizard.animations.play(w_damage_anim, 8);
-      console.log("losing wizard health");
+      console.log("losing wizard health (prev: " + prev + " -> " + wizard.hitPoints + ")");
       if(impact != null) {
-        impact(wizard);
+        impact(wizard, attackObject);
       }
     }
-    if (wizard.hitPoints == 0) {
-      direction = wizard.animations.currentAnim.name;
-      animation_name = (direction.search('.*_L') > -1) ? 'DEAD_L' : 'DEAD_R';
-      wizard.animations.play(animation_name, 8);
-      wizard.animations.currentAnim.onLoop.add(function() { 
-        _.each(game.wizard_list, function (wiz) {
-          if (wiz === wizard) {
-            wiz.destroy_wizard();
-          }
-        });
-      }, this); 
+    if (wizard.hitPoints <= 0) {
+      this.killed.dispatch(wizard);
+      //damageLoop.timer.stop(true);//Yeeaah... that gives a reference to the main game timer. Stopping that stops everything. Don't do that.
+    }
+  },
+
+  doBonus: function(wiz) {
+    //var shouldAttack = Math.random() < 0.5 ? true : false;
+    var shouldAttack = true;
+    if(wiz.isHighLevel && !wiz.hasAttacked && shouldAttack) {
+      game.time.events.add(200, function() {
+        wiz.attack_player();
+        wiz.hasAttacked = true;
+      }, wiz);
+      game.time.events.add(8000, function() {
+        wiz.hasAttacked = false;
+      }, wiz);
     }
   },
 

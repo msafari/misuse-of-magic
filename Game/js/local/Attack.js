@@ -29,6 +29,7 @@ _.extend(Attack.prototype , {
 	},
 
 	launch: function(attacker, direction) {
+		this.attacker = attacker;
 		if(this.uses <= 0)
 			return;
 		this.uses--;
@@ -74,6 +75,7 @@ _.extend(Attack.prototype , {
 				attacker.attack_obj = null;
 			}
 		}, this);
+		//return Promise.resolve(attacker); //This will allow wizards to append extra effects immediately after attacking
 	},
 
 	was_successful: function() {
@@ -94,6 +96,7 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Electric Attack Prototype.png",
 		icon: "assets/Sprites/attacks/zoltIcon.png",
 		sprite: null,
+		doesDamage: true,
 		effect: null,
 		type: "ELECTRIC"
 	},
@@ -101,18 +104,19 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Electromagnetism.png",
 		icon: "assets/Sprites/attacks/electromagnetismIcon.png",
 		sprite: null,
+		doesDamage: true,
 		effect: null,
-		type: "GRAVITY"
+		type: "ELECTRIC"
 	},
 	Firefloom: {
 		image: "assets/Sprites/attacks/Firefloom.png",
 		icon: "assets/Sprites/attacks/firefloomIcon.png",
 		sprite: null,
+		doesDamage: false,
 		effect: function(target) {
 			//console.warn("We used firefloom!");
 			target.canAttack = false;
 			target.tint = 0x4f4e58;
-			target.hitPoints++; //firefloom should not cause damage so undo the decrease from spell collision
 			game.time.events.add(2500, function() {
 				//console.log("Firefloom effect ended.");
 				target.canAttack = true;
@@ -125,6 +129,7 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Flare.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
+		doesDamage: true,
 		effect: null,
 		type: "FIRE"
 	},
@@ -132,17 +137,66 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Movement Spell.png",
 		icon: "assets/Sprites/attacks/movementIcon.png",
 		sprite: null,
-		effect: null, //This effect is complex enough that it may need it's own file
+		doesDamage: false,
+		effect: function(target, attackObject) {
+			var tempCollision;
+			var vector = [(Math.random() * 200) + 10, Math.random() <= 0.95 ? "RIGHT_WAY" : "WRONG"];
+			if(target.key === "TZHARA") {
+				target.movementSpell = true;
+			}
+			moveTarget(vector);
+			
+			function moveTarget(v) {
+				//For a bonus, let this wizard take damage if it is flung into another one
+				target.body.onCollide = new Phaser.Signal();
+		
+				var multiplier = (attackObject.direction === "left"?  -1 : 1);
+				var accel = (attackObject.attacker_name.includes("WIZARD")? 90 : 60);
+
+ 				if(v[1] === "RIGHT_WAY" || attackObject.attacker_name.includes("WIZARD")) {
+					target.body.velocity.x = multiplier * v[0];
+					target.body.acceleration.x = multiplier * accel;
+				}
+				else {
+					target.body.velocity.x = -1 * multiplier * v[0];
+					target.body.acceleration.x = -1 * multiplier * accel;
+				}
+				tempCollision = target.body.onCollide.add(function(sprite1, sprite2) {
+					if(sprite2.key.includes("WIZARD"))
+						injure(sprite1, sprite2);
+				}, this);
+				game.time.events.add(1600, endCollision, this);
+			}
+			function injure(t1, t2) {
+				endCollision();
+				t1.hitPoints--;
+				t2.hitPoints--;
+				hitSound.play();
+			}
+			function endCollision() {
+				target.movementSpell = false;
+				target.body.velocity.x = 0;
+				target.body.acceleration.x = 0;
+				if(target.body.onCollide) {
+					 //This is null sometimes if the attack has been launched multiple times so we must double-check
+					target.body.onCollide.remove(tempCollision.getListener(), this);
+					target.body.onCollide = null;
+					//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
+				}
+				console.log("Gravity effect done");
+			}
+		},
 		type: "GRAVITY"
 	},
 	ReverseDirection: {
 		image: "assets/Sprites/attacks/Reverse Direction.png",
 		icon: "assets/Sprites/attacks/reverseTrajectoryIcon.png",
 		sprite: null,
+		doesDamage: false,
 		effect: function(target) {
 			target.backwards = true;
 			target.tint = 0xff0000;
-			target.hitPoints++; //firefloom should not cause damage so undo the decrease from spell collision
+			target.hitPoints++; 
 			game.time.events.add(5000, function() {
 				target.backwards = false;
 				target.tint = 0xffffff;
@@ -154,6 +208,7 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Debug attack.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
+		doesDamage: false,
 		effect: null,
 		type: "Err..."
 	},

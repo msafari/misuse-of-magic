@@ -11,9 +11,15 @@ function Tzhara (x, y) {
 
   this.attack = null;
   this.health = 6;
+
+  //Status/effects
   this.DAMAGED_L = false,
   this.DAMAGED_R = false,
   this.invincible = false;
+  this.facingLeft = false;
+  this.canAttack = true;
+  this.MovementSpell = false;
+  this.backwards = false;
 
   this.spell_1_usage = 5;
   this.spell_2_usage = 5;
@@ -24,7 +30,7 @@ function Tzhara (x, y) {
 
   this.load_animations();
   this.set_input_controls();
-
+  
   game.player = this;
   game.add.existing(this);
   game.camera.follow(this); 
@@ -36,12 +42,15 @@ Tzhara.prototype.constructor = Tzhara;
 _.extend(Tzhara.prototype, {
   update: function() {
 
-    this.body.velocity.x = 0;
-    this.body.velocity.y = 0;
+    if (!this.movementSpell) {
+      this.body.velocity.x = 0;
+      this.body.velocity.y = 0;
+    }
 
     if (game.is_paused == false) {
       //this contact needs to be here in case the game is paused, otherwise the user could still lose health!
       game.physics.arcade.overlap(this, game.wizards, this.damage, null, this);
+      this.facingLeft = this.animations.currentAnim.name.includes("_L"); 
 
       if (this.DAMAGED_R) {
         this.animations.play("DAMAGE_R",15, false, false);
@@ -79,7 +88,10 @@ _.extend(Tzhara.prototype, {
       }
 
       else {
-        this.animations.play("IDLE");
+        if(this.facingLeft)
+          this.animations.play("IDLE_L");
+        else
+          this.animations.play("IDLE_R");
       }
 
     }
@@ -88,9 +100,9 @@ _.extend(Tzhara.prototype, {
     }
   },
 
-
   load_animations: function() {
-    var states = ["IDLE", "SPELL_L", "SPELL_R", "DEATH", "DAMAGE_L", "DAMAGE_R", "JUMP_L", "JUMP_R", "WALK_L", "WALK_R"],
+    var states = ["IDLE", "SPELL_L", "SPELL_R", "DEATH", "DAMAGE_L", "DAMAGE_R", 
+                  "JUMP_L", "JUMP_R", "WALK_L", "WALK_R", "IDLE_L", "IDLE_R"],
         player = this;
     _.each(states, function (state, i) {
         var frameIndexes = _.range(i*6, i*6 + 6);
@@ -115,15 +127,28 @@ _.extend(Tzhara.prototype, {
     player_controls.attack_Z.onDown.add(function() { 
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "FIRE");
-      if(!game.is_restoring && this.spell_1_usage > 0) {
+
+      if(!game.is_restoring && this.spell_1_usage > 0 && this.canAttack) {
         this.spell_1_usage--;
-        if (player_controls.cursors.left.isDown) {
+        if (player_controls.cursors.left.isDown || this.facingLeft) {
+          if(!this.backwards) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
-        }
-        else if (player_controls.cursors.right.isDown) {
+          }
+          else{
             this.animations.play('SPELL_R');
             this.fireAttack("right");
+          }
+        }
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          if(!this.backwards) {
+            this.animations.play('SPELL_R');
+            this.fireAttack("right");
+          }
+          else {
+            this.animations.play('SPELL_L'); 
+            this.fireAttack("left"); 
+          }
         }
       }
     }, this);
@@ -131,36 +156,59 @@ _.extend(Tzhara.prototype, {
     player_controls.attack_X.onDown.add(function() { 
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "ELECTRIC");
-      if(!game.is_restoring && this.spell_2_usage > 0) {
+      if(!game.is_restoring && this.spell_2_usage > 0 && this.canAttack) {
         this.spell_2_usage --;
-        if (player_controls.cursors.left.isDown) {
+        if (player_controls.cursors.left.isDown || this.facingLeft) {
+          if(!this.backwards) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
-        }
-        else if (player_controls.cursors.right.isDown) {
+          }
+          else{
             this.animations.play('SPELL_R');
             this.fireAttack("right");
+          }
         }
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          if(!this.backwards) {
+            this.animations.play('SPELL_R');
+            this.fireAttack("right");
+          }
+          else {
+            this.animations.play('SPELL_L'); 
+            this.fireAttack("left"); 
+          }
       }
+    }
     }, this);
 
     player_controls.attack_C.onDown.add(function() { 
       if(!this.attack)
         this.attack = new Attack('TZHARA', 10, "GRAVITY");
 
-      if(!game.is_restoring && this.spell_3_usage > 0) {
+      if(!game.is_restoring && this.spell_3_usage > 0 && this.canAttack) {
         this.spell_3_usage--;
-        if (player_controls.cursors.left.isDown) {
+        if (player_controls.cursors.left.isDown || this.facingLeft) {
+          if(!this.backwards) {
             this.animations.play('SPELL_L'); 
             this.fireAttack("left");
-        }
-        else if (player_controls.cursors.right.isDown) {
+          }
+          else{
             this.animations.play('SPELL_R');
             this.fireAttack("right");
+          }
         }
-      }
+        else if (player_controls.cursors.right.isDown || !this.facingLeft) {
+          if(!this.backwards) {
+            this.animations.play('SPELL_R');
+            this.fireAttack("right");
+          }
+          else {
+            this.animations.play('SPELL_L'); 
+            this.fireAttack("left"); 
+          }
+        }
+     } 
     }, this);
-
     game.inputs = _.extend(game.inputs, player_controls);
   },
 
@@ -169,7 +217,7 @@ _.extend(Tzhara.prototype, {
     var attackSet = ["Default", "Flare", "Firefloom", "ElectricAttack", "Electromagnetism", "MovementSpell", "ReverseDirection"];
     attackSounds = game.sound_effects.attack_sounds;
 
-    if(game.time.elapsedSince(game.inputs.attack_Z.timeDown) <= 200 || game.inputs.attack_Z.isDown) { // Last 200ms (is this enough? too much?)
+    if(game.time.elapsedSince(game.inputs.attack_Z.timeDown) <= 200 || game.inputs.attack_Z.isDown) {// Last 200ms (is this enough? too much?)
       this.attack.set_sprite(attackSet[f_attackIcon1]);
       attackSounds[f_attackIcon1].play();
     }
@@ -190,6 +238,7 @@ _.extend(Tzhara.prototype, {
   damage: function(player, attackObject) {
 
     if (player.invincible != true && player.health >= 1 && attackObject.attacker_name !== "TZHARA") {
+      var impact = attackObject.type.effect;
       player.animations.stop();
       if (player.health > 1)
         game.sound_effects.damagedSound.play();
@@ -202,12 +251,13 @@ _.extend(Tzhara.prototype, {
       }
       else if (player.body.touching.right) {
         player.DAMAGED_R = true;
-      } else {
-        player.DAMAGED_R = true;
       }
+       if(impact != null) {
+         impact(player, attackObject);
+       }
       player.tint = 0x0078ff;
       player.invincible = true;
-      player.health--;
+      player.health--; 
       game.hearts.children[player.health].frame = 1;
       game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, _invinFrameOver, this);
       game.time.events.repeat(Phaser.Timer.SECOND * 0.5, 1, _stopDamage, this);
