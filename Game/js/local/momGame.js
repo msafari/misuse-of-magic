@@ -57,7 +57,8 @@ momGame.prototype = {
     var player_start = this.findObjectsBySprite("Player", "Player")[0];
     this.player = new Tzhara(player_start.x - 32, player_start.y + 32);
 
-    this.load_wizards();   
+    this.load_wizards();  
+    this.load_boss(); 
 
     mom_UI = game.add.group();
     gameUI = mom_UI.create(45, 20, "gameUI");
@@ -391,6 +392,7 @@ momGame.prototype = {
   update: function () {
     game.physics.arcade.collide(this.player, this.blocked_layer);
     game.physics.arcade.collide(game.wizards, this.blocked_layer);
+    game.physics.arcade.collide(game.bosses, this.blocked_layer);
     game.physics.arcade.collide(game.wizardProjectiles, this.blocked_layer);
     
     
@@ -470,6 +472,7 @@ momGame.prototype = {
     this.map = game.map;
     
     this.grass_layer = this.map.createLayer('grass');
+    this.bg_layer = this.map.createLayer('bg');
     this.blocked_layer = this.map.createLayer('blocked-layer');
 
     this.map.setCollisionBetween(1, 500, true, 'blocked-layer');
@@ -495,6 +498,16 @@ momGame.prototype = {
     this.level_wizards = this.findObjectsBySprite("Wizard", "Wizards");
     _.each(this.level_wizards, function (wiz) {
       var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y);
+    });
+  },
+
+  load_boss: function() {
+    game.boss_list = [];
+    game.bosses = game.add.group();
+    game.bosses.enableBody = true;
+    this.level_bosses = this.findObjectsBySprite("Boss", "Wizards");
+    _.each(this.level_bosses, function (theBoss) {
+      var theBoss = new Boss(theBoss.x, theBoss.y);
     });
   },
 

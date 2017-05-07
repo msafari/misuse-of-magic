@@ -44,11 +44,11 @@ _.extend(Attack.prototype , {
 
 			if(direction === "left") {
 				this.position.x = attacker.position.x - 15;
-				atkTween = game.add.tween(this).to({x: attacker.position.x - 250});
+				atkTween = game.add.tween(this).to({x: attacker.position.x - 300});
 			}
 			else {
 				this.position.x = attacker.position.x + 15;
-				atkTween = game.add.tween(this).to({x: attacker.position.x + 250});
+				atkTween = game.add.tween(this).to({x: attacker.position.x + 300});
 			}
 		}
 		else {
@@ -56,7 +56,7 @@ _.extend(Attack.prototype , {
 
 			if(direction === "left") {
 				this.position.x = attacker.position.x - 15;
-				atkTween = game.add.tween(this).to({x: attacker.position.x - 450});
+				atkTween = game.add.tween(this).to({x: attacker.position.x - 400});
 			}
 			else if (direction === "up") {
 				this.position.x = attacker.position.x - 20;
@@ -65,7 +65,7 @@ _.extend(Attack.prototype , {
 			}
 			else {
 				this.position.x = attacker.position.x + 15;
-				atkTween = game.add.tween(this).to({x: attacker.position.x + 450 });
+				atkTween = game.add.tween(this).to({x: attacker.position.x + 400 });
 			}
 		}
 		this.visible = true;

@@ -221,7 +221,7 @@ momLevelSelect.prototype = {
   loadLevels: function() {
     if (!game.levels) {
         game.levels =  [];
-        _.each(Array(7), function (a, index) {
+        _.each(Array(3), function (a, index) {
             var level = new Level(index + 1);
 
             var x = 90 + ((index%4) * 300);
