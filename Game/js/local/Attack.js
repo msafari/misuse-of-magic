@@ -80,7 +80,6 @@ _.extend(Attack.prototype , {
 				attacker.attack_obj = null;
 			}
 		}, this);
-		//return Promise.resolve(attacker); //This will allow wizards to append extra effects immediately after attacking
 	},
 
 	was_successful: function() {
@@ -108,9 +107,44 @@ Attack.Types = {
 	Electromagnetism:{
 		image: "assets/Sprites/attacks/Electromagnetism.png",
 		icon: "assets/Sprites/attacks/electromagnetismIcon.png",
+		/*Damage enemy and for 4 seconds, attacks within (x)px of target are directed to the target, excepting projectiles originating
+		from the attacker*/ 
 		sprite: null,
 		doesDamage: true,
-		effect: null,
+		effect: function(target, attackObject) {
+			var isWizard = attackObject.attacker_name.includes("WIZARD");
+			var redirAttack;
+			var targetX = (attackObject.direction === "left"? target.position.x + 250 : target.position.x - 250);
+			var targetY = (attackObject.position.y - target.position.y != 0? target.position.y : null);
+			target.tint = 0x00ccff;
+			if(!isWizard) { //We are hitting a wizard
+				redirAttack = game.time.events.loop(25, redirectAttack, this); //check every 25msec for nearby projectiles
+				console.log("magentism effect applied!");
+			}
+			function redirectAttack() {
+				if(target.isDead)
+					return;
+				game.wizardProjectiles.forEachAlive(function(attack) {
+					if(Phaser.Point.distance(attack, target, true) <= 260 && game.tweens.isTweening(attack)){
+						if(attack.attacker != target) {
+							console.log("redirecting attack");
+							//game.tweens.getAll(attack)[0].chain(game.add.tween(attack).to({x: targetX, y: targetY}));
+							game.tweens.getAll(attack)[0].onComplete.addOnce(function() {
+								console.log("moving sprite...");
+								game.add.tween(attack).to({x: targetX, y: targetY}).start();
+								target.hitPoints--;
+							}, this, 1);
+						}
+					}
+
+				}, this);
+			}
+			game.time.events.add(10000, function() {
+				target.tint = 0xffffff;
+				game.time.events.remove(redirAttack);
+				console.log("magentism effect over.")
+			}, this);
+		},
 		type: "ELECTRIC"
 	},
 	Firefloom: {
@@ -119,11 +153,9 @@ Attack.Types = {
 		sprite: null,
 		doesDamage: false,
 		effect: function(target) {
-			//console.warn("We used firefloom!");
 			target.canAttack = false;
 			target.tint = 0x4f4e58;
 			game.time.events.add(2500, function() {
-				//console.log("Firefloom effect ended.");
 				target.canAttack = true;
 				target.tint = 0xffffff;
 			}, this);

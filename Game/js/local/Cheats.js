@@ -41,7 +41,6 @@ Cheats.CheatList = {
 		enabled: false,
 		text: "Make Tzhara invincible: ",
 		action: function() { 
-			//"this" is the cheat object so be careful!
 			if(!this.enabled) {
 				this.enabled = true;
 				console.log("Tzhara is now immune to damage");
