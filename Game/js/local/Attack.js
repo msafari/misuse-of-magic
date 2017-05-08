@@ -107,33 +107,34 @@ Attack.Types = {
 	Electromagnetism:{
 		image: "assets/Sprites/attacks/Electromagnetism.png",
 		icon: "assets/Sprites/attacks/electromagnetismIcon.png",
-		/*Damage enemy and for 4 seconds, attacks within (x)px of target are directed to the target, excepting projectiles originating
-		from the attacker*/ 
+		/*Damage enemy and for 8 seconds, attacks within (x)px of target are directed to the target*/
 		sprite: null,
-		doesDamage: true,
+		doesDamage: false,
 		effect: function(target, attackObject) {
 			var isWizard = attackObject.attacker_name.includes("WIZARD");
 			var redirAttack;
-			var targetX = (attackObject.direction === "left"? target.position.x + 250 : target.position.x - 250);
-			var targetY = (attackObject.position.y - target.position.y != 0? target.position.y : null);
+			//var targetX = (attackObject.direction === "left"? target.position.x : -target.position.x);
+			var targetX = target.position.x;
+			var targetY = target.position.y;
 			target.tint = 0x00ccff;
 			if(!isWizard) { //We are hitting a wizard
-				redirAttack = game.time.events.loop(25, redirectAttack, this); //check every 25msec for nearby projectiles
+				redirAttack = game.time.events.loop(20, redirectAttack, this); //check every 25msec for nearby projectiles
 				console.log("magentism effect applied!");
 			}
 			function redirectAttack() {
 				if(target.isDead)
 					return;
 				game.wizardProjectiles.forEachAlive(function(attack) {
-					if(Phaser.Point.distance(attack, target, true) <= 260 && game.tweens.isTweening(attack)){
+					if(Phaser.Point.distance(attack, target, true) <= 280 && game.tweens.isTweening(attack)){
 						if(attack.attacker != target) {
+							var tweenIndex = _.findIndex(game.tweens.getAll(), ((t) => t.target == attack) );
 							console.log("redirecting attack");
-							//game.tweens.getAll(attack)[0].chain(game.add.tween(attack).to({x: targetX, y: targetY}));
-							game.tweens.getAll(attack)[0].onComplete.addOnce(function() {
+							//game.tweens.getAll()[tweenIndex].pause();
+							game.tweens.getAll()[tweenIndex] = game.add.tween(attack).to({x: targetX, y: targetY});
+							game.tweens.getAll()[tweenIndex].start().onComplete.addOnce(function() {
 								console.log("moving sprite...");
-								game.add.tween(attack).to({x: targetX, y: targetY}).start();
-								target.hitPoints--;
-							}, this, 1);
+							 	target.hitPoints--;
+							 }, this, 1);
 						}
 					}
 
