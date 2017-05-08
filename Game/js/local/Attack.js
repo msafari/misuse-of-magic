@@ -109,7 +109,7 @@ Attack.Types = {
 		icon: "assets/Sprites/attacks/electromagnetismIcon.png",
 		/*Damage enemy and for 8 seconds, attacks within (x)px of target are directed to the target*/
 		sprite: null,
-		doesDamage: false,
+		doesDamage: true,
 		effect: function(target, attackObject) {
 			var isWizard = attackObject.attacker_name.includes("WIZARD");
 			var redirAttack;
