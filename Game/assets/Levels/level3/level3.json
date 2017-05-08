@@ -476,8 +476,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":2328.36333333333,
-                 "y":3126.42333333333
+                 "x":2328.36,
+                 "y":3126.42
                 }, 
                 {
                  "gid":206,
@@ -958,6 +958,66 @@
                  "width":32,
                  "x":1838,
                  "y":1230
+                }, 
+                {
+                 "gid":207,
+                 "height":25,
+                 "id":108,
+                 "name":"",
+                 "properties":
+                    {
+                     "Sprite":"Health"
+                    },
+                 "propertytypes":
+                    {
+                     "Sprite":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":25,
+                 "x":2178,
+                 "y":2830
+                }, 
+                {
+                 "gid":207,
+                 "height":25,
+                 "id":110,
+                 "name":"",
+                 "properties":
+                    {
+                     "Sprite":"Health"
+                    },
+                 "propertytypes":
+                    {
+                     "Sprite":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":25,
+                 "x":1756,
+                 "y":2828
+                }, 
+                {
+                 "gid":207,
+                 "height":25,
+                 "id":113,
+                 "name":"",
+                 "properties":
+                    {
+                     "Sprite":"Health"
+                    },
+                 "propertytypes":
+                    {
+                     "Sprite":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":25,
+                 "x":1972,
+                 "y":2650
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1276,8 +1336,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":1863.75666666667,
-                 "y":3060.72666666667
+                 "x":1863.76,
+                 "y":3060.73
                 }, 
                 {
                  "gid":205,
@@ -1308,7 +1368,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":107,
+ "nextobjectid":114,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,
@@ -1377,6 +1437,19 @@
          "tilecount":1,
          "tileheight":32,
          "tilewidth":32
+        }, 
+        {
+         "columns":2,
+         "firstgid":207,
+         "image":"..\/..\/images\/heartbreak.png",
+         "imageheight":25,
+         "imagewidth":50,
+         "margin":0,
+         "name":"heartbreak",
+         "spacing":0,
+         "tilecount":2,
+         "tileheight":25,
+         "tilewidth":25
         }],
  "tilewidth":32,
  "version":1,

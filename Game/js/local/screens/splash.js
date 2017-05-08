@@ -127,6 +127,7 @@ splash.prototype = {
     game.load.image("snowFlora", "assets/Levels/Tiles/trees snow objects.png");
     game.load.image("gate3", "assets/Levels/Tiles/gate3.png");
     game.load.image("Orange", "assets/images/orange.png");
+    game.load.image("Health", "assets/images/fullHeart.png")
 
     //load sprites
     game.load.spritesheet("TZHARA", 'assets/Sprites/Tzarha/spritesheet.png', 64, 96);
@@ -145,6 +146,7 @@ splash.prototype = {
     game.load.audio("a_reverseTrajectory", "assets/audio/reverseTrajectory.mp3");
     game.load.audio("a_iceAttack", "assets/audio/iceAttack.mp3");
     game.load.audio("hitSound", "assets/audio/hitSound.mp3");
+    game.load.audio("heartSound", "assets/audio/heartSound.mp3");
     game.load.audio("damagedSound", "assets/audio/hitSound2.mp3");
     game.load.audio("jump", "assets/audio/jump.mp3");
     game.load.audio("orangeCollect", "assets/audio/orangeCollect3.mp3");

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="107">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="114">
  <tileset firstgid="1" name="snow ice rock tiles" tilewidth="32" tileheight="32" tilecount="100" columns="10">
   <image source="../Tiles/snow ice rock tiles.png" width="320" height="320"/>
  </tileset>
@@ -14,6 +14,9 @@
  </tileset>
  <tileset firstgid="206" name="orange" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../../images/orange.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="207" name="heartbreak" tilewidth="25" tileheight="25" tilecount="2" columns="2">
+  <image source="../../images/heartbreak.png" width="50" height="25"/>
  </tileset>
  <layer name="blocked-layer" width="100" height="100">
   <data encoding="csv">
@@ -454,6 +457,21 @@
   <object id="106" gid="206" x="1838" y="1230" width="32" height="32">
    <properties>
     <property name="Sprite" value="Orange"/>
+   </properties>
+  </object>
+  <object id="108" gid="207" x="2178" y="2830" width="25" height="25">
+   <properties>
+    <property name="Sprite" value="Health"/>
+   </properties>
+  </object>
+  <object id="110" gid="207" x="1756" y="2828" width="25" height="25">
+   <properties>
+    <property name="Sprite" value="Health"/>
+   </properties>
+  </object>
+  <object id="113" gid="207" x="1972" y="2650" width="25" height="25">
+   <properties>
+    <property name="Sprite" value="Health"/>
    </properties>
   </object>
  </objectgroup>

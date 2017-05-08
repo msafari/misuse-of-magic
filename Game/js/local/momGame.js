@@ -395,8 +395,8 @@ momGame.prototype = {
     game.physics.arcade.collide(game.bosses, this.blocked_layer);
     game.physics.arcade.collide(game.wizardProjectiles, this.blocked_layer);
     
-    
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
+    game.physics.arcade.overlap(this.player, this.healthHearts, this.collectHearts, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     game.physics.arcade.collide(game.player, game.wizardProjectiles, game.player.damage, null);
@@ -426,6 +426,12 @@ momGame.prototype = {
    }
   },
 
+  collectHearts: function(player, healthHeart) {
+    console.log("yes yes yes yes!");
+    healthHeart.kill();
+    game.player.heal();   
+  },
+
   winLevel: function(player, gate) {
     
     if (gameWin === false) {
@@ -444,7 +450,8 @@ momGame.prototype = {
       if(l.name=== next_level)
         return l;
     });
-    next_level.set_playable();
+    if (game.current_level.number < 3)
+      next_level.set_playable();
   },
 
   loseLevel: function() {
@@ -479,8 +486,13 @@ momGame.prototype = {
 
     this.blocked_layer.resizeWorld();
 
+
+    this.healthHearts = this.createObjects("Health", "object-layer");
+    this.healthHearts.enableBody = true;
+
     this.oranges = this.createObjects("Orange", "object-layer");
     this.oranges.enableBody = true;
+
     
     this.gates = this.createObjects("Gate", "object-layer");
     this.gates.enableBody = true;
