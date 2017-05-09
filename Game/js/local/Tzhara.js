@@ -234,6 +234,14 @@ _.extend(Tzhara.prototype, {
     this.attack.launch(this, direction); 
   },
 
+  heal: function(player) {
+    if (this.health < 6) {
+      game.sound_effects.heartSound.play();
+      game.hearts.children[this.health].frame = 0;
+      this.health++;
+    }
+  },
+
   damage: function(player, attackObject) {
 
     if (player.invincible != true && player.health >= 1 && attackObject.attacker_name !== "TZHARA") {

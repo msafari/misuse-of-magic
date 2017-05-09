@@ -22,7 +22,9 @@ Level.prototype = {
   },
 
   set_playable: function () {
-    this.available = true;
+    if (this.number < 4) {
+      this.available = true;
+    }
   },
 
   level_icon_path: function () {

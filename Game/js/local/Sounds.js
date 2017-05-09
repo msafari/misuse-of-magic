@@ -7,6 +7,7 @@ function Sounds() {
     attack_sounds: this.set_attack_sounds(),
     jumpSound: this.set_jump_sound(),
     hitSound: this.set_hit_sound(),
+    heartSound: this.set_heart_sound(),
     damagedSound: this.set_damaged_sound(),
     orangeSound: this.set_orange_sound()
   };
@@ -71,6 +72,12 @@ Sounds.prototype = {
     hitSound = game.add.audio("hitSound");
     hitSound.volume -= .5;
     return hitSound;
+  },
+
+  set_heart_sound: function () {
+    heartSound = game.add.audio("heartSound");
+    heartSound.volume -= .3;
+    return heartSound;
   },
 
   set_damaged_sound: function () {

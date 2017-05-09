@@ -58,7 +58,8 @@ momGame.prototype = {
     var player_start = this.findObjectsBySprite("Player", "Player")[0];
     this.player = new Tzhara(player_start.x - 32, player_start.y + 32);
 
-    this.load_wizards();   
+    this.load_wizards();  
+    this.load_boss(); 
 
     mom_UI = game.add.group();
     gameUI = mom_UI.create(45, 20, "gameUI");
@@ -392,10 +393,11 @@ momGame.prototype = {
   update: function () {
     game.physics.arcade.collide(this.player, this.blocked_layer);
     game.physics.arcade.collide(game.wizards, this.blocked_layer);
+    game.physics.arcade.collide(game.bosses, this.blocked_layer);
     game.physics.arcade.collide(game.wizardProjectiles, this.blocked_layer);
     
-    
     game.physics.arcade.overlap(this.player, this.oranges, this.collectOranges, null);
+    game.physics.arcade.overlap(this.player, this.healthHearts, this.collectHearts, null);
     game.physics.arcade.overlap(this.player, this.gates, this.winLevel, null);
 
     game.physics.arcade.collide(game.player, game.wizardProjectiles, game.player.damage, null);
@@ -425,6 +427,12 @@ momGame.prototype = {
    }
   },
 
+  collectHearts: function(player, healthHeart) {
+    console.log("yes yes yes yes!");
+    healthHeart.kill();
+    game.player.heal();   
+  },
+
   winLevel: function(player, gate) {
     
     if (gameWin === false) {
@@ -443,7 +451,8 @@ momGame.prototype = {
       if(l.name=== next_level)
         return l;
     });
-    next_level.set_playable();
+    if (game.current_level.number < 3)
+      next_level.set_playable();
   },
 
   loseLevel: function() {
@@ -471,14 +480,20 @@ momGame.prototype = {
     this.map = game.map;
     
     this.grass_layer = this.map.createLayer('grass');
+    this.bg_layer = this.map.createLayer('bg');
     this.blocked_layer = this.map.createLayer('blocked-layer');
 
     this.map.setCollisionBetween(1, 500, true, 'blocked-layer');
 
     this.blocked_layer.resizeWorld();
 
+
+    this.healthHearts = this.createObjects("Health", "object-layer");
+    this.healthHearts.enableBody = true;
+
     this.oranges = this.createObjects("Orange", "object-layer");
     this.oranges.enableBody = true;
+
     
     this.gates = this.createObjects("Gate", "object-layer");
     this.gates.enableBody = true;
@@ -496,6 +511,16 @@ momGame.prototype = {
     this.level_wizards = this.findObjectsBySprite("Wizard", "Wizards");
     _.each(this.level_wizards, function (wiz) {
       var wix = new Wizard(wiz.properties.Type, wiz.x, wiz.y);
+    });
+  },
+
+  load_boss: function() {
+    game.boss_list = [];
+    game.bosses = game.add.group();
+    game.bosses.enableBody = true;
+    this.level_bosses = this.findObjectsBySprite("Boss", "Wizards");
+    _.each(this.level_bosses, function (theBoss) {
+      var theBoss = new Boss(theBoss.x, theBoss.y);
     });
   },
 
