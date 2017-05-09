@@ -111,6 +111,8 @@ Attack.Types = {
 		sprite: null,
 		doesDamage: true,
 		effect: function(target, attackObject) {
+			if(target.name === "BOSS")
+				return;
 			var isWizard = attackObject.attacker_name.includes("WIZARD");
 			var redirAttack;
 			var targetX;
@@ -244,8 +246,8 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Debug attack.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
-		doesDamage: false,
-		effect: null,
+		doesDamage: true,
+		effect: function (target, attackObject) {},
 		type: "Err..."
 	},
 };
