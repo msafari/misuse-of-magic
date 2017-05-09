@@ -234,7 +234,7 @@ Attack.Types = {
 		effect: function(target) {
 			target.backwards = true;
 			target.tint = 0xff0000;
-			target.hitPoints++; 
+			//target.hitPoints++; 
 			game.time.events.add(5000, function() {
 				target.backwards = false;
 				target.tint = 0xffffff;
