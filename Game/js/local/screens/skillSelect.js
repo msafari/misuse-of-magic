@@ -60,7 +60,7 @@ skillSelect.prototype = {
     attackSelectText.cameraOffset.setTo(gameCenterX, gameCenterY - 200);
     attackSelectText.anchor.setTo(0.5);
 
-    attackCountInfo = game.add.text(gameCenterX, gameCenterY - 150, "You will get 5 uses per spell!");
+    attackCountInfo = game.add.text(gameCenterX, gameCenterY - 150, "You will get 5 uses per spell! Hover over icons to learn more.");
     attackCountInfo.fixedToCamera = true;
     attackCountInfo.cameraOffset.setTo(gameCenterX, gameCenterY - 150);
     attackCountInfo.anchor.setTo(0.5);
