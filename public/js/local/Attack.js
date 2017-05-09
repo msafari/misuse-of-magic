@@ -111,6 +111,8 @@ Attack.Types = {
 		sprite: null,
 		doesDamage: true,
 		effect: function(target, attackObject) {
+			if(target.name === "BOSS")
+				return;
 			var isWizard = attackObject.attacker_name.includes("WIZARD");
 			var redirAttack;
 			var targetX;
@@ -219,7 +221,7 @@ Attack.Types = {
 					target.body.onCollide = null;
 					//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
 				}
-				console.log("Gravity effect done");
+				//console.log("Gravity effect done");
 			}
 		},
 		type: "GRAVITY"
@@ -232,7 +234,7 @@ Attack.Types = {
 		effect: function(target) {
 			target.backwards = true;
 			target.tint = 0xff0000;
-			target.hitPoints++; 
+			//target.hitPoints++; 
 			game.time.events.add(5000, function() {
 				target.backwards = false;
 				target.tint = 0xffffff;
@@ -244,8 +246,8 @@ Attack.Types = {
 		image: "assets/Sprites/attacks/Debug attack.png",
 		icon: "assets/Sprites/attacks/flareIcon.png",
 		sprite: null,
-		doesDamage: false,
-		effect: null,
+		doesDamage: true,
+		effect: function (target, attackObject) {},
 		type: "Err..."
 	},
 };

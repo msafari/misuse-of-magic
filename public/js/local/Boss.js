@@ -19,6 +19,9 @@ Boss.prototype.constructor = Boss;
 
 _.extend(Boss.prototype, {
   update : function () {
+    if (this.canAttack && !this.backwards) {
+      this.tint = 0x0000ff;
+    }
 
     if (game.is_paused == false) {
       game.physics.arcade.collide(this, game.playerProjectiles, this.damage, null, this);
@@ -120,6 +123,7 @@ _.extend(Boss.prototype, {
     }
 
     //launch attack sprite
+    this.randomize_attack();
     this.attack_obj = new Attack(this.name, Infinity, this.attack_type);
     this.attack_obj.set_sprite(this.get_attack_ID());
 
@@ -130,8 +134,7 @@ _.extend(Boss.prototype, {
     if (this.backwards) {
       var attack_dir = attack_left ? "right" : "left";
     }
-    //var result = this.attack_obj.launch(this, attack_dir).then(this.doBonus);
-    //console.log(result); 
+
     this.attack_obj.launch(this, attack_dir);
   },
 
@@ -146,6 +149,19 @@ _.extend(Boss.prototype, {
       this.body.velocity.x = rand;
       this.animations.play("WALK_R");
     }
+  },
+
+  randomize_attack: function () {
+    var rand = Math.floor(Math.random() * 4) + 1;
+
+    if (rand == 1)
+      this.attack_type = "FIRE";
+    else if (rand == 2) 
+      this.attack_type = "ELECTRIC";
+    else if (rand == 3) 
+      this.attack_type = "GRAVITY"; 
+    else 
+      this.attack_type = "default";
   },
 
   pick_random_act: function () {
@@ -182,7 +198,7 @@ _.extend(Boss.prototype, {
         boss.hitPoints--;
       w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L";
       boss.animations.play(w_damage_anim, 8);
-      console.log("losing BOSS health (prev: " + prev + " -> " + boss.hitPoints + ")");
+        //console.log("losing BOSS health (prev: " + prev + " -> " + boss.hitPoints + ")");
       if(impact != null) {
         impact(boss, attackObject);
       }
