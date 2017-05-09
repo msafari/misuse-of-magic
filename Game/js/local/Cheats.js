@@ -3,7 +3,7 @@ var cheats = [];
 var cheatText = [];
 
 function cheatMenu() {
-	var baseXPosition = 105;
+	var baseXPosition = 140;
 	var baseYPosition = 85;
 	var yOffset = 40;
 	pauseGame(true);

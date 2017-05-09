@@ -219,7 +219,7 @@ Attack.Types = {
 					target.body.onCollide = null;
 					//onCollide triggers on any collision, ground included so for performance reasons set this back to null at the end
 				}
-				console.log("Gravity effect done");
+				//console.log("Gravity effect done");
 			}
 		},
 		type: "GRAVITY"

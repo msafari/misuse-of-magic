@@ -19,6 +19,9 @@ Boss.prototype.constructor = Boss;
 
 _.extend(Boss.prototype, {
   update : function () {
+    if (this.canAttack && !this.backwards) {
+      this.tint = 0x0000ff;
+    }
 
     if (game.is_paused == false) {
       game.physics.arcade.collide(this, game.playerProjectiles, this.damage, null, this);
@@ -195,7 +198,7 @@ _.extend(Boss.prototype, {
         boss.hitPoints--;
       w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L";
       boss.animations.play(w_damage_anim, 8);
-      console.log("losing BOSS health (prev: " + prev + " -> " + boss.hitPoints + ")");
+        //console.log("losing BOSS health (prev: " + prev + " -> " + boss.hitPoints + ")");
       if(impact != null) {
         impact(boss, attackObject);
       }
