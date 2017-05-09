@@ -279,7 +279,7 @@ momGame.prototype = {
       if (game.is_restoring) {
         var prevUses = game.player.spell_1_usage;
         game.player.spell_1_usage++;
-        console.log("Added an extra use to the Z attack (" + prevUses + " -> " + game.player.spell_1_usage + ")");
+        //console.log("Added an extra use to the Z attack (" + prevUses + " -> " + game.player.spell_1_usage + ")");
         game.is_restoring = false;
         pauseGame(false);
         spellRestorePopup.visible = false;
@@ -294,7 +294,7 @@ momGame.prototype = {
       if(game.is_restoring) {
           var prevUses = game.player.spell_3_usage
           game.player.spell_3_usage++;
-          console.log("Added an extra use to the C attack (" + prevUses + " -> " + game.player.spell_3_usage + ")");
+          //console.log("Added an extra use to the C attack (" + prevUses + " -> " + game.player.spell_3_usage + ")");
           game.is_restoring = false;
           pauseGame(false);
           spellRestorePopup.visible = false;
@@ -309,7 +309,7 @@ momGame.prototype = {
       if(game.is_restoring) {
           var prevUses = game.player.spell_2_usage;
           game.player.spell_2_usage++;
-          console.log("Added an extra use to the X attack (" + prevUses + " -> " + game.player.spell_2_usage + ")");
+          //console.log("Added an extra use to the X attack (" + prevUses + " -> " + game.player.spell_2_usage + ")");
           game.is_restoring = false;
           pauseGame(false);
           spellRestorePopup.visible = false;
@@ -322,7 +322,7 @@ momGame.prototype = {
 
     use_orange.onDown.add(function() {
       if(game.is_restoring) {
-        console.log("Canceled spell restore");
+        //console.log("Canceled spell restore");
         game.is_restoring = false;
         pauseGame(false);
         spellRestorePopup.visible = false;
@@ -330,7 +330,7 @@ momGame.prototype = {
       }
       oranges_usable = oranges_count >= 10;
       if(!oranges_usable) {
-        console.log("Not enough oranges (count: " + oranges_count + ")");
+        //console.log("Not enough oranges (count: " + oranges_count + ")");
         //TODO: Show a pop up of some sort
         return;
       }
@@ -428,7 +428,7 @@ momGame.prototype = {
   },
 
   collectHearts: function(player, healthHeart) {
-    console.log("yes yes yes yes!");
+    //console.log("yes yes yes yes!");
     healthHeart.kill();
     game.player.heal();   
   },

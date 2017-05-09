@@ -182,7 +182,7 @@ _.extend(Wizard.prototype, {
         wizard.hitPoints--;
       w_damage_anim = (attackObject.direction === "left") ? "DAMAGE_R" : "DAMAGE_L";
       wizard.animations.play(w_damage_anim, 8);
-      console.log("losing wizard health (prev: " + prev + " -> " + wizard.hitPoints + ")");
+      //console.log("losing wizard health (prev: " + prev + " -> " + wizard.hitPoints + ")");
       if(impact != null) {
         impact(wizard, attackObject);
       }
