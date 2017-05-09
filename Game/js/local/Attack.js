@@ -113,37 +113,34 @@ Attack.Types = {
 		effect: function(target, attackObject) {
 			var isWizard = attackObject.attacker_name.includes("WIZARD");
 			var redirAttack;
-			//var targetX = (attackObject.direction === "left"? target.position.x : -target.position.x);
-			var targetX = target.position.x;
-			var targetY = target.position.y;
+			var targetX;
+			var targetY;
 			target.tint = 0x00ccff;
 			if(!isWizard) { //We are hitting a wizard
-				redirAttack = game.time.events.loop(20, redirectAttack, this); //check every 25msec for nearby projectiles
-				console.log("magentism effect applied!");
+				redirAttack = game.time.events.loop(20, redirectAttack, this); //check every 20msec for nearby projectiles
 			}
 			function redirectAttack() {
 				if(target.isDead)
 					return;
 				game.wizardProjectiles.forEachAlive(function(attack) {
-					if(Phaser.Point.distance(attack, target, true) <= 280 && game.tweens.isTweening(attack)){
+					if(Phaser.Point.distance(attack, target, true) <= 280 && game.tweens.isTweening(attack)) {
 						if(attack.attacker != target) {
 							var tweenIndex = _.findIndex(game.tweens.getAll(), ((t) => t.target == attack) );
-							console.log("redirecting attack");
-							//game.tweens.getAll()[tweenIndex].pause();
-							game.tweens.getAll()[tweenIndex] = game.add.tween(attack).to({x: targetX, y: targetY});
+							//console.log("redirecting attack");
+							targetX = target.position.x;
+							targetY = target.position.y;
+							game.tweens.getAll()[tweenIndex] = game.add.tween(attack).to({x: targetX, y: targetY}, 400);
 							game.tweens.getAll()[tweenIndex].start().onComplete.addOnce(function() {
-								console.log("moving sprite...");
 							 	target.hitPoints--;
 							 }, this, 1);
 						}
 					}
-
 				}, this);
 			}
-			game.time.events.add(10000, function() {
+			game.time.events.add(8000, function() {
 				target.tint = 0xffffff;
 				game.time.events.remove(redirAttack);
-				console.log("magentism effect over.")
+				//console.log("magentism effect over.")
 			}, this);
 		},
 		type: "ELECTRIC"
@@ -178,7 +175,8 @@ Attack.Types = {
 		doesDamage: false,
 		effect: function(target, attackObject) {
 			var tempCollision;
-			var vector = [(Math.random() * 200) + 10, Math.random() <= 0.95 ? "RIGHT_WAY" : "WRONG"];
+			var vector = [(Math.random() * 200) + 10, Math.random() <= 0.90 ? "RIGHT_WAY" : "WRONG"];
+			//The second param no longer determines direction!
 			if(target.key === "TZHARA") {
 				target.movementSpell = true;
 			}
@@ -196,8 +194,8 @@ Attack.Types = {
 					target.body.acceleration.x = multiplier * accel;
 				}
 				else {
-					target.body.velocity.x = -1 * multiplier * v[0];
-					target.body.acceleration.x = -1 * multiplier * accel;
+					target.body.velocity.x = (multiplier * v[0]) - (v[0] * .1) ;
+					target.body.acceleration.x =  multiplier * accel;
 				}
 				tempCollision = target.body.onCollide.add(function(sprite1, sprite2) {
 					if(sprite2.key.includes("WIZARD"))
