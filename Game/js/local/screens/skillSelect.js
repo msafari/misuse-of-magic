@@ -209,7 +209,7 @@ skillSelect.prototype = {
     });
     attackDown3.inputEnabled = true;
     attackDown3.events.onInputUp.add(function() {
-      if (game.attackIcon1.frame === 1) {
+      if (game.attackIcon3.frame === 1) {
         game.attackIcon3.frame = 6;
       }
       else
