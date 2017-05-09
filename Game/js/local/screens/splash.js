@@ -8,6 +8,7 @@ splash.prototype = {
     game.load.script('controls', 'js/local/screens/controls.js');
     game.load.script('momLevelSelect', 'js/local/screens/momLevelSelect.js');
     game.load.script('help', 'js/local/screens/help.js');
+    game.load.script('skillSelect', 'js/local/screens/skillSelect.js');
   },
 
   preload: function () {
@@ -31,6 +32,7 @@ splash.prototype = {
    addGameStates: function () {
     game.state.add("GameMenu", gameMenu);
     game.state.add("MomLevelSelect", momLevelSelect);
+    game.state.add("SkillSelect", skillSelect);
     game.state.add("MomGame", momGame);
     game.state.add("Controls", controls);
     game.state.add("Help", help);
@@ -62,6 +64,7 @@ splash.prototype = {
     game.load.image("winOverlay", "assets/images/winOverlay.png");
     game.load.image("lossOverlay", "assets/images/lossOverlay.png");
     game.load.image("backButton", "assets/images/backButton.png");
+    game.load.image("startButton", "assets/images/startButton.png");
     game.load.image("noOrange", "assets/images/noOrange.png");
     game.load.image("spellRestorePopup", "assets/images/spellRestorePopup.png");
 
