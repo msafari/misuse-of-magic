@@ -93,8 +93,6 @@ _.extend(Wizard.prototype, {
       }, this); 
     }, this);
 
-    //this.isHighLevel = game.current_level.number > 1; //TODO: Figure out what to do with "stronger" wizards
-
     _.extend(this, sprite);
     game.add.existing(this);
   },
@@ -134,8 +132,6 @@ _.extend(Wizard.prototype, {
     if (this.backwards) {
       var attack_dir = attack_left ? "right" : "left";
     }
-    //var result = this.attack_obj.launch(this, attack_dir).then(this.doBonus);
-    //console.log(result); 
     this.attack_obj.launch(this, attack_dir);
   },
 
@@ -193,22 +189,21 @@ _.extend(Wizard.prototype, {
     }
     if (wizard.hitPoints <= 0) {
       this.killed.dispatch(wizard);
-      //damageLoop.timer.stop(true);//Yeeaah... that gives a reference to the main game timer. Stopping that stops everything. Don't do that.
     }
   },
 
-  doBonus: function(wiz) {
-    //var shouldAttack = Math.random() < 0.5 ? true : false;
-    var shouldAttack = true;
-    if(wiz.isHighLevel && !wiz.hasAttacked && shouldAttack) {
-      game.time.events.add(200, function() {
-        wiz.attack_player();
-        wiz.hasAttacked = true;
-      }, wiz);
-      game.time.events.add(8000, function() {
-        wiz.hasAttacked = false;
-      }, wiz);
-    }
-  },
+  // doBonus: function(wiz) {
+  //   var shouldAttack = Math.random() <= 0.5 ? true : false;
+  //   //var shouldAttack = true;
+  //   if(wiz.isHighLevel && !wiz.hasAttacked && shouldAttack) {
+  //     game.time.events.add(400, function() {
+  //       wiz.attack_player();
+  //       wiz.hasAttacked = true;
+  //     }, wiz);
+  //     game.time.events.add(8000, function() {
+  //       wiz.hasAttacked = false;
+  //     }, wiz);
+  //   }
+  // },
 
 });

@@ -20,6 +20,7 @@ pauseGame = function(pause) {
       pauseButton.loadTexture("playButton");
       _.each(game.wizard_list, function (wizard) {
         wizard.animations.stop();
+        wizard.body.velocity.x = 0;
       });
     }
   };

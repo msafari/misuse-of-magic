@@ -7,9 +7,13 @@ function cheatMenu() {
 	var baseYPosition = 85;
 	var yOffset = 40;
 	pauseGame(true);
-	if(cheats.length == 0){
+	if(cheats.length == 0 || cheatText[0].dirty) {
+		if(cheats.length != 0) { //reinitiliaze everything
+			cheatText = [];
+			cheats = [];
+		}
 		_.forIn(Cheats.CheatList, function(cheatObject) { 
-			console.log(cheatObject.enabled);
+			cheatObject.enabled = cheatObject.enabled === ''? '' : false;
 			optionText = game.add.text(baseXPosition, baseYPosition + yOffset, cheatObject.text + cheatObject.enabled);
     		optionText.fixedToCamera = true;
    			optionText.cameraOffset.setTo(baseXPosition, baseYPosition + yOffset);
@@ -41,7 +45,6 @@ Cheats.CheatList = {
 		enabled: false,
 		text: "Make Tzhara invincible: ",
 		action: function() { 
-			//"this" is the cheat object so be careful!
 			if(!this.enabled) {
 				this.enabled = true;
 				console.log("Tzhara is now immune to damage");
