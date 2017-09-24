@@ -2,6 +2,7 @@
 
 Simple 2D platformer implemented using http://phaser.io/
 
+![](![](https://media.giphy.com/media/vZY6jd5gVlnRC/giphy.gif))
 
 ### Authors:
 - Maedeh Safari
