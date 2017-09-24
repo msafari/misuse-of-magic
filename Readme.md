@@ -21,6 +21,7 @@ https://misuse-of-magic.firebaseapp.com/benchmark1.html
 
 ### Animations
 Main character, `Tzhara`, can play the following animations:
+
  | Keyboard Input/Event | Effect/Action |
  | -------------- | ------------- |
  | Right Arrow | Walk right |
@@ -31,6 +32,7 @@ Main character, `Tzhara`, can play the following animations:
  | Z/X/C + left | Cast a spell in left direction |
  | Overlap with wizards | Damage |
  | Collision with wizards attack projectiles | Damage |
+
 
 ------------------------------------------------------------
 
