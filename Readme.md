@@ -1,14 +1,17 @@
-#Misuse of Magic
+# Misuse of Magic
+
+Simple 2D platformer implemented using http://phaser.io/
 
 
-### authors:
+### Authors:
 - Maedeh Safari
 - Victoria Baeza
 - Anika Martin
 
 ------------------------------------------------------------
 ### Game Design:
-### Game Design Document:
+You can read full design document here:
+
 https://misuse-of-magic.firebaseapp.com/benchmark1.html
 <p>
   All levels, and design assets are original.
@@ -17,7 +20,7 @@ https://misuse-of-magic.firebaseapp.com/benchmark1.html
 ------------------------------------------------------------
 
 ### Animations
-Main character, Tzhara, can play the following animations:
+Main character, `Tzhara`, can play the following animations:
  | Keyboard Input/Event | Effect/Action |
  | -------------- | ------------- |
  | Right Arrow | Walk right |
