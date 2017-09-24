@@ -1,1 +1,5 @@
 public/
+.DS_STORE
+.firebaserc
+database.rules.json
+firebase.json
