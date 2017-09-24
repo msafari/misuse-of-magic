@@ -1,5 +1,4 @@
-#Misuse of Magic
-#Benchmark 3
+#Misuse of Magic Game
 
 #authors: Maedeh Safari, Victoria Baeza, Anika Martin
 
